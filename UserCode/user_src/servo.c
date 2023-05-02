@@ -1,7 +1,7 @@
 /*
  * @Author: szf
  * @Date: 2023-03-11 12:51:38
- * @LastEditTime: 2023-04-30 19:13:13
+ * @LastEditTime: 2023-05-03 00:32:12
  * @LastEditors: szf
  * @Description: 以固定频率进行伺服
  * @FilePath: \RR-Upper-Structure-A\UserCode\user_src\servo.c
@@ -84,7 +84,7 @@ void ServoTask(void const *argument)
                 case Arm_Overturn_back:
                     positionServo(Overture_Pitch_back, &hDJI[4]);
                     positionServo(Overture_Arm + step_arm_back, &hDJI[5]);
-                    step_arm_back += 0.1;
+                    step_arm_back += 0.2;
                     if(step_arm_back > Overturn_Arm_back - Overture_Arm)
                     {
                         step_arm_back = Overturn_Arm_back - Overture_Arm;

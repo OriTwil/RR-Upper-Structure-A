@@ -22,7 +22,7 @@
 #define Overture_Pitch_back 90
 #define Overturn_Arm_back 0
 #define Fire_Arm -30
-#define Fire_Angle 65
+#define Fire_Angle 73
 
 void rrPickUpTask(void const *argument);
 void rrPickUpTestTask(void const *argument);
