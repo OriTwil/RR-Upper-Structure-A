@@ -23,6 +23,7 @@
 #include "wtr_uart.h"
 #include "wtr_can.h"
 #include "wtr_dji.h"
+#include "uart_device.h"
 
 #include "user_callback.h"
 #include "user_beep.h"

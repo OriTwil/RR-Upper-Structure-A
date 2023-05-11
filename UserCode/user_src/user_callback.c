@@ -1,10 +1,10 @@
 /*
  * @Author: szf
  * @Date: 2023-03-30 16:29:58
- * @LastEditTime: 2023-05-11 15:25:21
+ * @LastEditTime: 2023-05-11 20:11:03
  * @LastEditors: szf
  * @Description: 
- * @FilePath: \RR-Upper-Structure-A\UserCode\user_src\usercallback.c
+ * @FilePath: \RR-Upper-Structure-A\UserCode\user_src\user_callback.c
  * @WeChat:szf13373959031
  */
 
@@ -19,21 +19,20 @@
 #include "user_callback.h"
 
 int counter          = 0;
-int test             = 0;
 float w_speed        = 0;
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-
-    test++;
     // MAVLINK消息
     if (huart->Instance == USART2) {
         wtrMavlink_UARTRxCpltCallback(huart, MAVLINK_COMM_0); // 进入mavlink回调
+        UD_RxCpltCallback(huart);
     }
     // DJI遥控器
     else if (huart->Instance == USART1)
     {
         AS69_Decode(); // AS69解码
+        UD_RxCpltCallback(huart);
     }
 }
 
