@@ -5,7 +5,7 @@
  * @date 2022-02-11
  *
  * @copyright Copyright (c) 2022*/
- 
+
 
 #include "uart_device.h"
 #include <string.h>

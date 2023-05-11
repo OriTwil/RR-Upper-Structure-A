@@ -1,6 +1,6 @@
 /*包含DJI的初始化，DJI的Transmit，DJI的解码算法*/
 
-#include "DJI.h"
+#include "wtr_dji.h"
 
 DJI_t hDJI[8];
 // 使用DJI init前需要指定motorType

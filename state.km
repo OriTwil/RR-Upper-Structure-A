@@ -1,0 +1,98 @@
+{
+    "root": {
+        "data": {
+            "id": "cshlc0fymeo0",
+            "created": 1683619586335,
+            "text": "Rabbit Robot"
+        },
+        "children": [
+            {
+                "data": {
+                    "id": "cshlcw7lvhc0",
+                    "created": 1683619655487,
+                    "text": "自动模式Automatic",
+                    "layout_bottom_offset": {
+                        "x": 0,
+                        "y": 2
+                    }
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "cshlf2703iw0",
+                            "created": 1683619825239,
+                            "text": "底盘"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cshlf4q617k0",
+                            "created": 1683619830752,
+                            "text": "取环"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cshlf6vvb7c0",
+                            "created": 1683619835450,
+                            "text": "射环"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "cshlcxpym0w0",
+                    "created": 1683619658773,
+                    "text": "手动模式Normal",
+                    "layout_bottom_offset": {
+                        "x": 14,
+                        "y": 1
+                    },
+                    "expandState": "expand"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "cshlgghcdns0",
+                            "created": 1683619934704,
+                            "text": "底盘：摇杆"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cshlgh0ijs00",
+                            "created": 1683619935863,
+                            "text": "手动重启"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "cshlczh2v280",
+                    "created": 1683619662590,
+                    "text": "校准模式Correcting"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "cshlhg1mtww0",
+                            "created": 1683620012118,
+                            "text": "进入校准模式后自动校准，结束后进入手动模式"
+                        },
+                        "children": []
+                    }
+                ]
+            }
+        ]
+    },
+    "template": "structure",
+    "theme": "fresh-blue",
+    "version": "1.4.43"
+}

@@ -1,12 +1,13 @@
 /*
  * @Author: szf
  * @Date: 2023-03-30 16:29:58
- * @LastEditTime: 2023-04-28 21:35:17
+ * @LastEditTime: 2023-05-11 15:25:21
  * @LastEditors: szf
  * @Description: 
- * @FilePath: \RR-Upper-Structure\UserCode\user_src\usercallback.c
+ * @FilePath: \RR-Upper-Structure-A\UserCode\user_src\usercallback.c
  * @WeChat:szf13373959031
  */
+
 /**
  * @description: 回调函数
  * @param {UART_HandleTypeDef} *huart
@@ -15,11 +16,7 @@
  * @return {void}
  */
 
-#include "usermain.h"
-#include "usercallback.h"
-#include "wtr_uart.h"
-#include "uart_device.h"
-#include "wtr_mavlink.h"
+#include "user_callback.h"
 
 int counter          = 0;
 int test             = 0;

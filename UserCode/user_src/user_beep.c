@@ -1,10 +1,10 @@
 /*
  * @Author: szf
  * @Date: 2023-02-23 20:28:54
- * @LastEditTime: 2023-02-24 15:14:39
+ * @LastEditTime: 2023-05-11 15:29:19
  * @LastEditors: szf
  * @Description: 
- * @FilePath: \ER\Usercode\user_src\beep.c
+ * @FilePath: \RR-Upper-Structure-A\UserCode\user_src\beep.c
  * @WeChat:szf13373959031
  */
 /**
@@ -18,10 +18,10 @@
  * 
  */
 
-#include "beep.h"
+#include "user_beep.h"
 #include "semphr.h"
 #include "gpio.h"
-#include "usermain.h"
+#include "user_main.h"
 
 SemaphoreHandle_t BeepSem;
 

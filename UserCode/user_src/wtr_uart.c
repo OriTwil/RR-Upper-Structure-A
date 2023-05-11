@@ -1,18 +1,17 @@
 /*
  * @Author: wtr电控组
  * @Date: 2022-10-13 23:33:37
- * @LastEditTime: 2023-04-29 22:24:58
+ * @LastEditTime: 2023-05-11 15:30:30
  * @LastEditors: szf
  * @Description: 封装WTR曾经用过的解码函数，作为技术积累
- * @FilePath: \RR-Upper-Structure\UserCode\user_src\wtr_uart.c
+ * @FilePath: \RR-Upper-Structure-A\UserCode\user_src\wtr_uart.c
  * @WeChat:szf13373959031
  */
 #include "wtr_uart.h"
-#include "DJI.h"
+#include "wtr_dji.h"
 #include "string.h"
 #include "math.h"
 #include "usart.h"
-#include "usermain.h"
 
 Remote_t Raw_Data;
 underpan_speed crl_speed;
