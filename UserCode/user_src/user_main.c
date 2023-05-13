@@ -11,7 +11,7 @@
 #include "user_main.h"
 
 mavlink_controller_t ControllerData = {0};
-mavlink_channel_t CtrlDataSendChan = 0;
+mavlink_channel_t CtrlDataSendChan = MAVLINK_COMM_0;
 
 /**
  * @description: 创建线程
@@ -30,8 +30,8 @@ void StartDefaultTask(void const *argument)
 
     //开启线程
 	// CommunicateTaskStart(&ControllerData);// 遥控器线程
-    // ServoTaskStart(&ControllerData);
-    // PickUpTaskStart(&ControllerData);// 取环线程
+    ServoTaskStart(&ControllerData);
+    PickUpTaskStart(&ControllerData);// 取环线程
     // FireTasksStart(&ControllerData); // 射环
     // StateManagemanttaskStart(&ControllerData);
     // PWMTaskStart(&ControllerData);
@@ -46,7 +46,7 @@ void MotorInit()
     CANFilterInit(&hcan1);
     hDJI[0].motorType = M3508; // 射环左
     hDJI[1].motorType = M3508; // 射环右
-    hDJI[4].motorType = M3508; // Pitch
+    hDJI[4].motorType = M2006; // Pitch
     hDJI[5].motorType = M3508; // Arm
     hDJI[6].motorType = M2006; // 推环
     

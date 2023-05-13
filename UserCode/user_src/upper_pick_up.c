@@ -18,10 +18,6 @@ Button button =
     .last_tick       = 0,
 };
 
-PICKUP_STATE Pickup_state = Ready;
-PICKUP_STEP Pickup_step = Overturn;
-PICKUP_NUMBER pickup_number = First_Point;
-FIRE_NUMBER fire_number = First_Target;
 
 void rrPickUpTask(void const *argument)
 {
@@ -37,17 +33,17 @@ void rrPickUpTask(void const *argument)
                 button.last_tick = HAL_GetTick();
         	}
     	}
-		switch(Pickup_state)
+		switch(Upper_state.Pickup_state)
 		{
 			case Ready:
 				// 锁死在初始状态
 				break;
 			case Pickup:
 				// 开始取环
-				switch(Pickup_step)
+				switch(Upper_state.Pickup_step)
 				{
 					case Overturn:
-						switch(pickup_number)
+						switch(Upper_state.Pickup_point)
 						{
 							case First_Point:
 								break;
@@ -95,8 +91,8 @@ void rrPickUpTestTask(void const *argument)
 				hDJI[5].speedPID.output,
 				hDJI[6].speedPID.output,
 				hDJI[7].speedPID.output);
+				osDelay(2);
 	}
-	osDelay(1);
 	
 }
 
@@ -105,7 +101,7 @@ void PickUpTaskStart(mavlink_controller_t *controldata)
     // osThreadDef(rrpickup, rrPickUpTask, osPriorityNormal, 0, 512);
     // osThreadCreate(osThread(rrpickup), controldata);
 
-	osThreadDef(upper_rr_test, rrPickUpTestTask, osPriorityNormal, 0, 512);
+	osThreadDef(upper_rr_test, rrPickUpTestTask, osPriorityBelowNormal, 0, 512);
     osThreadCreate(osThread(upper_rr_test), NULL);
 }
 

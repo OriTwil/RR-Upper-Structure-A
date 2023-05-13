@@ -15,7 +15,7 @@ void DJI_Init()
         hDJI[i].posPID.KP = 80.0f;
         hDJI[i].posPID.KI = 1.0f;
         hDJI[i].posPID.KD = 0.0f;
-        hDJI[i].posPID.outputMax = 5000;
+        hDJI[i].posPID.outputMax = 200 ;
         //			  hDJI[i].posPID.outputMin = 1500;
 
         if (hDJI[i].motorType == M3508) {

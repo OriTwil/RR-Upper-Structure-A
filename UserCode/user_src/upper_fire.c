@@ -13,10 +13,10 @@ void FireTask(void const *argument)
 {
     for(;;)
     {
-        switch(pickup_number)
+        switch(Upper_state.Pickup_point)
         {
             case First_Point:
-                switch(fire_number)
+                switch(Upper_state.Fire_number)
                 {
                     case First_Target:
                         break;
@@ -27,7 +27,7 @@ void FireTask(void const *argument)
                 }
                 break;
             case Second_Point:
-                switch(fire_number)
+                switch(Upper_state.Fire_number)
                 {
                     case Second_Target:
                         break;
@@ -38,7 +38,7 @@ void FireTask(void const *argument)
                 }
                 break;
             case Third_Point:
-                switch(fire_number)
+                switch(Upper_state.Fire_number)
                 {
                     case Third_Target:
                         break;
@@ -49,7 +49,7 @@ void FireTask(void const *argument)
                 }
                 break;
             case Fourth_Point:
-                switch(fire_number)
+                switch(Upper_state.Fire_number)
                 {
                     case Fourth_Target:
                         break;
@@ -60,7 +60,7 @@ void FireTask(void const *argument)
                 }
                 break;
             case Fifth_Point:
-                switch(fire_number)
+                switch(Upper_state.Fire_number)
                 {
                     case Fourth_Target:
                         break;

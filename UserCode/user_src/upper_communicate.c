@@ -1,21 +1,11 @@
 /*
  * @Author: szf
  * @Date: 2023-02-23 20:07:26
- * @LastEditTime: 2023-05-11 16:26:42
+ * @LastEditTime: 2023-05-13 13:45:09
  * @LastEditors: szf
- * @Description: 
+ * @Description: 通信线程
  * @FilePath: \RR-Upper-Structure-A\UserCode\user_src\upper_communicate.c
  * @WeChat:szf13373959031
- */
-/**
- * @file controller_data_sender.c
- * @author TITH (1023515576@qq.com)
- * @brief 
- * @version 0.1
- * @date 2022-07-22
- * 
- * @copyright Copyright (c) 2022
- * 
  */
 #include "upper_communicate.h"
 

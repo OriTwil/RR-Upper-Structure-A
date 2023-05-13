@@ -10,6 +10,7 @@
 
 #include "upper_servo.h"
 #include "user_config.h"
+#include "upper_state_management.h"
 
 float step_pitch = 0;
 float step_arm = 0;
@@ -23,17 +24,17 @@ void ServoTask(void const *argument)
     osDelay(20);
     for (;;) 
     {
-        switch(Pickup_state)
+        switch(Upper_state.Pickup_state)
 		{
 			case Ready:
 				// 锁死在初始状态
 				break;
 			case Pickup:
 				// 开始取环
-				switch(Pickup_step)
+				switch(Upper_state.Pickup_step)
 				{
 					case Overturn:
-						switch(pickup_number)
+						switch(Upper_state.Pickup_point)
 						{
 							case First_Point:
 								break;
@@ -127,20 +128,21 @@ void ServoTestTask(void const *argument)
     osDelay(20);
     for(;;)
     {
-        positionServo(step_pitch, &hDJI[4]);
+        positionServo(120, &hDJI[4]);
         positionServo(0, &hDJI[5]);
         positionServo(0, &hDJI[6]);  
         osDelayUntil(&PreviousWakeTime, 5);
     }
 }
 
+
 void ServoTaskStart(mavlink_controller_t *controldata)
 {
-    osThreadDef(servo, ServoTask, osPriorityBelowNormal, 0, 512);
-    osThreadCreate(osThread(servo), NULL);
+    // osThreadDef(servo, ServoTask, osPriorityBelowNormal, 0, 512);
+    // osThreadCreate(osThread(servo), NULL);
 
-    // osThreadDef(servo_test,ServoTestTask,osPriorityBelowNormal,0,512);
-    // osThreadCreate(osThread(servo_test),NULL);
+    osThreadDef(servo_test,ServoTestTask,osPriorityBelowNormal,0,512);
+    osThreadCreate(osThread(servo_test),NULL);
 }
 
 

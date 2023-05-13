@@ -15,5 +15,6 @@
 #include "cmsis_os.h"
 #include "usart.h"
 #include "user_main.h"
+#include "upper_state_management.h"
 
 void CommunicateTaskStart(mavlink_controller_t* controller);

@@ -1,12 +1,13 @@
 /*** 
  * @Author: Xieyang
  * @Date: 2023-02-23 18:51:00
- * @LastEditTime: 2023-02-23 18:51:13
+ * @LastEditTime: 2023-05-11 21:47:41
  * @LastEditors: szf
  * @Description: 
- * @FilePath: \ER\Usercode\user_inc\useful_constant.h
+ * @FilePath: \RR-Upper-Structure-A\UserCode\user_inc\user_config.h
  * @@WeChat:szf13373959031
  */
+
 /**
  * @brief 一些有用的常量，基本上是从 GCC 的 math.h 中复制下来的(因为 ARMCC 的库里貌似没有)
  * 
@@ -26,10 +27,7 @@
 #define M_LN10		2.30258509299404568402
 #define M_PI		3.14159265358979323846
 
-#ifndef M_PI_2
 #define M_PI_2		1.57079632679489661923
-#endif // !M_PI_2
-
 #define M_PI_4		0.78539816339744830962
 #define M_1_PI		0.31830988618379067154
 #define M_2_PI		0.63661977236758134308
@@ -47,4 +45,7 @@
 #define M_LOG2_E        _M_LN2
 #define M_INVLN2        1.4426950408889633870E0  /* 1 / log(2) */
 
-
+/**
+ * @brief 一些有用的常量，基本上是从 GCC 的 math.h 中复制下来的(因为 ARMCC 的库里貌似没有)
+ * 
+ */
