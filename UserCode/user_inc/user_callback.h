@@ -19,9 +19,6 @@
 #include <math.h>
 #include "main.h"
 #include "wtr_mavlink.h"
-#include "mavlink_msg_speed_control_set.h"
-#include "mavlink_msg_speed_control_status.h"
-#include "mavlink_msg_control_set.h"
 
 extern int counter;
 extern int test;
