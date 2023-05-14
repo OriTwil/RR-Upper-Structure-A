@@ -1,7 +1,7 @@
 /*
  * @Author: szf
  * @Date: 2023-04-02 00:49:59
- * @LastEditTime: 2023-05-11 19:53:10
+ * @LastEditTime: 2023-05-14 22:53:33
  * @LastEditors: szf
  * @Description: 弃用，并入state_machine,现在用于射环测试
  * @FilePath: \RR-Upper-Structure-A\UserCode\user_src\upper_fire.c
@@ -9,6 +9,11 @@
  */
 #include "upper_fire.h"
 
+/**
+ * @description: 弃用
+ * @author: szf
+ * @return {void}
+ */
 void FireTask(void const *argument)
 {
     for(;;)
@@ -18,6 +23,11 @@ void FireTask(void const *argument)
     } 
 }
 
+/**
+ * @description: 测试射环/电机
+ * @author: szf
+ * @return {void}
+ */
 void FireTestTask(void const *argument)
 {
     osDelay(20);

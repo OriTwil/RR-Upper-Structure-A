@@ -20,7 +20,7 @@ void delay_us(uint32_t us)
     const uint32_t nbTicks = us * tickPerMs / 1000;
 
     /* Number of elapsed ticks */
-    uint32_t elapsedTicks = 0;
+    uint32_t elapsedTicks  = 0;
     __IO uint32_t oldTicks = currentTicks;
     do {
         currentTicks = SysTick->VAL;

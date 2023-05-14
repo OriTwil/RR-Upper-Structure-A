@@ -3,10 +3,11 @@
  * @Date: 2023-04-28 23:38:51
  * @LastEditTime: 2023-05-11 15:14:05
  * @LastEditors: szf
- * @Description: 
+ * @Description: 弃用，并入servo,现在用于测试射环
  * @FilePath: \RR-Upper-Structure-A\UserCode\user_inc\fire.h
  * @@WeChat:szf13373959031
  */
+
 #ifndef FIRE_H
 #define FIRE_H
 

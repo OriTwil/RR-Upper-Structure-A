@@ -1,12 +1,3 @@
-/***
- * @Author: szf
- * @Date: 2023-02-22 12:05:56
- * @LastEditTime: 2023-02-22 12:25:39
- * @LastEditors: szf
- * @Description:
- * @FilePath: \ER\Usercode\user_inc\usercallback.h
- * @@WeChat:szf13373959031
- */
 #ifndef _USERCALLBACK_H__
 #define _USERCALLBACK_H__
 
