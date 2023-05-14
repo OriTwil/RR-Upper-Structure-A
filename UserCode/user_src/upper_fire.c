@@ -3,7 +3,7 @@
  * @Date: 2023-04-02 00:49:59
  * @LastEditTime: 2023-05-11 19:53:10
  * @LastEditors: szf
- * @Description: 射环线程
+ * @Description: 弃用，并入state_machine,现在用于射环测试
  * @FilePath: \RR-Upper-Structure-A\UserCode\user_src\upper_fire.c
  * @WeChat:szf13373959031
  */
@@ -13,64 +13,7 @@ void FireTask(void const *argument)
 {
     for(;;)
     {
-        switch(Upper_state.Pickup_point)
-        {
-            case First_Point:
-                switch(Upper_state.Fire_number)
-                {
-                    case First_Target:
-                        break;
-                    case Second_Target:
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case Second_Point:
-                switch(Upper_state.Fire_number)
-                {
-                    case Second_Target:
-                        break;
-                    case Third_Target:
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case Third_Point:
-                switch(Upper_state.Fire_number)
-                {
-                    case Third_Target:
-                        break;
-                    case Fourth_Target:
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case Fourth_Point:
-                switch(Upper_state.Fire_number)
-                {
-                    case Fourth_Target:
-                        break;
-                    case Fifth_Target:
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case Fifth_Point:
-                switch(Upper_state.Fire_number)
-                {
-                    case Fourth_Target:
-                        break;
-                    case Fifth_Target:
-                        break;
-                    default:
-                        break;
-                }
-                break;
-        }
+        
         osDelay(20);
     } 
 }

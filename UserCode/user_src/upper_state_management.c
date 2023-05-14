@@ -9,6 +9,37 @@
  */
 #include "upper_state_management.h"
 
+UPPER_STATE Upper_state = 
+{
+    .Pickup_state = Ready,
+    .Pickup_step = Overturn,
+    .Pickup_ring = First_Ring,
+    .Fire_number = First_Target,
+};
+
+SERVO_REF_PICKUP Pickup_ref = 
+{
+    .position_servo_ref_arm = 0,
+    .position_servo_ref_pitch = 0,
+    .position_servo_ref_yaw = 0,
+    .pwm_ccr_left = 0,
+    .pwm_ccr_middle = 0,
+    .pwm_ccr_right = 0,
+};
+
+SERVO_REF_FIRE Fire_ref = 
+{
+    .position_servo_ref_push = 0,
+    .speed_servo_ref_left = 0,
+    .speed_servo_ref_right = 0,
+};
+
+Button button = 
+{
+    .button_min_time = 500,
+    .last_tick       = 0,
+};
+
 void StateManagemantTask(void const *argument)
 {
     uint32_t PreviousWakeTime = osKernelSysTick();
@@ -22,7 +53,8 @@ void StateManagemantTask(void const *argument)
 void StateManagemanttaskStart(mavlink_controller_t *controldata)
 {
     Upper_state.xMutex_upper = xSemaphoreCreateMutex(); 
-    Servo_ref.xMutex_servo = xSemaphoreCreateMutex();
+    Pickup_ref.xMutex_servo_pickup = xSemaphoreCreateMutex();
+    Fire_ref.xMutex_servo_fire = xSemaphoreCreateMutex();
 
     osThreadDef(statemanagement, StateManagemantTask, osPriorityNormal, 0, 512);
     osThreadCreate(osThread(statemanagement), NULL);
@@ -45,10 +77,10 @@ void PickupSwitchStep(PICKUP_STEP target_pick_up_step,UPPER_STATE *current_upper
     xSemaphoreGive( current_upper_state->xMutex_upper );
 }
 
-void PickupSwitchPoint(PICKUP_POINT target_pick_up_point,UPPER_STATE *current_upper_state)
+void PickupSwitchRing(PICKUP_RING target_pick_up_Ring,UPPER_STATE *current_upper_state)
 {
     xSemaphoreTake( current_upper_state->xMutex_upper, ( TickType_t ) 10 );
-    current_upper_state->Pickup_point = target_pick_up_point;
+    current_upper_state->Pickup_ring = target_pick_up_Ring;
     xSemaphoreGive( current_upper_state->xMutex_upper );
 }
 
@@ -59,20 +91,29 @@ void FireSwitchNumber(FIRE_NUMBER target_fire_number,UPPER_STATE *current_upper_
     xSemaphoreGive( current_upper_state->xMutex_upper );
 }
 
-void SetServoRef(float ref_pitch,float ref_yaw,float ref_arm,SERVO_REF_PICKUP *current_servo_ref)
+void SetServoRefPickup(float ref_pitch,float ref_yaw,float ref_arm,SERVO_REF_PICKUP *current_pickup_ref)
 {
-    xSemaphoreTake( current_servo_ref->xMutex_servo, ( TickType_t ) 10 );
-    current_servo_ref->position_servo_ref_pitch = ref_pitch;
-    current_servo_ref->position_servo_ref_yaw = ref_yaw;
-    current_servo_ref->position_servo_ref_arm = ref_arm;
-    xSemaphoreGive( current_servo_ref->xMutex_servo );
+    xSemaphoreTake( current_pickup_ref->xMutex_servo_pickup, ( TickType_t ) 10 );
+    current_pickup_ref->position_servo_ref_pitch = ref_pitch;
+    current_pickup_ref->position_servo_ref_yaw = ref_yaw;
+    current_pickup_ref->position_servo_ref_arm = ref_arm;
+    xSemaphoreGive( current_pickup_ref->xMutex_servo_pickup );
 }
 
-void SetPwmCcr(int pwm_ccr_left,int pwm_ccr_right,int pwm_ccr_middle,SERVO_REF_PICKUP *current_servo_ref)
+void SetPwmCcr(int pwm_ccr_left,int pwm_ccr_right,int pwm_ccr_middle,SERVO_REF_PICKUP *current_pickup_ref)
 {
-    xSemaphoreTake( current_servo_ref->xMutex_servo, ( TickType_t ) 10 );
-    current_servo_ref->pwm_ccr_left = pwm_ccr_left;
-    current_servo_ref->pwm_ccr_right = pwm_ccr_left;
-    current_servo_ref->pwm_ccr_middle = pwm_ccr_left;
-    xSemaphoreGive( current_servo_ref->xMutex_servo );
+    xSemaphoreTake( current_pickup_ref->xMutex_servo_pickup, ( TickType_t ) 10 );
+    current_pickup_ref->pwm_ccr_left = pwm_ccr_left;
+    current_pickup_ref->pwm_ccr_right = pwm_ccr_right;
+    current_pickup_ref->pwm_ccr_middle = pwm_ccr_middle;
+    xSemaphoreGive( current_pickup_ref->xMutex_servo_pickup );
+}
+
+void SetServoRefFire(float ref_left,float ref_right,float ref_middle,SERVO_REF_FIRE *current_fire_ref)
+{
+    xSemaphoreTake( current_fire_ref->xMutex_servo_fire, ( TickType_t ) 10 );
+    current_fire_ref->speed_servo_ref_left = ref_left;
+    current_fire_ref->speed_servo_ref_right = ref_right;
+    current_fire_ref->position_servo_ref_push = ref_middle;
+    xSemaphoreGive( current_fire_ref->xMutex_servo_fire );
 }

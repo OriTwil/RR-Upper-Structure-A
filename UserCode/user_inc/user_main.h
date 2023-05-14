@@ -34,7 +34,7 @@
 #include "user_config.h"
 #include "upper_pwm_out.h"
 #include "upper_servo.h"
-#include "upper_pick_up.h"
+#include "upper_state_machine.h"
 #include "upper_communicate.h"
 
 extern mavlink_controller_t ControllerData;

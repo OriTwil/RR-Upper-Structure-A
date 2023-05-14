@@ -10,13 +10,13 @@
 #ifndef SERVO_H
 #define SERVO_H
 
-#include "upper_pick_up.h"
+#include "upper_state_machine.h"
 #include "user_main.h"
 #include "math.h"
 #include "upper_state_management.h"
 
 #define M_PI 3.1415926
 
-void ServoTask(void const *argument);
 void ServoTaskStart(mavlink_controller_t *controldata);
+
 #endif

@@ -29,13 +29,13 @@ void StartDefaultTask(void const *argument)
     PWMInit();
 
     //开启线程
-	// CommunicateTaskStart(&ControllerData);// 遥控器线程
-    ServoTaskStart(&ControllerData);
-    PickUpTaskStart(&ControllerData);// 取环线程
-    // FireTasksStart(&ControllerData); // 射环
-    // StateManagemanttaskStart(&ControllerData);
+	// CommunicateTaskStart(&ControllerData);// 通信线程
+    // ServoTaskStart(&ControllerData); // 伺服
+    // StateMachineTaskStart(&ControllerData);// 状态机线程
+    // StateManagemanttaskStart(&ControllerData); // 状态切换线程
+
     // PWMTaskStart(&ControllerData);
-  
+    // FireTasksStart(&ControllerData);
     for (;;) {
         osDelay(1);
     }
@@ -46,9 +46,10 @@ void MotorInit()
     CANFilterInit(&hcan1);
     hDJI[0].motorType = M3508; // 射环左
     hDJI[1].motorType = M3508; // 射环右
-    hDJI[4].motorType = M2006; // Pitch
+    hDJI[2].motorType = M2006; // 推环
+    hDJI[4].motorType = M3508; // Pitch
     hDJI[5].motorType = M3508; // Arm
-    hDJI[6].motorType = M2006; // 推环
+    hDJI[6].motorType = M3508; // Yaw
     
     DJI_Init(); // 大疆电机初始化
 }

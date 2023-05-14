@@ -48,4 +48,20 @@ void speedServo(float ref, DJI_t * motor){
 	PID_Calc(&motor->speedPID);
 }
 
+void DeadBand(double x, double y, double *new_x, double *new_y, double threshould)
+{
+    double length     = sqrt(x * x + y * y);
+    double new_length = length - threshould;
+
+    if (new_length <= 0) {
+        *new_x = 0;
+        *new_y = 0;
+        return;
+    }
+
+    double k = new_length / length;
+
+    *new_x = x * k;
+    *new_y = y * k;
+}
 

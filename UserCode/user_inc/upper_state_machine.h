@@ -21,19 +21,6 @@
 
 void rrPickUpTask(void const *argument);
 void rrPickUpTestTask(void const *argument);
-void DeadBand(double x, double y, double *new_x, double *new_y, double threshould);
 void PickUpTaskStart(mavlink_controller_t *controldata);
-
-typedef struct
-{
-    uint32_t last_tick;
-    uint32_t button_min_time;
-}Button;
-
-// extern PICKUP_STATE Pickup_state;
-// extern PICKUP_STEP Pickup_step;
-// extern PICKUP_NUMBER pickup_number;
-// extern FIRE_NUMBER fire_number;
-extern Button button;
 
 #endif

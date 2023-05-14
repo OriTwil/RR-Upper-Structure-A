@@ -15,7 +15,7 @@ void DJI_Init()
         hDJI[i].posPID.KP = 80.0f;
         hDJI[i].posPID.KI = 1.0f;
         hDJI[i].posPID.KD = 0.0f;
-        hDJI[i].posPID.outputMax = 200 ;
+        hDJI[i].posPID.outputMax = 5000 ;
         //			  hDJI[i].posPID.outputMin = 1500;
 
         if (hDJI[i].motorType == M3508) {
@@ -26,6 +26,10 @@ void DJI_Init()
 
         hDJI[i].encoder_resolution = 8192.0f;
     }
+    // 调整关节部分电机位置伺服速度
+    hDJI[4].posPID.outputMax = 200;
+    hDJI[5].posPID.outputMax = 200;
+    hDJI[7].posPID.outputMax = 1000;
 }
 
 static uint32_t TxMailbox;
