@@ -1,7 +1,7 @@
 /*
  * @Author: szf
  * @Date: 2023-05-11 16:08:17
- * @LastEditTime: 2023-05-14 23:23:30
+ * @LastEditTime: 2023-05-15 14:38:05
  * @LastEditors: szf
  * @Description: 任务控制
  * @FilePath: \RR-Upper-Structure-A\UserCode\user_src\upper_state_management.c
@@ -11,37 +11,37 @@
 
 // 上层机构整体状态
 UPPER_STATE Upper_state =
-{
-    .Pickup_state = Ready,
-    .Pickup_step  = Overturn,
-    .Pickup_ring  = First_Ring,
-    .Fire_number  = First_Target,
+    {
+        .Pickup_state = Ready,
+        .Pickup_step  = Overturn,
+        .Pickup_ring  = First_Ring,
+        .Fire_number  = First_Target,
 };
 
 // 取环组件的伺服值
 SERVO_REF_PICKUP Pickup_ref =
-{
-    .position_servo_ref_arm   = 0,
-    .position_servo_ref_pitch = 0,
-    .position_servo_ref_yaw   = 0,
-    .pwm_ccr_left             = 0,
-    .pwm_ccr_middle           = 0,
-    .pwm_ccr_right            = 0,
+    {
+        .position_servo_ref_arm   = 0,
+        .position_servo_ref_pitch = 0,
+        .position_servo_ref_yaw   = 0,
+        .pwm_ccr_left             = 0,
+        .pwm_ccr_middle           = 0,
+        .pwm_ccr_right            = 0,
 };
 
 // 射环组件的伺服值
 SERVO_REF_FIRE Fire_ref =
-{
-    .position_servo_ref_push = 0,
-    .speed_servo_ref_left    = 0,
-    .speed_servo_ref_right   = 0,
+    {
+        .position_servo_ref_push = 0,
+        .speed_servo_ref_left    = 0,
+        .speed_servo_ref_right   = 0,
 };
 
 // 暂时没用
 Button button =
-{
-    .button_min_time = 500,
-    .last_tick       = 0,
+    {
+        .button_min_time = 500,
+        .last_tick       = 0,
 };
 
 /**
@@ -177,4 +177,65 @@ void SetPwmCcrMiddle(int pwm_ccr_middle, SERVO_REF_PICKUP *current_pickup_ref)
     xSemaphoreTake(current_pickup_ref->xMutex_servo_pickup, (TickType_t)10);
     current_pickup_ref->pwm_ccr_middle = pwm_ccr_middle;
     xSemaphoreGive(current_pickup_ref->xMutex_servo_pickup);
+}
+
+/**
+ * @brief T型速度规划函数
+ * @param initialAngle 初始角度
+ * @param maxAngularVelocity 最大角速度
+ * @param AngularAcceleration 最大角加速度
+ * @param targetAngle 目标角度
+ * @param currentTime 当前时间
+ * @param currentTime 当前角度
+ */
+void velocityPlanning(float initialAngle, float maxAngularVelocity, float AngularAcceleration, float targetAngle, float currentTime, float *currentAngle)
+{
+
+    float angleDifference = targetAngle - initialAngle;      // 计算到目标位置的角度差
+    float sign            = (angleDifference >= 0) ? 1 : -1; // 判断角度差的正负(方向)
+
+    float accelerationTime = maxAngularVelocity / AngularAcceleration;                                                      // 加速(减速)总时间
+    float constTime        = (fabs(angleDifference) - AngularAcceleration * pow(accelerationTime, 2)) / maxAngularVelocity; // 匀速总时间
+    float totalTime        = constTime + accelerationTime * 2;                                                              // 计算到达目标位置所需的总时间
+
+    // 判断能否达到最大速度
+    if (constTime > 0) {
+        // 根据当前时间判断处于哪个阶段
+        if (currentTime <= accelerationTime) {
+            // 加速阶段
+            *currentAngle = initialAngle + sign * 0.5 * AngularAcceleration * pow(currentTime, 2);
+        } else if (currentTime <= accelerationTime + constTime) {
+            // 匀速阶段
+            *currentAngle = initialAngle + sign * maxAngularVelocity * (currentTime - accelerationTime) + 0.5 * sign * AngularAcceleration * pow(accelerationTime, 2);
+        } else if (currentTime <= totalTime) {
+            // 减速阶段
+            float decelerationTime = currentTime - accelerationTime - constTime;
+            *currentAngle          = initialAngle 
+                                   + sign * maxAngularVelocity * constTime 
+                                   + 0.5 * AngularAcceleration * pow(accelerationTime, 2) 
+                                   + sign * (maxAngularVelocity * decelerationTime - 0.5 * AngularAcceleration * pow(decelerationTime, 2));
+        } else {
+            // 达到目标位置
+            *currentAngle = targetAngle;
+        }
+    } else {
+        maxAngularVelocity = sqrt(fabs(angleDifference) * AngularAcceleration);
+        accelerationTime   = maxAngularVelocity / AngularAcceleration;
+        totalTime          = 2 * accelerationTime;
+        constTime          = 0;
+        // 根据当前时间判断处于哪个阶段
+        if (currentTime <= accelerationTime) {
+            // 加速阶段
+            *currentAngle = initialAngle + sign * 0.5 * AngularAcceleration * pow(currentTime, 2);
+        } else if (currentTime <= totalTime) {
+            // 减速阶段
+            float decelerationTime = currentTime - accelerationTime; // 减速时间
+            *currentAngle          = initialAngle 
+                                   + sign * 0.5 * AngularAcceleration * pow(currentTime, 2) 
+                                   + sign * (maxAngularVelocity * decelerationTime - 0.5 * AngularAcceleration * pow(decelerationTime, 2));
+        } else {
+            // 达到目标位置
+            *currentAngle = targetAngle;
+        }
+    }
 }
