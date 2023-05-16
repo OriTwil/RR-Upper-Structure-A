@@ -28,7 +28,7 @@ void StartDefaultTask(void const *argument)
     //  CommunicateTaskStart(&ControllerData);// 通信线程(暂时不需要)
     ServoTaskStart(&ControllerData);           // 伺服线程
     StateMachineTaskStart(&ControllerData);    // 状态机线程
-    StateManagemanttaskStart(&ControllerData); // 状态切换线程
+    StateManagemantTaskStart(&ControllerData); // 状态切换线程
 
     // PWMTaskStart(&ControllerData); // 仅用于测试舵机
     // FireTasksStart(&ControllerData); // 仅用于测试射环

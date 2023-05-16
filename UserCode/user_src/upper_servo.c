@@ -22,17 +22,24 @@ void ServoTask(void const *argument)
     uint32_t PreviousWakeTime = osKernelSysTick();
     osDelay(20);
     for (;;) {
+        // 射环两个电机、推环电机伺服
+        xSemaphoreTake(Fire_ref.xMutex_servo_fire, (TickType_t)10);
         speedServo(Fire_ref.speed_servo_ref_left, &hDJI[Motor_id_Fire_Left]);
         speedServo(Fire_ref.speed_servo_ref_right, &hDJI[Motor_id_Fire_Right]);
         positionServo(Fire_ref.position_servo_ref_push, &hDJI[Motor_id_Push]);
+        xSemaphoreGive(Fire_ref.xMutex_servo_fire);
 
+        // Pitch、Arm、Yaw轴电机的伺服
+        xSemaphoreTake(Pickup_ref.xMutex_servo_pickup, (TickType_t)10);
         positionServo(Pickup_ref.position_servo_ref_pitch, &hDJI[Motor_id_Pitch]);
         positionServo(Pickup_ref.position_servo_ref_arm, &hDJI[Motor_id_Arm]);
         positionServo(Pickup_ref.position_servo_ref_yaw, &hDJI[Motor_id_Yaw]);
 
+        // 爪子三个电机的伺服
         __HAL_TIM_SetCompare(&htim_claw_left, TIM_CHANNEL_CLAW_LEFT, Pickup_ref.pwm_ccr_left);
         __HAL_TIM_SetCompare(&htim_claw_right, TIM_CHANNEL_CLAW_RIGHT, Pickup_ref.pwm_ccr_right);
         __HAL_TIM_SetCompare(&htim_claw_middle, TIM_CHANNEL_CLAW_MIDDLE, Pickup_ref.pwm_ccr_middle);
+        xSemaphoreGive(Pickup_ref.xMutex_servo_pickup);
 
         CanTransmit_DJI_1234(&hcan1,
                              hDJI[0].speedPID.output,

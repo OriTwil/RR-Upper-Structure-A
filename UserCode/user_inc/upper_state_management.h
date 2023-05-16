@@ -2,7 +2,7 @@
 #define UPPER_STATE_MANAGEMENT
 
 #include "user_main.h"
-
+#include "wtr_dji.h"
 // 取环步骤
 typedef enum {
     Overturn,
@@ -44,6 +44,7 @@ typedef struct
     PICKUP_RING Pickup_ring;
     FIRE_NUMBER Fire_number;
     SemaphoreHandle_t xMutex_upper;
+    DJI_t Motor[8];
 } UPPER_STATE;
 
 // 取环组件伺服参考值
@@ -74,7 +75,9 @@ typedef struct
     uint32_t button_min_time;
 } Button;
 
-void StateManagemanttaskStart();
+void UpperStateInit();
+
+void StateManagemantTaskStart();
 
 void PickupSwitchState(PICKUP_STATE target_pick_up_state, UPPER_STATE *current_upper_state);
 
@@ -93,6 +96,10 @@ void SetServoRefFire(float ref_left, float ref_right, SERVO_REF_FIRE *current_fi
 void SetPwmCcrMiddle(int pwm_ccr_middle, SERVO_REF_PICKUP *current_pickup_ref);
 
 void SetServoRefPush(float ref_push, SERVO_REF_FIRE *current_fire_ref);
+
+void velocityPlanning(float initialAngle, float maxAngularVelocity, float AngularAcceleration, float targetAngle, float currentTime, float *currentAngle);
+
+void SetServoRefPickupTrajectory(float ref_pitch, float ref_yaw, float ref_arm, SERVO_REF_PICKUP *current_pickup_ref);
 
 extern UPPER_STATE Upper_state;
 extern SERVO_REF_PICKUP Pickup_ref;

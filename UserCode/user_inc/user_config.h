@@ -108,6 +108,12 @@
 #define Fire_Push_Extend 73
 #define Fire_Push_Back   0
 
+// 电机的最大角速度 角加速度
+#define MaxAngularVelocity_Pitch 0.5
+#define MaxAngularVelocity_Arm 0.5
+#define MaxAngularVelocity_Yaw 0.5
+
+#define MotorAngularAcceleration 0.1
 /**
  * @brief id
  *
@@ -118,6 +124,7 @@
 #define Motor_id_Pitch      4
 #define Motor_id_Arm        5
 #define Motor_id_Yaw        6
+
 
 /**
  * @brief 端口
