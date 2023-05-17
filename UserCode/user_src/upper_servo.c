@@ -77,3 +77,25 @@ void ServoTaskStart(mavlink_controller_t *controldata)
     // osThreadDef(servo_test,ServoTestTask,osPriorityBelowNormal,0,512);
     // osThreadCreate(osThread(servo_test),NULL);
 }
+
+// 电机初始化
+void MotorInit()
+{
+    CANFilterInit(&hcan1);
+    hDJI[Motor_id_Fire_Left].motorType  = M3508; // 射环左
+    hDJI[Motor_id_Fire_Right].motorType = M3508; // 射环右
+    hDJI[Motor_id_Push].motorType       = M2006; // 推环
+    hDJI[Motor_id_Pitch].motorType      = M3508; // Pitch
+    hDJI[Motor_id_Arm].motorType        = M3508; // Arm
+    hDJI[Motor_id_Yaw].motorType        = M3508; // Yaw
+
+    DJI_Init(); // 大疆电机初始化
+}
+
+// 舵机PWM初始化
+void PWMInit()
+{
+    HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_1);
+    HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);
+    HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_3);
+}

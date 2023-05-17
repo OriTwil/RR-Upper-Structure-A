@@ -1,5 +1,5 @@
-#ifndef _USERCALLBACK_H__
-#define _USERCALLBACK_H__
+#ifndef USER_USERCALLBACK_H
+#define USER_USERCALLBACK_H
 
 #include "user_main.h"
 #include "cmsis_os.h"

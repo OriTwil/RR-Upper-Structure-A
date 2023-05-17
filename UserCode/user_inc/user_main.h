@@ -1,5 +1,5 @@
-#ifndef USERMAIN_H
-#define USERMAIN_H
+#ifndef USER_MAIN_H
+#define USER_MAIN_H
 #include "main.h"
 #include "cmsis_os.h"
 #include "can.h"
@@ -30,9 +30,5 @@
 extern mavlink_controller_t ControllerData;
 extern mavlink_channel_t CtrlDataSendChan;
 extern mavlink_chassis_to_upper_t ChassisData;
-
-void MotorInit();
-void PWMInit();
-void CommunicateInit(UART_HandleTypeDef *huart, mavlink_channel_t chan);
 
 #endif

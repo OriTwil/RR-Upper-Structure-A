@@ -18,3 +18,4 @@
 #include "upper_state_management.h"
 
 void CommunicateTaskStart(mavlink_controller_t* controller);
+void CommunicateInit(UART_HandleTypeDef *huart, mavlink_channel_t chan);

@@ -1,5 +1,5 @@
-#ifndef _CACULATE_H__
-#define _CACULATE_H__
+#ifndef USER_CACULATE_H
+#define USER_CACULATE_H
 
 #include "user_main.h"
 #include "wtr_dji.h"

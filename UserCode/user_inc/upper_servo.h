@@ -7,8 +7,8 @@
  * @FilePath: \RR-Upper-Structure-A\UserCode\user_inc\upper_servo.h
  * @@WeChat:szf13373959031
  */
-#ifndef SERVO_H
-#define SERVO_H
+#ifndef UPPER_SERVO_H
+#define UPPER_SERVO_H
 
 #include "upper_state_machine.h"
 #include "user_main.h"
@@ -16,8 +16,8 @@
 #include "upper_state_management.h"
 #include "user_config.h"
 
-#define M_PI 3.1415926
-
 void ServoTaskStart(mavlink_controller_t *controldata);
+void MotorInit();
+void PWMInit();
 
 #endif

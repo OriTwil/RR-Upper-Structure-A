@@ -1,5 +1,5 @@
-#ifndef PICK_UP_H
-#define PICK_UP_H
+#ifndef UPPER_STATE_MACHINE_H
+#define UPPER_STATE_MACHINE_H
 
 #include "user_main.h"
 #include "cmsis_os.h"

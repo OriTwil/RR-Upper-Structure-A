@@ -36,3 +36,11 @@ void CommunicateTaskStart(mavlink_controller_t *controller)
     osThreadDef(communicate, CommunicateTask, osPriorityNormal, 0, 512);
     osThreadCreate(osThread(communicate), controller);
 }
+
+// 通信初始化
+void CommunicateInit(UART_HandleTypeDef *huart, mavlink_channel_t chan)
+{
+    // WTR_MAVLink_Init(huart, chan);
+    wtrMavlink_BindChannel(huart, MAVLINK_COMM_1); // MAVLINK初始化
+    CtrlDataSendChan = chan;
+}

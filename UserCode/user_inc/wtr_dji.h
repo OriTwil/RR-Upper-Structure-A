@@ -1,5 +1,5 @@
-#ifndef DJI_H
-#define DJI_H
+#ifndef WTR_DJI_H
+#define WTR_DJI_H
 
 #include "can.h"
 
