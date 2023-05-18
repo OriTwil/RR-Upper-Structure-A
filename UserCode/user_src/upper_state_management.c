@@ -55,6 +55,7 @@ void StateManagemantTask(void const *argument)
     UpperStateInit();
     uint32_t PreviousWakeTime = osKernelSysTick();
     osDelay(20);
+    
     for (;;) {
 
         //todo 检测到操作手按对应柱子的按钮(可以用信号量？)
