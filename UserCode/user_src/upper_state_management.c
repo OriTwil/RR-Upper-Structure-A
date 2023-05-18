@@ -56,6 +56,11 @@ void StateManagemantTask(void const *argument)
     uint32_t PreviousWakeTime = osKernelSysTick();
     osDelay(20);
     for (;;) {
+
+        //todo 检测到操作手按对应柱子的按钮(可以用信号量？)
+        // FireSwitchNumber
+        // PickupSwitchStep
+        // PickupSwitchState
         osDelayUntil(&PreviousWakeTime, 5);
     }
 }
@@ -74,7 +79,7 @@ void StateManagemantTaskStart()
 }
 
 /**
- * @brief 初始化
+ * @brief 初始化函数
  *
  * @param (void)
  * @bug Motor好像没什么用

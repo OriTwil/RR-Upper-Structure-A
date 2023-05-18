@@ -97,7 +97,7 @@ void SetPwmCcrMiddle(int pwm_ccr_middle, SERVO_REF_PICKUP *current_pickup_ref);
 
 void SetServoRefPush(float ref_push, SERVO_REF_FIRE *current_fire_ref);
 
-void velocityPlanning(float initialAngle, float maxAngularVelocity, float AngularAcceleration, float targetAngle, float currentTime, float *currentAngle);
+void VelocityPlanning(float initialAngle, float maxAngularVelocity, float AngularAcceleration, float targetAngle, float currentTime, float *currentAngle);
 
 void SetServoRefPickupTrajectory(float ref_pitch, float ref_yaw, float ref_arm, SERVO_REF_PICKUP *current_pickup_ref);
 
