@@ -10,6 +10,7 @@
 - 5.17 基本完成，还需要设计遥控器方面内容
 
 ## File Structure
-
+- 双击workspace进入工作区
+- 移植只需要复制UserCode文件夹
 
 
