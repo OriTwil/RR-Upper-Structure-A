@@ -26,10 +26,6 @@ void DJI_Init()
 
         hDJI[i].encoder_resolution = 8192.0f;
     }
-    // 调整关节部分电机位置伺服速度
-    hDJI[4].posPID.outputMax = 200;
-    hDJI[5].posPID.outputMax = 200;
-    hDJI[7].posPID.outputMax = 1000;
 }
 
 static uint32_t TxMailbox;

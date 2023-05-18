@@ -35,7 +35,7 @@ void ServoTask(void const *argument)
         positionServo(Pickup_ref.position_servo_ref_arm, &hDJI[Motor_id_Arm]);
         positionServo(Pickup_ref.position_servo_ref_yaw, &hDJI[Motor_id_Yaw]);
 
-        // 爪子三个电机的伺服
+        // 爪子三个舵机的伺服
         __HAL_TIM_SetCompare(&htim_claw_left, TIM_CHANNEL_CLAW_LEFT, Pickup_ref.pwm_ccr_left);
         __HAL_TIM_SetCompare(&htim_claw_right, TIM_CHANNEL_CLAW_RIGHT, Pickup_ref.pwm_ccr_right);
         __HAL_TIM_SetCompare(&htim_claw_middle, TIM_CHANNEL_CLAW_MIDDLE, Pickup_ref.pwm_ccr_middle);
@@ -53,7 +53,7 @@ void ServoTask(void const *argument)
                              hDJI[6].speedPID.output,
                              hDJI[7].speedPID.output);
 
-        osDelayUntil(&PreviousWakeTime, 3);
+        osDelayUntil(&PreviousWakeTime, 2);
     }
 }
 

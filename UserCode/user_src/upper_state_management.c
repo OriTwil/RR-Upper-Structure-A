@@ -43,7 +43,6 @@ Button button =
         .last_tick       = 0,
 };
 
-
 /**
  * @brief 状态调整线程，根据遥控器、传感器等设计控制逻辑
  * @todo 设计操作手操作逻辑
@@ -52,17 +51,15 @@ Button button =
  */
 void StateManagemantTask(void const *argument)
 {
-    UpperStateInit();
-    uint32_t PreviousWakeTime = osKernelSysTick();
     osDelay(20);
-    
     for (;;) {
+        // todo 检测到操作手按对应柱子的按钮(可以用信号量？)
+        //  FireSwitchNumber
+        //  PickupSwitchStep
+        //  PickupSwitchState
+        SetServoRefPickupTrajectory(0, 0, 195, &Pickup_ref);
 
-        //todo 检测到操作手按对应柱子的按钮(可以用信号量？)
-        // FireSwitchNumber
-        // PickupSwitchStep
-        // PickupSwitchState
-        osDelayUntil(&PreviousWakeTime, 5);
+        vTaskDelay(10);
     }
 }
 
@@ -88,21 +85,15 @@ void StateManagemantTaskStart()
 void UpperStateInit()
 {
     // 互斥锁
-    Upper_state.xMutex_upper = xSemaphoreCreateMutex(); 
+    Upper_state.xMutex_upper       = xSemaphoreCreateMutex();
     Pickup_ref.xMutex_servo_pickup = xSemaphoreCreateMutex();
-    Fire_ref.xMutex_servo_fire = xSemaphoreCreateMutex();
+    Fire_ref.xMutex_servo_fire     = xSemaphoreCreateMutex();
 
     // 上层机构整体状态
     Upper_state.Pickup_state = Ready;
     Upper_state.Pickup_step  = Overturn;
     Upper_state.Pickup_ring  = First_Ring;
     Upper_state.Fire_number  = First_Target;
-
-    vPortEnterCritical();
-    for (int i = 0; i < 7; i++) {
-        Upper_state.Motor[i] = hDJI[i];
-    }
-    vPortExitCritical();
 
     // 取环组件的伺服值
     Pickup_ref.position_servo_ref_arm   = 0;
@@ -225,7 +216,6 @@ void SetServoRefPush(float ref_push, SERVO_REF_FIRE *current_fire_ref)
     xSemaphoreGive(current_fire_ref->xMutex_servo_fire);
 }
 
-
 /**
  * @brief T型速度规划函数
  * @param initialAngle 初始角度
@@ -239,8 +229,8 @@ void SetServoRefPush(float ref_push, SERVO_REF_FIRE *current_fire_ref)
 void VelocityPlanning(float initialAngle, float maxAngularVelocity, float AngularAcceleration, float targetAngle, float currentTime, float *currentAngle)
 {
 
-    float angleDifference = targetAngle - initialAngle;      // 计算到目标位置的角度差
-    float sign            = (angleDifference >= 0) ? 1 : -1; // 判断角度差的正负(方向)
+    float angleDifference = targetAngle - initialAngle;     // 计算到目标位置的角度差
+    float sign            = (angleDifference > 0) ? 1 : -1; // 判断角度差的正负(方向)
 
     float accelerationTime = maxAngularVelocity / AngularAcceleration;                                                      // 加速(减速)总时间
     float constTime        = (fabs(angleDifference) - AngularAcceleration * pow(accelerationTime, 2)) / maxAngularVelocity; // 匀速总时间
@@ -258,7 +248,7 @@ void VelocityPlanning(float initialAngle, float maxAngularVelocity, float Angula
         } else if (currentTime <= totalTime) {
             // 减速阶段
             float decelerationTime = currentTime - accelerationTime - constTime;
-            *currentAngle          = initialAngle + sign * maxAngularVelocity * constTime + 0.5 * AngularAcceleration * pow(accelerationTime, 2) + sign * (maxAngularVelocity * decelerationTime - 0.5 * AngularAcceleration * pow(decelerationTime, 2));
+            *currentAngle          = initialAngle + sign * maxAngularVelocity * constTime + 0.5 * sign * AngularAcceleration * pow(accelerationTime, 2) + sign * (maxAngularVelocity * decelerationTime - 0.5 * AngularAcceleration * pow(decelerationTime, 2));
         } else {
             // 达到目标位置
             *currentAngle = targetAngle;
@@ -293,7 +283,7 @@ void VelocityPlanning(float initialAngle, float maxAngularVelocity, float Angula
  */
 void SetServoRefPickupTrajectory(float ref_pitch, float ref_yaw, float ref_arm, SERVO_REF_PICKUP *current_pickup_ref)
 {
-    TickType_t startTime    = xTaskGetTickCount(); // 初始时间
+
     float initialAnglePitch = current_pickup_ref->position_servo_ref_pitch;
     float initialAngleArm   = current_pickup_ref->position_servo_ref_arm;
     float initialAngleYaw   = current_pickup_ref->position_servo_ref_yaw; // 电机初始位置
@@ -301,12 +291,13 @@ void SetServoRefPickupTrajectory(float ref_pitch, float ref_yaw, float ref_arm, 
     bool isArrive          = false; // 标志是否达到目标位置
     double differencePitch = 0;
     double differenceArm   = 0;
-    double differenceYaw   = 0; // 和目标之间的角度差
+    double differenceYaw   = 0;                   // 和目标之间的角度差
+    TickType_t startTime   = xTaskGetTickCount(); // 初始时间
 
     do {
         TickType_t endTime     = xTaskGetTickCount();
         TickType_t elapsedTime = endTime - startTime;
-        float timeSec          = (elapsedTime / (TickType_t)configTICK_RATE_HZ); // 获取当前时间/s
+        float timeSec          = (elapsedTime / (1000.0)); // 获取当前时间/s
 
         xSemaphoreTake(current_pickup_ref->xMutex_servo_pickup, (TickType_t)10);
         // 速度规划

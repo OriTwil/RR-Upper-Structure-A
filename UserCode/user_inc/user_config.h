@@ -110,10 +110,10 @@
 
 // 电机的最大角速度 角加速度
 #define MaxAngularVelocity_Pitch 0.5
-#define MaxAngularVelocity_Arm   0.5
+#define MaxAngularVelocity_Arm   300
 #define MaxAngularVelocity_Yaw   0.5
 
-#define MotorAngularAcceleration 0.1
+#define MotorAngularAcceleration 1200
 /**
  * @brief id
  *
