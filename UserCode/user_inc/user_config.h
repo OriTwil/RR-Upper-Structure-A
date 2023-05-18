@@ -89,10 +89,10 @@
 
 // 射环
 #define Fire_Ready       0
-#define Fire_1_1         0
-#define Fire_1_2         0
-#define Fire_2_3         0
-#define Fire_2_4         0
+#define Fire_1_1         0 // 第一个点打第一个柱子
+#define Fire_1_2         0 // 第一个点打第二个柱子
+#define Fire_2_3         0 // 第二个点打第三个柱子
+#define Fire_2_4         0 // 第二个点打第四个柱子
 
 #define Fire_Pitch_1_1   0
 #define Fire_Pitch_1_2   0
@@ -110,8 +110,8 @@
 
 // 电机的最大角速度 角加速度
 #define MaxAngularVelocity_Pitch 0.5
-#define MaxAngularVelocity_Arm 0.5
-#define MaxAngularVelocity_Yaw 0.5
+#define MaxAngularVelocity_Arm   0.5
+#define MaxAngularVelocity_Yaw   0.5
 
 #define MotorAngularAcceleration 0.1
 /**
@@ -125,17 +125,15 @@
 #define Motor_id_Arm        5
 #define Motor_id_Yaw        6
 
-
 /**
  * @brief 端口
  *
  */
-#define htim_claw_left htim8
-#define htim_claw_right htim8
-#define htim_claw_middle htim8
-#define TIM_CHANNEL_CLAW_LEFT TIM_CHANNEL_1
-#define TIM_CHANNEL_CLAW_RIGHT TIM_CHANNEL_2
-#define TIM_CHANNEL_CLAW_MIDDLE TIM_CHANNEL_3
-#define USART_MAVLINK USART2
+#define htim_claw_left              htim8
+#define htim_claw_right             htim8
+#define htim_claw_middle            htim8
+#define TIM_CHANNEL_CLAW_LEFT       TIM_CHANNEL_1
+#define TIM_CHANNEL_CLAW_RIGHT      TIM_CHANNEL_2
+#define TIM_CHANNEL_CLAW_MIDDLE     TIM_CHANNEL_3
+#define USART_MAVLINK               USART2
 #define USART_DJI_REMOTE_CONTROLLER USART1
-
