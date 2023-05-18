@@ -6,6 +6,9 @@
 - 2023.4.29 Create the project and complete the basic framework.
 - 2.23.4.30 Basically complete the task
 - 5.14 完成框架
+- 5.17 基本完成，还需要设计遥控器方面内容
 
-## State tree
+## File Structure
+
+
 
