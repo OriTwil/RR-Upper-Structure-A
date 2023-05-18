@@ -14,5 +14,9 @@
 - 双击workspace进入工作区
 - 移植只需要复制UserCode文件夹
 - RR使用两块主板，这个工程是上层机构
+  
+## Result
+- 5.16 电机速度规划
+  <image src="https://github.com/OriTwil/RR-Upper-Structure-A/blob/main/image/speed-planning.jpg" width="1000">
 
 
