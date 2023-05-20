@@ -35,7 +35,7 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
  * @param msg 接收到的消息
  * @return
  */
-extern mavlink_controller_t ControllerData;
+extern volatile mavlink_controller_t ControllerData;
 void wtrMavlink_MsgRxCpltCallback(mavlink_message_t *msg)
 {
 

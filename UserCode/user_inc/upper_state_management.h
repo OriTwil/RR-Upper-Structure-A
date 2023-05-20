@@ -10,7 +10,6 @@ typedef enum {
     Overturn_back,
     Release,
 } PICKUP_STEP;
-
 // 取环状态
 typedef enum {
     Ready,
@@ -37,7 +36,7 @@ typedef enum {
 } FIRE_NUMBER;
 
 // 上层机构整体
-typedef struct
+typedef __IO struct
 {
     PICKUP_STATE Pickup_state;
     PICKUP_STEP Pickup_step;
@@ -48,7 +47,7 @@ typedef struct
 } UPPER_STATE;
 
 // 取环组件伺服参考值
-typedef struct
+typedef __IO struct
 {
     float position_servo_ref_pitch;
     float position_servo_ref_yaw;
@@ -60,7 +59,7 @@ typedef struct
 } SERVO_REF_PICKUP;
 
 // 射环组件伺服参考值
-typedef struct
+typedef __IO struct
 {
     float speed_servo_ref_left;
     float speed_servo_ref_right;
@@ -69,7 +68,7 @@ typedef struct
 } SERVO_REF_FIRE;
 
 // 按键
-typedef struct
+typedef __IO struct
 {
     uint32_t last_tick;
     uint32_t button_min_time;
@@ -97,7 +96,7 @@ void SetPwmCcrMiddle(int pwm_ccr_middle, SERVO_REF_PICKUP *current_pickup_ref);
 
 void SetServoRefPush(float ref_push, SERVO_REF_FIRE *current_fire_ref);
 
-void VelocityPlanning(float initialAngle, float maxAngularVelocity, float AngularAcceleration, float targetAngle, float currentTime, float *currentAngle);
+void VelocityPlanning(float initialAngle, float maxAngularVelocity, float AngularAcceleration, float targetAngle, float currentTime, __IO float *currentAngle);
 
 void SetServoRefPickupTrajectory(float ref_pitch, float ref_yaw, float ref_arm, SERVO_REF_PICKUP *current_pickup_ref);
 
@@ -105,5 +104,6 @@ extern UPPER_STATE Upper_state;
 extern SERVO_REF_PICKUP Pickup_ref;
 extern SERVO_REF_FIRE Fire_ref;
 extern Button button;
+extern TaskHandle_t g_stateManagementTaskHandle;
 
 #endif

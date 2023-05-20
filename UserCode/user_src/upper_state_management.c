@@ -8,6 +8,9 @@
  * @WeChat:szf13373959031
  */
 #include "upper_state_management.h"
+#include "user_config.h"
+#include "semphr.h"
+#include "upper_communicate.h"
 
 // 上层机构整体状态
 UPPER_STATE Upper_state =
@@ -51,13 +54,33 @@ Button button =
  */
 void StateManagemantTask(void const *argument)
 {
+    uint32_t notificationValue;
     osDelay(20);
     for (;;) {
         // todo 检测到操作手按对应柱子的按钮(可以用信号量？)
-        //  FireSwitchNumber
-        //  PickupSwitchStep
-        //  PickupSwitchState
-        SetServoRefPickupTrajectory(0, 0, 195, &Pickup_ref);
+
+        // 等待按键通知
+        xTaskNotifyWait(0, 0, &notificationValue, portMAX_DELAY);
+
+        // 处理按键通知
+        if (notificationValue & BUTTON1_NOTIFICATION) {
+            // 执行按键1的操作
+            //  FireSwitchNumber
+            //  PickupSwitchStep
+            //  PickupSwitchState
+            //  SetServoRefPickupTrajectory(0, 0, 195, &Pickup_ref);
+            //  ...
+        }
+
+        if (notificationValue & BUTTON2_NOTIFICATION) {
+            // 执行按键2的操作
+            // ...
+        }
+
+        if (notificationValue & BUTTON3_NOTIFICATION) {
+            // 执行按键3的操作
+            // ...
+        }
 
         vTaskDelay(10);
     }
@@ -73,7 +96,8 @@ void StateManagemantTaskStart()
 {
 
     osThreadDef(statemanagement, StateManagemantTask, osPriorityNormal, 0, 512);
-    osThreadCreate(osThread(statemanagement), NULL);
+    TaskHandle_t g_stateManagementTaskHandle = osThreadCreate(osThread(statemanagement), NULL);
+    // xTaskCreate(osThread(statemanagement),NULL);
 }
 
 /**
@@ -226,7 +250,7 @@ void SetServoRefPush(float ref_push, SERVO_REF_FIRE *current_fire_ref)
  * @param currentTime 当前角度
  * @todo 转换为国际单位制
  */
-void VelocityPlanning(float initialAngle, float maxAngularVelocity, float AngularAcceleration, float targetAngle, float currentTime, float *currentAngle)
+void VelocityPlanning(float initialAngle, float maxAngularVelocity, float AngularAcceleration, float targetAngle, float currentTime, volatile float *currentAngle)
 {
 
     float angleDifference = targetAngle - initialAngle;     // 计算到目标位置的角度差

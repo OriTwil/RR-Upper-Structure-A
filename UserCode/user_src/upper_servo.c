@@ -20,7 +20,7 @@
 void ServoTask(void const *argument)
 {
     uint32_t PreviousWakeTime = osKernelSysTick();
-    osDelay(20);
+    vTaskDelay(20);
     for (;;) {
         // 射环两个电机、推环电机伺服
         xSemaphoreTake(Fire_ref.xMutex_servo_fire, (TickType_t)10);

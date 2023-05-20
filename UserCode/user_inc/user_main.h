@@ -27,8 +27,8 @@
 #include "upper_state_machine.h"
 #include "upper_communicate.h"
 
-extern mavlink_controller_t ControllerData;
-extern mavlink_channel_t CtrlDataSendChan;
-extern mavlink_chassis_to_upper_t ChassisData;
+extern volatile mavlink_controller_t ControllerData;
+extern volatile mavlink_channel_t CtrlDataSendChan;
+extern volatile mavlink_chassis_to_upper_t ChassisData;
 
 #endif

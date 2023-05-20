@@ -5,9 +5,9 @@
  */
 #include "user_main.h"
 
-mavlink_controller_t ControllerData    = {0};
-mavlink_chassis_to_upper_t ChassisData = {0};
-mavlink_channel_t CtrlDataSendChan     = MAVLINK_COMM_0;
+volatile mavlink_controller_t ControllerData    = {0};
+volatile mavlink_chassis_to_upper_t ChassisData = {0};
+volatile mavlink_channel_t CtrlDataSendChan     = MAVLINK_COMM_0;
 
 /**
  * @description: 创建线程
@@ -27,7 +27,7 @@ void StartDefaultTask(void const *argument)
 
     // 开启线程
     // CommunicateTaskStart(&ControllerData);     // 通信线程
-    ServoTaskStart(&ControllerData);           // 伺服线程
+    ServoTaskStart(&ControllerData); // 伺服线程
     // StateMachineTaskStart(&ControllerData);    // 状态机线程
     StateManagemantTaskStart(&ControllerData); // 状态切换线程
 

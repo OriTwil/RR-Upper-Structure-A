@@ -17,5 +17,10 @@
 #include "user_main.h"
 #include "upper_state_management.h"
 
+// 按键通知值定义
+#define BUTTON1_NOTIFICATION (1 << 0)
+#define BUTTON2_NOTIFICATION (1 << 1)
+#define BUTTON3_NOTIFICATION (1 << 2)
+
 void CommunicateTaskStart(mavlink_controller_t* controller);
 void CommunicateInit(UART_HandleTypeDef *huart, mavlink_channel_t chan);

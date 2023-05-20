@@ -1,6 +1,6 @@
 /*
  * @Author: szf
- * @Version: 
+ * @Version:
  * @Date: 2023-05-13 23:29:42
  * @LastEditTime: 2023-05-14 22:50:24
  * @LastEditors: szf
@@ -9,6 +9,7 @@
  */
 
 #include "upper_communicate.h"
+#include "upper_state_management.h"
 
 /**
  * @description: 通信线程
@@ -19,9 +20,24 @@
  */
 void CommunicateTask(void const *argument)
 {
+    uint32_t PreviousWakeTime = osKernelSysTick();
+    vTaskDelay(20);
     while (1) {
+        vPortEnterCritical();
+        // 发送按键通知
+        if (1/* 判断按键1是否按下 */) {
+            xTaskNotify(g_stateManagementTaskHandle, BUTTON1_NOTIFICATION, eSetBits);
+        }
+        if (1/* 判断按键2是否按下 */) {
+            xTaskNotify(g_stateManagementTaskHandle, BUTTON2_NOTIFICATION, eSetBits);
+        }
+        if (1/* 判断按键3是否按下 */) {
+            xTaskNotify(g_stateManagementTaskHandle, BUTTON3_NOTIFICATION, eSetBits);
+        }
+        vPortExitCritical();
         mavlink_msg_controller_send_struct(CtrlDataSendChan, argument);
-        osDelay(10);
+        // osDelay(10);
+        vTaskDelayUntil(&PreviousWakeTime,3);
     }
 }
 
@@ -34,7 +50,7 @@ void CommunicateTask(void const *argument)
 void CommunicateTaskStart(mavlink_controller_t *controller)
 {
     osThreadDef(communicate, CommunicateTask, osPriorityNormal, 0, 512);
-    osThreadCreate(osThread(communicate), controller);
+    osThreadCreate(osThread(communicate), NULL);
 }
 
 // 通信初始化
