@@ -9,8 +9,6 @@
  * 
  */
 #pragma once
-
-#include "wtr_mavlink.h"
 #include "main.h"
 #include "cmsis_os.h"
 #include "usart.h"
@@ -22,5 +20,5 @@
 #define BUTTON2_NOTIFICATION (1 << 1)
 #define BUTTON3_NOTIFICATION (1 << 2)
 
-void CommunicateTaskStart(mavlink_controller_t* controller);
+void CommunicateTaskStart();
 void CommunicateInit(UART_HandleTypeDef *huart, mavlink_channel_t chan);

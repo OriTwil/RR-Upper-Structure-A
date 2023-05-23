@@ -70,8 +70,8 @@
 #define Overturn_Arm_back   0
 
 // 三个舵机
-#define CCR_Middle_Closed  0
-#define CCR_Middle_Opened  0
+#define CCR_Middle_Closed  1700 //夹紧
+#define CCR_Middle_Opened  2300 // 张开
 
 #define CCR_Left_Ready     0
 #define CCR_Left_Pickup_1  0
@@ -109,11 +109,11 @@
 #define Fire_Push_Back   0
 
 // 电机的最大角速度 角加速度
-#define MaxAngularVelocity_Pitch 0.5
-#define MaxAngularVelocity_Arm   300
-#define MaxAngularVelocity_Yaw   0.5
+#define MaxAngularVelocity_Pitch 10
+#define MaxAngularVelocity_Arm   10
+#define MaxAngularVelocity_Yaw   10
 
-#define MotorAngularAcceleration 1200
+#define MotorAngularAcceleration 10
 /**
  * @brief id
  *
@@ -123,7 +123,7 @@
 #define Motor_id_Push       2
 #define Motor_id_Pitch      4
 #define Motor_id_Arm        5
-#define Motor_id_Yaw        6
+#define Motor_id_Yaw        7
 
 /**
  * @brief 端口
@@ -137,3 +137,7 @@
 #define TIM_CHANNEL_CLAW_MIDDLE     TIM_CHANNEL_3
 #define USART_MAVLINK               USART2
 #define USART_DJI_REMOTE_CONTROLLER USART1
+
+#define Ongoing 1
+#define Finished 0
+#define OverturnAngle (-728 - 1)

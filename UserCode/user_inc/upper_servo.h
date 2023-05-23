@@ -16,7 +16,7 @@
 #include "upper_state_management.h"
 #include "user_config.h"
 
-void ServoTaskStart(mavlink_controller_t *controldata);
+void ServoTaskStart();
 void MotorInit();
 void PWMInit();
 

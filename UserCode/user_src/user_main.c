@@ -26,10 +26,10 @@ void StartDefaultTask(void const *argument)
     UpperStateInit();                                       // 状态机初始化
 
     // 开启线程
-    // CommunicateTaskStart(&ControllerData);     // 通信线程
-    ServoTaskStart(&ControllerData); // 伺服线程
+    CommunicateTaskStart();     // 通信线程
+    ServoTaskStart(); // 伺服线程
     // StateMachineTaskStart(&ControllerData);    // 状态机线程
-    StateManagemantTaskStart(&ControllerData); // 状态切换线程
+    StateManagemantTaskStart(); // 状态切换线程
 
     // PWMTaskStart(&ControllerData); // 仅用于测试舵机
     // FireTasksStart(&ControllerData); // 仅用于测试射环

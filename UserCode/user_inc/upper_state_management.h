@@ -100,6 +100,8 @@ void VelocityPlanning(float initialAngle, float maxAngularVelocity, float Angula
 
 void SetServoRefPickupTrajectory(float ref_pitch, float ref_yaw, float ref_arm, SERVO_REF_PICKUP *current_pickup_ref);
 
+void SetPwmCcrMiddleTrajectory(int pwm_ccr_middle, SERVO_REF_PICKUP *current_pickup_ref);
+
 extern UPPER_STATE Upper_state;
 extern SERVO_REF_PICKUP Pickup_ref;
 extern SERVO_REF_FIRE Fire_ref;

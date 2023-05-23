@@ -12,7 +12,7 @@
 #include "tim.h"
 #include "upper_state_machine.h"
 
-int Fire_point = 1; // 接收当前底盘所在点位
+int Fire_point_temp = 1; // 接收当前底盘所在点位
 
 void StateMachineTask(void const *argument)
 {
@@ -108,9 +108,9 @@ void StateMachineTask(void const *argument)
             case Fire:
                 // 射环
                 vPortEnterCritical();
-                Fire_point = ChassisData.point; // 获取当前底盘所在点位
+                Fire_point_temp = ChassisData.point; // 获取当前底盘所在点位
                 vPortExitCritical();
-                switch (Fire_point) // 点位号(预先将点位编号)
+                switch (Fire_point_temp) // 点位号(预先将点位编号)
                 {
                     case 1:
                         switch (Upper_state.Fire_number) // 几号柱子(预先将柱子编号)

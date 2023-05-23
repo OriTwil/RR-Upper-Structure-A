@@ -9,7 +9,7 @@
  */
 
 #include "upper_communicate.h"
-#include "upper_state_management.h"
+// #include "upper_state_management.h"
 
 /**
  * @description: 通信线程
@@ -25,13 +25,13 @@ void CommunicateTask(void const *argument)
     while (1) {
         vPortEnterCritical();
         // 发送按键通知
-        if (1/* 判断按键1是否按下 */) {
+        if (Raw_Data.left == 1/* 判断按键1是否按下 */) {
             xTaskNotify(g_stateManagementTaskHandle, BUTTON1_NOTIFICATION, eSetBits);
         }
-        if (1/* 判断按键2是否按下 */) {
+        if (Raw_Data.left == 2/* 判断按键2是否按下 */) {
             xTaskNotify(g_stateManagementTaskHandle, BUTTON2_NOTIFICATION, eSetBits);
         }
-        if (1/* 判断按键3是否按下 */) {
+        if (Raw_Data.left == 3/* 判断按键3是否按下 */) {
             xTaskNotify(g_stateManagementTaskHandle, BUTTON3_NOTIFICATION, eSetBits);
         }
         vPortExitCritical();
@@ -47,7 +47,7 @@ void CommunicateTask(void const *argument)
  * @author: szf
  * @return {void}
  */
-void CommunicateTaskStart(mavlink_controller_t *controller)
+void CommunicateTaskStart()
 {
     osThreadDef(communicate, CommunicateTask, osPriorityNormal, 0, 512);
     osThreadCreate(osThread(communicate), NULL);

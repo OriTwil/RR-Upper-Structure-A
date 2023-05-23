@@ -11,7 +11,7 @@
 #include "user_config.h"
 #include "semphr.h"
 #include "upper_communicate.h"
-
+#include "math.h"
 // 上层机构整体状态
 UPPER_STATE Upper_state =
     {
@@ -46,6 +46,8 @@ Button button =
         .last_tick       = 0,
 };
 
+TaskHandle_t g_stateManagementTaskHandle;
+
 /**
  * @brief 状态调整线程，根据遥控器、传感器等设计控制逻辑
  * @todo 设计操作手操作逻辑
@@ -57,10 +59,27 @@ void StateManagemantTask(void const *argument)
     uint32_t notificationValue;
     osDelay(20);
     for (;;) {
-        // todo 检测到操作手按对应柱子的按钮(可以用信号量？)
 
+        // SetServoRefPickupTrajectory(0, 0, 195, &Pickup_ref);
+        // SetPwmCcrMiddleTrajectory(1200,&Pickup_ref);
+        // SetPwmCcr(1950,1200,1300,&Pickup_ref); 
+        // SetServoRefFire
+        // todo 检测到操作手按对应柱子的按钮(可以用信号量？)
+        // vPortEnterCritical();
+        // if(Raw_Data.left == 3)
+        // {
+        SetPwmCcrMiddle(1900,&Pickup_ref);
+        SetServoRefPickupTrajectory(-60,0,-30,&Pickup_ref);
+        vTaskDelay(100);
+        SetServoRefFire(4000,-4000,&Fire_ref);
+        vTaskDelay(5000);
+        SetServoRefPush(70,&Fire_ref);
+        vTaskDelay(1000);
+        SetServoRefPush(0,&Fire_ref);
+        // }
+        // vPortExitCritical();
         // 等待按键通知
-        xTaskNotifyWait(0, 0, &notificationValue, portMAX_DELAY);
+        // xTaskNotifyWait(0, 0, &notificationValue, portMAX_DELAY);
 
         // 处理按键通知
         if (notificationValue & BUTTON1_NOTIFICATION) {
@@ -96,7 +115,7 @@ void StateManagemantTaskStart()
 {
 
     osThreadDef(statemanagement, StateManagemantTask, osPriorityNormal, 0, 512);
-    TaskHandle_t g_stateManagementTaskHandle = osThreadCreate(osThread(statemanagement), NULL);
+    osThreadCreate(osThread(statemanagement), NULL);
     // xTaskCreate(osThread(statemanagement),NULL);
 }
 
@@ -124,7 +143,7 @@ void UpperStateInit()
     Pickup_ref.position_servo_ref_pitch = 0;
     Pickup_ref.position_servo_ref_yaw   = 0;
     Pickup_ref.pwm_ccr_left             = 0;
-    Pickup_ref.pwm_ccr_middle           = 0;
+    Pickup_ref.pwm_ccr_middle           = CCR_Middle_Closed;
     Pickup_ref.pwm_ccr_right            = 0;
 
     // 射环组件的伺服值
@@ -332,11 +351,39 @@ void SetServoRefPickupTrajectory(float ref_pitch, float ref_yaw, float ref_arm, 
 
         // 判断是否到达目标位置
         differencePitch = fabs(current_pickup_ref->position_servo_ref_pitch - ref_pitch);
-        differenceArm   = fabs(current_pickup_ref->position_servo_ref_yaw - ref_yaw);
-        differenceYaw   = fabs(current_pickup_ref->position_servo_ref_arm - ref_arm);
+        differenceYaw   = fabs(current_pickup_ref->position_servo_ref_yaw - ref_yaw);
+        differenceArm   = fabs(current_pickup_ref->position_servo_ref_arm - ref_arm);
         if (differencePitch < 0.1 && differenceArm < 0.1 && differenceYaw < 0.1) {
             isArrive = true;
         }
         vTaskDelay(2);
     } while (!isArrive);
+}
+
+//舵机速度规划(主要是因为360度舵机旋转防线不能确定)
+void SetPwmCcrMiddleTrajectory(int pwm_ccr_middle, SERVO_REF_PICKUP *current_pickup_ref)
+{
+    int initialccr = current_pickup_ref->pwm_ccr_middle;
+    bool isArrive          = false; // 标志是否达到目标位置
+    int differentccr = 0;
+    TickType_t startTime   = xTaskGetTickCount(); // 初始时间
+
+    do {
+        TickType_t endTime     = xTaskGetTickCount();
+        TickType_t elapsedTime = endTime - startTime;
+        float timeSec          = (elapsedTime / (1000.0)); // 获取当前时间/s
+
+        xSemaphoreTake(current_pickup_ref->xMutex_servo_pickup, (TickType_t)10);
+        // 速度规划
+        VelocityPlanning(initialccr, 600, 6000, pwm_ccr_middle, timeSec, &(current_pickup_ref->pwm_ccr_middle));
+        xSemaphoreGive(current_pickup_ref->xMutex_servo_pickup);
+
+        // 判断是否到达目标位置
+        differentccr = fabs(pwm_ccr_middle - current_pickup_ref->pwm_ccr_middle);
+        if (differentccr < 1) {
+            isArrive = true;
+        }
+        vTaskDelay(2);
+    } while (!isArrive);
+
 }

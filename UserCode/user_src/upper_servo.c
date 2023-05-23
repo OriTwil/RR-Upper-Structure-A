@@ -62,20 +62,24 @@ void ServoTestTask(void const *argument)
     uint32_t PreviousWakeTime = osKernelSysTick();
     osDelay(20);
     for (;;) {
-        positionServo(120, &hDJI[4]);
-        positionServo(0, &hDJI[5]);
-        positionServo(0, &hDJI[6]);
-        osDelayUntil(&PreviousWakeTime, 5);
+        // speedServo(1000, &hDJI[0]);
+        // speedServo(1000, &hDJI[1]);
+        CanTransmit_DJI_1234(&hcan1,
+                             hDJI[0].speedPID.output,
+                             hDJI[1].speedPID.output,
+                             hDJI[2].speedPID.output,
+                             hDJI[3].speedPID.output);
+        osDelayUntil(&PreviousWakeTime, 2);
     }
 }
 
-void ServoTaskStart(mavlink_controller_t *controldata)
+void ServoTaskStart()
 {
     osThreadDef(servo, ServoTask, osPriorityBelowNormal, 0, 512);
     osThreadCreate(osThread(servo), NULL);
 
-    // osThreadDef(servo_test,ServoTestTask,osPriorityBelowNormal,0,512);
-    // osThreadCreate(osThread(servo_test),NULL);
+    // osThreadDef(servo_test, ServoTestTask, osPriorityBelowNormal, 0, 512);
+    // osThreadCreate(osThread(servo_test), NULL);
 }
 
 // 电机初始化
