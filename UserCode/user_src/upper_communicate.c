@@ -9,6 +9,7 @@
  */
 
 #include "upper_communicate.h"
+#include "wtr_uart.h"
 // #include "upper_state_management.h"
 
 /**
@@ -54,9 +55,9 @@ void CommunicateTaskStart()
 }
 
 // 通信初始化
-void CommunicateInit(UART_HandleTypeDef *huart, mavlink_channel_t chan)
+void CommunicateInit()
 {
     // WTR_MAVLink_Init(huart, chan);
-    wtrMavlink_BindChannel(huart, MAVLINK_COMM_1); // MAVLINK初始化
-    CtrlDataSendChan = chan;
+    wtrMavlink_BindChannel(&huart1, MAVLINK_COMM_1); // MAVLINK初始化
+    HAL_UART_Receive_DMA(&huart1, JoyStickReceiveData, 18); // DMA接收AS69
 }

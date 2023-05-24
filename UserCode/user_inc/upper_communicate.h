@@ -21,4 +21,4 @@
 #define BUTTON3_NOTIFICATION (1 << 2)
 
 void CommunicateTaskStart();
-void CommunicateInit(UART_HandleTypeDef *huart, mavlink_channel_t chan);
+void CommunicateInit();
