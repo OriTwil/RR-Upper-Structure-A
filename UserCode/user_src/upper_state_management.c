@@ -64,42 +64,21 @@ void StateManagemantTask(void const *argument)
         // SetPwmCcrMiddleTrajectory(1200,&Pickup_ref);
         // SetPwmCcr(1950,1200,1300,&Pickup_ref); 
         // SetServoRefFire
+        
         // todo 检测到操作手按对应柱子的按钮(可以用信号量？)
         // vPortEnterCritical();
         // if(Raw_Data.left == 3)
         // {
         SetPwmCcrMiddle(1900,&Pickup_ref);
-        SetServoRefPickupTrajectory(-60,0,-30,&Pickup_ref);
-        vTaskDelay(100);
-        SetServoRefFire(4000,-4000,&Fire_ref);
-        vTaskDelay(5000);
-        SetServoRefPush(70,&Fire_ref);
-        vTaskDelay(1000);
-        SetServoRefPush(0,&Fire_ref);
+        // SetServoRefPickupTrajectory(-60,0,-30,&Pickup_ref);
+        // vTaskDelay(100);
+        // SetServoRefFire(4000,-4000,&Fire_ref);
+        // vTaskDelay(5000);
+        // SetServoRefPush(70,&Fire_ref);
+        // vTaskDelay(1000);
+        // SetServoRefPush(0,&Fire_ref);
         // }
         // vPortExitCritical();
-        // 等待按键通知
-        // xTaskNotifyWait(0, 0, &notificationValue, portMAX_DELAY);
-
-        // 处理按键通知
-        if (notificationValue & BUTTON1_NOTIFICATION) {
-            // 执行按键1的操作
-            //  FireSwitchNumber
-            //  PickupSwitchStep
-            //  PickupSwitchState
-            //  SetServoRefPickupTrajectory(0, 0, 195, &Pickup_ref);
-            //  ...
-        }
-
-        if (notificationValue & BUTTON2_NOTIFICATION) {
-            // 执行按键2的操作
-            // ...
-        }
-
-        if (notificationValue & BUTTON3_NOTIFICATION) {
-            // 执行按键3的操作
-            // ...
-        }
 
         vTaskDelay(10);
     }

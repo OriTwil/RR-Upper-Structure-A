@@ -70,7 +70,7 @@
 #define Overturn_Arm_back   0
 
 // 三个舵机
-#define CCR_Middle_Closed  1700 //夹紧
+#define CCR_Middle_Closed  1700 // 夹紧
 #define CCR_Middle_Opened  2300 // 张开
 
 #define CCR_Left_Ready     0
@@ -132,12 +132,14 @@
 #define htim_claw_left              htim8
 #define htim_claw_right             htim8
 #define htim_claw_middle            htim8
+#define huart_Mavlink               huart6
+#define huart_AS69                  huart1
 #define TIM_CHANNEL_CLAW_LEFT       TIM_CHANNEL_1
 #define TIM_CHANNEL_CLAW_RIGHT      TIM_CHANNEL_2
 #define TIM_CHANNEL_CLAW_MIDDLE     TIM_CHANNEL_3
-#define USART_MAVLINK               USART2
+#define USART_MAVLINK               USART6
 #define USART_DJI_REMOTE_CONTROLLER USART1
 
-#define Ongoing 1
-#define Finished 0
-#define OverturnAngle (-728 - 1)
+#define Ongoing                     1
+#define Finished                    0
+#define OverturnAngle               (-728 - 1)

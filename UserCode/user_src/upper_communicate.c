@@ -24,20 +24,6 @@ void CommunicateTask(void const *argument)
     uint32_t PreviousWakeTime = osKernelSysTick();
     vTaskDelay(20);
     while (1) {
-        vPortEnterCritical();
-        // 发送按键通知
-        if (Raw_Data.left == 1/* 判断按键1是否按下 */) {
-            xTaskNotify(g_stateManagementTaskHandle, BUTTON1_NOTIFICATION, eSetBits);
-        }
-        if (Raw_Data.left == 2/* 判断按键2是否按下 */) {
-            xTaskNotify(g_stateManagementTaskHandle, BUTTON2_NOTIFICATION, eSetBits);
-        }
-        if (Raw_Data.left == 3/* 判断按键3是否按下 */) {
-            xTaskNotify(g_stateManagementTaskHandle, BUTTON3_NOTIFICATION, eSetBits);
-        }
-        vPortExitCritical();
-        mavlink_msg_controller_send_struct(CtrlDataSendChan, argument);
-        // osDelay(10);
         vTaskDelayUntil(&PreviousWakeTime,3);
     }
 }
@@ -57,7 +43,8 @@ void CommunicateTaskStart()
 // 通信初始化
 void CommunicateInit()
 {
-    // WTR_MAVLink_Init(huart, chan);
-    wtrMavlink_BindChannel(&huart1, MAVLINK_COMM_1); // MAVLINK初始化
-    HAL_UART_Receive_DMA(&huart1, JoyStickReceiveData, 18); // DMA接收AS69
+    wtrMavlink_BindChannel(&huart_Mavlink, MAVLINK_COMM_0); // 接收板间通信MAVLINK
+    wtrMavlink_StartReceiveIT(MAVLINK_COMM_0);
+
+    HAL_UART_Receive_DMA(&huart_AS69, JoyStickReceiveData, 18); // DMA接收AS69
 }

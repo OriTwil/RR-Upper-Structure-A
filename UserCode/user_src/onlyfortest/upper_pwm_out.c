@@ -33,20 +33,20 @@ void PWMTestTask(void const *argument)
     {
         // __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_1,1000); // 600张开1650夹紧
         // __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_2,550);  // 550取环 1070放环
-        __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_3,1500); // 1600取环 1070放环
+        __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_3,1700); // 1600取环 1070放环
         HAL_Delay(2000);
-        __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_3,2300); // 1600取环 1070放环
-        HAL_Delay(2000);
-        // static int a=500;
+        // __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_3,2200); // 1600取环 1070放环
+        // HAL_Delay(2000);
+
+        // static int a=1700;
         // static int mark=0;
         
         // if(mark==0)
         // {
         //     __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_3,a);
-        //     __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_2,3000-a);
-        //     a++;
+        //     a += 2;
         //     osDelay(2);
-        //     if(a>=2499)
+        //     if(a>=2100)
         //     {
         //         mark=1;
         //     }
@@ -54,10 +54,9 @@ void PWMTestTask(void const *argument)
         // if(mark==1)
         // {
         //     __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_3,a);
-        //     __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_2,3000-a);
-        //     a--;
+        //     a -= 2;
         //     osDelay(2);
-        //     if(a<=500)
+        //     if(a<=1700)
         //     {
         //         mark=0;
         //     }
