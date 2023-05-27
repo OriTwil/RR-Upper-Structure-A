@@ -1,25 +1,16 @@
 /*
  * @Author: szf
- * @Date: 2023-05-11 16:08:17
- * @LastEditTime: 2023-05-15 14:38:05
+ * @Date: 2023-03-11 12:51:38
+ * @LastEditTime: 2023-05-14 23:35:31
  * @LastEditors: szf
- * @Description: 任务控制
- * @FilePath: \RR-Upper-Structure-A\UserCode\user_src\upper_state_management.c
+ * @Description: 以固定频率进行伺服
+ * @FilePath: \RR-Upper-Structure-A\UserCode\user_src\upper_servo.c
  * @WeChat:szf13373959031
  */
-#include "upper_state_management.h"
+
+#include "upper_servo.h"
 #include "user_config.h"
-#include "semphr.h"
-#include "upper_communicate.h"
-#include "math.h"
-// 上层机构整体状态
-UPPER_STATE Upper_state =
-    {
-        .Pickup_state = Ready,
-        .Pickup_step  = Overturn,
-        .Pickup_ring  = First_Ring,
-        .Fire_number  = First_Target,
-};
+#include "upper_commen.h"
 
 // 取环组件的伺服值
 SERVO_REF_PICKUP Pickup_ref =
@@ -39,143 +30,97 @@ SERVO_REF_FIRE Fire_ref =
         .speed_servo_ref_left    = 0,
         .speed_servo_ref_right   = 0,
 };
-// 暂时没用
-Button button =
-    {
-        .button_min_time = 500,
-        .last_tick       = 0,
-};
-
-TaskHandle_t g_stateManagementTaskHandle;
 
 /**
- * @brief 状态调整线程，根据遥控器、传感器等设计控制逻辑
- * @todo 设计操作手操作逻辑
- * @param (void const *) argument
- * @return
+ * @description: 伺服线程，六个电机和两个舵机
+ * @author: szf
+ * @return {void}
  */
-void StateManagemantTask(void const *argument)
+void ServoTask(void const *argument)
 {
-    uint32_t notificationValue;
-    osDelay(20);
+    uint32_t PreviousWakeTime = osKernelSysTick();
+    vTaskDelay(20);
     for (;;) {
+        // 射环两个电机、推环电机伺服
+        xSemaphoreTake(Fire_ref.xMutex_servo_fire, (TickType_t)10);
+        speedServo(Fire_ref.speed_servo_ref_left, &hDJI[Motor_id_Fire_Left]);
+        speedServo(Fire_ref.speed_servo_ref_right, &hDJI[Motor_id_Fire_Right]);
+        positionServo(Fire_ref.position_servo_ref_push, &hDJI[Motor_id_Push]);
+        xSemaphoreGive(Fire_ref.xMutex_servo_fire);
 
-        // SetServoRefPickupTrajectory(0, 0, 195, &Pickup_ref);
-        // SetPwmCcrMiddleTrajectory(1200,&Pickup_ref);
-        // SetPwmCcr(1950,1200,1300,&Pickup_ref); 
-        // SetServoRefFire
-        
-        // todo 检测到操作手按对应柱子的按钮(可以用信号量？)
-        // vPortEnterCritical();
-        // if(Raw_Data.left == 3)
-        // {
-        SetPwmCcrMiddle(1900,&Pickup_ref);
-        // SetServoRefPickupTrajectory(-60,0,-30,&Pickup_ref);
-        // vTaskDelay(100);
-        // SetServoRefFire(4000,-4000,&Fire_ref);
-        // vTaskDelay(5000);
-        // SetServoRefPush(70,&Fire_ref);
-        // vTaskDelay(1000);
-        // SetServoRefPush(0,&Fire_ref);
-        // }
-        // vPortExitCritical();
+        // Pitch、Arm、Yaw轴电机的伺服
+        xSemaphoreTake(Pickup_ref.xMutex_servo_pickup, (TickType_t)10);
+        positionServo(Pickup_ref.position_servo_ref_pitch, &hDJI[Motor_id_Pitch]);
+        positionServo(Pickup_ref.position_servo_ref_arm, &hDJI[Motor_id_Arm]);
+        positionServo(Pickup_ref.position_servo_ref_yaw, &hDJI[Motor_id_Yaw]);
 
-        vTaskDelay(10);
+        // 爪子三个舵机的伺服
+        __HAL_TIM_SetCompare(&htim_claw_left, TIM_CHANNEL_CLAW_LEFT, Pickup_ref.pwm_ccr_left);
+        __HAL_TIM_SetCompare(&htim_claw_right, TIM_CHANNEL_CLAW_RIGHT, Pickup_ref.pwm_ccr_right);
+        __HAL_TIM_SetCompare(&htim_claw_middle, TIM_CHANNEL_CLAW_MIDDLE, Pickup_ref.pwm_ccr_middle);
+        xSemaphoreGive(Pickup_ref.xMutex_servo_pickup);
+
+        CanTransmit_DJI_1234(&hcan1,
+                             hDJI[0].speedPID.output,
+                             hDJI[1].speedPID.output,
+                             hDJI[2].speedPID.output,
+                             hDJI[3].speedPID.output);
+
+        CanTransmit_DJI_5678(&hcan1,
+                             hDJI[4].speedPID.output,
+                             hDJI[5].speedPID.output,
+                             hDJI[6].speedPID.output,
+                             hDJI[7].speedPID.output);
+
+        osDelayUntil(&PreviousWakeTime, 2);
     }
 }
 
-/**
- * @brief 创建状态调整线程
- *
- * @param (void)
- * @return
- */
-void StateManagemantTaskStart()
+void ServoTestTask(void const *argument)
 {
-
-    osThreadDef(statemanagement, StateManagemantTask, osPriorityNormal, 0, 512);
-    osThreadCreate(osThread(statemanagement), NULL);
-    // xTaskCreate(osThread(statemanagement),NULL);
+    uint32_t PreviousWakeTime = osKernelSysTick();
+    osDelay(20);
+    for (;;) {
+        // speedServo(1000, &hDJI[0]);
+        // speedServo(1000, &hDJI[1]);
+        CanTransmit_DJI_1234(&hcan1,
+                             hDJI[0].speedPID.output,
+                             hDJI[1].speedPID.output,
+                             hDJI[2].speedPID.output,
+                             hDJI[3].speedPID.output);
+        osDelayUntil(&PreviousWakeTime, 2);
+    }
 }
 
-/**
- * @brief 初始化函数
- *
- * @param (void)
- * @bug Motor好像没什么用
- */
-void UpperStateInit()
+void ServoTaskStart()
 {
-    // 互斥锁
-    Upper_state.xMutex_upper       = xSemaphoreCreateMutex();
-    Pickup_ref.xMutex_servo_pickup = xSemaphoreCreateMutex();
-    Fire_ref.xMutex_servo_fire     = xSemaphoreCreateMutex();
+    osThreadDef(servo, ServoTask, osPriorityBelowNormal, 0, 512);
+    osThreadCreate(osThread(servo), NULL);
 
-    // 上层机构整体状态
-    Upper_state.Pickup_state = Ready;
-    Upper_state.Pickup_step  = Overturn;
-    Upper_state.Pickup_ring  = First_Ring;
-    Upper_state.Fire_number  = First_Target;
-
-    // 取环组件的伺服值
-    Pickup_ref.position_servo_ref_arm   = 0;
-    Pickup_ref.position_servo_ref_pitch = 0;
-    Pickup_ref.position_servo_ref_yaw   = 0;
-    Pickup_ref.pwm_ccr_left             = 0;
-    Pickup_ref.pwm_ccr_middle           = CCR_Middle_Closed;
-    Pickup_ref.pwm_ccr_right            = 0;
-
-    // 射环组件的伺服值
-    Fire_ref.position_servo_ref_push = 0;
-    Fire_ref.speed_servo_ref_left    = 0;
-    Fire_ref.speed_servo_ref_right   = 0;
+    // osThreadDef(servo_test, ServoTestTask, osPriorityBelowNormal, 0, 512);
+    // osThreadCreate(osThread(servo_test), NULL);
 }
 
-/**
- * @brief 切换取环状态(	Ready,Pickup,Fire )
- *
- * @param (PICKUP_STATE) target_pick_up_state
- * @param (UPPER_STATE *) current_upper_state
- * @return
- */
-void PickupSwitchState(PICKUP_STATE target_pick_up_state, UPPER_STATE *current_upper_state)
+// 电机初始化
+void MotorInit()
 {
-    xSemaphoreTake(current_upper_state->xMutex_upper, (TickType_t)10);
-    current_upper_state->Pickup_state = target_pick_up_state;
-    xSemaphoreGive(current_upper_state->xMutex_upper);
+    CANFilterInit(&hcan1);
+    hDJI[Motor_id_Fire_Left].motorType  = M3508; // 射环左
+    hDJI[Motor_id_Fire_Right].motorType = M3508; // 射环右
+    hDJI[Motor_id_Push].motorType       = M2006; // 推环
+    hDJI[Motor_id_Pitch].motorType      = M3508; // Pitch
+    hDJI[Motor_id_Arm].motorType        = M3508; // Arm
+    hDJI[Motor_id_Yaw].motorType        = M3508; // Yaw
+
+    DJI_Init(); // 大疆电机初始化
 }
 
-/**
- * @brief 切换取环所在步骤(	Overturn,Clamp,Overturn_back,Release )
- *
- */
-void PickupSwitchStep(PICKUP_STEP target_pick_up_step, UPPER_STATE *current_upper_state)
+// 舵机PWM初始化
+void PWMInit()
 {
-    xSemaphoreTake(current_upper_state->xMutex_upper, (TickType_t)10);
-    current_upper_state->Pickup_step = target_pick_up_step;
-    xSemaphoreGive(current_upper_state->xMutex_upper);
-}
-
-/**
- * @brief 切换取环目标(1 2 3 4 5)
- *
- */
-void PickupSwitchRing(PICKUP_RING target_pick_up_Ring, UPPER_STATE *current_upper_state)
-{
-    xSemaphoreTake(current_upper_state->xMutex_upper, (TickType_t)10);
-    current_upper_state->Pickup_ring = target_pick_up_Ring;
-    xSemaphoreGive(current_upper_state->xMutex_upper);
-}
-
-/**
- * @brief 切换射环的目标
- *
- */
-void FireSwitchNumber(FIRE_NUMBER target_fire_number, UPPER_STATE *current_upper_state)
-{
-    xSemaphoreTake(current_upper_state->xMutex_upper, (TickType_t)10);
-    current_upper_state->Fire_number = target_fire_number;
-    xSemaphoreGive(current_upper_state->xMutex_upper);
+    HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_1);
+    HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);
+    HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_3);
 }
 
 /**

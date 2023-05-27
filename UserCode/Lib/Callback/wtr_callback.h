@@ -1,7 +1,7 @@
 #ifndef USER_USERCALLBACK_H
 #define USER_USERCALLBACK_H
 
-#include "user_main.h"
+#include "upper_start.h"
 #include "cmsis_os.h"
 #include "can.h"
 #include "dma.h"

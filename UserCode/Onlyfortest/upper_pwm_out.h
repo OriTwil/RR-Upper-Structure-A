@@ -10,7 +10,7 @@
 #ifndef PWM_OUT_H
 #define PWM_OUT_H
 
-#include "user_main.h"
+#include "upper_start.h"
 #include "tim.h"
 
 void PWMTask(void const *argument);

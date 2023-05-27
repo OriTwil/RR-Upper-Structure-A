@@ -12,8 +12,8 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "usart.h"
-#include "user_main.h"
-#include "upper_state_management.h"
+#include "upper_start.h"
+#include "upper_commen.h"
 
 // 按键通知值定义
 #define BUTTON1_NOTIFICATION (1 << 0)
@@ -22,3 +22,7 @@
 
 void CommunicateTaskStart();
 void CommunicateInit();
+
+extern mavlink_controller_t ControllerData;
+extern mavlink_channel_t CtrlDataSendChan;
+extern mavlink_chassis_to_upper_t ChassisData;

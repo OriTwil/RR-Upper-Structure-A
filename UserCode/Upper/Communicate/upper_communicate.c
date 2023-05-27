@@ -10,7 +10,11 @@
 
 #include "upper_communicate.h"
 #include "wtr_uart.h"
-// #include "upper_state_management.h"
+#include "upper_commen.h"
+
+
+mavlink_controller_t ControllerData    = {0};
+mavlink_chassis_to_upper_t ChassisData = {0};
 
 /**
  * @description: 通信线程

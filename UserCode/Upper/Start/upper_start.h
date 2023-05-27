@@ -14,21 +14,16 @@
 #include "wtr_dji.h"
 #include "uart_device.h"
 
-#include "user_callback.h"
-#include "user_beep.h"
-#include "user_caculate.h"
+#include "wtr_callback.h"
+#include "wtr_caculate.h"
 #include "user_config.h"
 
 #include "upper_fire.h"
-#include "user_time.h"
+#include "wtr_time.h"
 #include "user_config.h"
 #include "upper_pwm_out.h"
 #include "upper_servo.h"
-#include "upper_state_machine.h"
+#include "upper_commen.h"
 #include "upper_communicate.h"
-
-extern volatile mavlink_controller_t ControllerData;
-extern volatile mavlink_channel_t CtrlDataSendChan;
-extern volatile mavlink_chassis_to_upper_t ChassisData;
 
 #endif

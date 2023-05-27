@@ -12,6 +12,15 @@
 #include "tim.h"
 #include "upper_state_machine.h"
 
+// 上层机构整体状态
+UPPER_STATE Upper_state =
+    {
+        .Pickup_state = Ready,
+        .Pickup_step  = Overturn,
+        .Pickup_ring  = First_Ring,
+        .Fire_number  = First_Target,
+};
+
 int Fire_point_temp = 1; // 接收当前底盘所在点位
 
 void StateMachineTask(void const *argument)
@@ -221,4 +230,51 @@ void StateMachineTaskStart(mavlink_controller_t *controldata)
 
     // osThreadDef(upper_rr_test, StateMachineTestTask, osPriorityBelowNormal, 0, 512);
     // osThreadCreate(osThread(upper_rr_test), NULL);
+}
+
+/**
+ * @brief 切换取环状态(	Ready,Pickup,Fire )
+ *
+ * @param (PICKUP_STATE) target_pick_up_state
+ * @param (UPPER_STATE *) current_upper_state
+ * @return
+ */
+void PickupSwitchState(PICKUP_STATE target_pick_up_state, UPPER_STATE *current_upper_state)
+{
+    xSemaphoreTake(current_upper_state->xMutex_upper, (TickType_t)10);
+    current_upper_state->Pickup_state = target_pick_up_state;
+    xSemaphoreGive(current_upper_state->xMutex_upper);
+}
+
+/**
+ * @brief 切换取环所在步骤(	Overturn,Clamp,Overturn_back,Release )
+ *
+ */
+void PickupSwitchStep(PICKUP_STEP target_pick_up_step, UPPER_STATE *current_upper_state)
+{
+    xSemaphoreTake(current_upper_state->xMutex_upper, (TickType_t)10);
+    current_upper_state->Pickup_step = target_pick_up_step;
+    xSemaphoreGive(current_upper_state->xMutex_upper);
+}
+
+/**
+ * @brief 切换取环目标(1 2 3 4 5)
+ *
+ */
+void PickupSwitchRing(PICKUP_RING target_pick_up_Ring, UPPER_STATE *current_upper_state)
+{
+    xSemaphoreTake(current_upper_state->xMutex_upper, (TickType_t)10);
+    current_upper_state->Pickup_ring = target_pick_up_Ring;
+    xSemaphoreGive(current_upper_state->xMutex_upper);
+}
+
+/**
+ * @brief 切换射环的目标
+ *
+ */
+void FireSwitchNumber(FIRE_NUMBER target_fire_number, UPPER_STATE *current_upper_state)
+{
+    xSemaphoreTake(current_upper_state->xMutex_upper, (TickType_t)10);
+    current_upper_state->Fire_number = target_fire_number;
+    xSemaphoreGive(current_upper_state->xMutex_upper);
 }
