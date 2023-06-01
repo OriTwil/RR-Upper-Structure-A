@@ -11,7 +11,7 @@
 #endif
 
 #undef MAVLINK_THIS_XML_HASH
-#define MAVLINK_THIS_XML_HASH 351182371209564957
+#define MAVLINK_THIS_XML_HASH 8042156609761386349
 
 #ifdef __cplusplus
 extern "C" {
@@ -24,7 +24,7 @@ extern "C" {
 #endif
 
 #ifndef MAVLINK_MESSAGE_CRCS
-#define MAVLINK_MESSAGE_CRCS {{1, 189, 9, 9, 0, 0, 0}, {11, 95, 28, 28, 0, 0, 0}}
+#define MAVLINK_MESSAGE_CRCS {{11, 95, 28, 28, 0, 0, 0}, {209, 219, 25, 25, 0, 0, 0}}
 #endif
 
 #include "../protocol.h"
@@ -47,18 +47,18 @@ extern "C" {
 #endif
 
 // MESSAGE DEFINITIONS
-#include "./mavlink_msg_controller.h"
 #include "./mavlink_msg_chassis_to_upper.h"
+#include "./mavlink_msg_joystick_air.h"
 
 // base include
 
 
 #undef MAVLINK_THIS_XML_HASH
-#define MAVLINK_THIS_XML_HASH 351182371209564957
+#define MAVLINK_THIS_XML_HASH 8042156609761386349
 
 #if MAVLINK_THIS_XML_HASH == MAVLINK_PRIMARY_XML_HASH
-# define MAVLINK_MESSAGE_INFO {MAVLINK_MESSAGE_INFO_Controller, MAVLINK_MESSAGE_INFO_CHASSIS_TO_UPPER}
-# define MAVLINK_MESSAGE_NAMES {{ "CHASSIS_TO_UPPER", 11 }, { "Controller", 1 }}
+# define MAVLINK_MESSAGE_INFO {MAVLINK_MESSAGE_INFO_CHASSIS_TO_UPPER, MAVLINK_MESSAGE_INFO_JOYSTICK_AIR}
+# define MAVLINK_MESSAGE_NAMES {{ "CHASSIS_TO_UPPER", 11 }, { "JOYSTICK_AIR", 209 }}
 # if MAVLINK_COMMAND_24BIT
 #  include "../mavlink_get_info.h"
 # endif

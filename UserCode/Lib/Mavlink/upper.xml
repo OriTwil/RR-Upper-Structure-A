@@ -2,14 +2,6 @@
 <mavlink>
   <version>3</version>
   <messages>
-    <message id="1" name="Controller">
-      <description>WTR 2022 remote controller</description>
-      <field type="int16_t" name="left_x">左摇杆x,0为原点,向右为正</field>
-      <field type="int16_t" name="left_y">左摇杆y,0为原点,向上为正</field>
-      <field type="int16_t" name="right_x">右摇杆x,0为原点,向右为正</field>
-      <field type="int16_t" name="right_y">右摇杆y,0为原点,向上为正</field>
-      <field type="uint8_t" name="buttons">按钮,次序:76543210</field>
-    </message>
     <message id="11" name="CHASSIS_TO_UPPER">
         <description>from chassis mcu</description>
         <field type="float" name="pos_x">x 坐标</field>
@@ -19,6 +11,14 @@
         <field type="float" name="yangle"> 俯仰角</field>
         <field type="float" name="w_z">航向角速度</field>
         <field type="int32_t" name="point">目标点</field>
+    </message>
+    <message id="209" name="JOYSTICK_AIR">
+        <description> Components on remote controller</description>
+        <field type="uint32_t" name="buttons"> Buttons </field>
+        <field type="int16_t[2]" name="knobs"> [0]: left knob. [1]: right knob </field>
+        <field type="float[2]" name="joystickL"> [0]: x pos [1]: y pos </field>
+        <field type="float[2]" name="joystickR"> [0]: x pos [1]: y pos </field>
+        <field type="uint8_t" name="switchs"> bit0: left sw. bit1: right sw </field>
     </message>
   </messages>
 </mavlink>
