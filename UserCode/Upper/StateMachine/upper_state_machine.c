@@ -223,10 +223,10 @@ void StateMachineTestTask(void const *argument)
     }
 }
 
-void StateMachineTaskStart(mavlink_controller_t *controldata)
+void StateMachineTaskStart()
 {
     osThreadDef(StateMachine, StateMachineTask, osPriorityNormal, 0, 512);
-    osThreadCreate(osThread(StateMachine), controldata);
+    osThreadCreate(osThread(StateMachine), NULL);
 
     // osThreadDef(upper_rr_test, StateMachineTestTask, osPriorityBelowNormal, 0, 512);
     // osThreadCreate(osThread(upper_rr_test), NULL);

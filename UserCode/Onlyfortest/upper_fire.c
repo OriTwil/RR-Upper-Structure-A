@@ -59,7 +59,7 @@ void FireTestTask(void const *argument)
     }
 }
 
-void FireTaskStart(mavlink_controller_t *controldata)
+void FireTaskStart()
 {
     // osThreadDef(fire, FireTask, osPriorityBelowNormal, 0, 512);
     // osThreadCreate(osThread(fire), controldata);

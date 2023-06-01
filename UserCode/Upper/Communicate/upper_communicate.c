@@ -13,7 +13,6 @@
 #include "upper_commen.h"
 
 
-mavlink_controller_t ControllerData    = {0};
 mavlink_chassis_to_upper_t ChassisData = {0};
 
 /**

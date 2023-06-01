@@ -15,6 +15,6 @@
 
 void PWMTask(void const *argument);
 void PWMTestTask(void const *argument);
-void PWMTaskStart(mavlink_controller_t *controldata);
+void PWMTaskStart();
 
 #endif

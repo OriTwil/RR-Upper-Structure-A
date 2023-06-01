@@ -23,6 +23,5 @@
 void CommunicateTaskStart();
 void CommunicateInit();
 
-extern mavlink_controller_t ControllerData;
 extern mavlink_channel_t CtrlDataSendChan;
 extern mavlink_chassis_to_upper_t ChassisData;

@@ -21,5 +21,5 @@
 
 void FireTask(void const *argument);
 void FireTestTask(void const *argument);
-void FireTaskStart(mavlink_controller_t *controldata);
+void FireTaskStart();
 #endif

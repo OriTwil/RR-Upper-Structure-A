@@ -10,7 +10,7 @@
 #include <math.h>
 #include "upper_commen.h"
 
-void StateMachineTaskStart(mavlink_controller_t *controldata);
+void StateMachineTaskStart();
 
 void PickupSwitchState(PICKUP_STATE target_pick_up_state, UPPER_STATE *current_upper_state);
 

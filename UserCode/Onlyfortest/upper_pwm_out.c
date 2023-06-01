@@ -65,7 +65,7 @@ void PWMTestTask(void const *argument)
     }  
 }
 
-void PWMTaskStart(mavlink_controller_t *controldata)
+void PWMTaskStart()
 {
     // osThreadDef(pwm, PWMTask, osPriorityBelowNormal, 0, 512);
     // osThreadCreate(osThread(pwm), NULL);

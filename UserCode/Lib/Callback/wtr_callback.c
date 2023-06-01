@@ -6,6 +6,7 @@
  */
 
 #include "wtr_callback.h"
+#include "chassis_remote_control.h"
 
 int counter   = 0;
 float w_speed = 0;
@@ -35,18 +36,16 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
  * @param msg 接收到的消息
  * @return
  */
-extern volatile mavlink_controller_t ControllerData;
 void wtrMavlink_MsgRxCpltCallback(mavlink_message_t *msg)
 {
 
     switch (msg->msgid) {
-        case 11:
+        case MAVLINK_MSG_ID_CHASSIS_TO_UPPER:
             // id = 11 的消息对应的解码函数(mavlink_msg_xxx_decode)
             mavlink_msg_chassis_to_upper_decode(msg, &ChassisData); // 底盘主控
             break;
-        case 1:
-            // id = 1 的消息对应的解码函数(mavlink_msg_xxx_decode)
-            mavlink_msg_controller_decode(msg, &ControllerData); // 自己的遥控器
+        case MAVLINK_MSG_ID_JOYSTICK_AIR:
+            mavlink_msg_joystick_air_decode(msg,&msg_joystick_air);
             break;
         // ......
         default:
