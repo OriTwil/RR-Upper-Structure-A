@@ -8,6 +8,8 @@ void UpperStateInit();
 
 void StateManagemantTaskStart();
 
+void JoystickControl();
+
 extern Button button;
 
 #endif

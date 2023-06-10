@@ -6,7 +6,7 @@
  */
 
 #include "wtr_callback.h"
-#include "chassis_remote_control.h"
+#include "remote_control.h"
 
 int counter   = 0;
 float w_speed = 0;
@@ -16,12 +16,11 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
     // MAVLINK消息
     if (huart->Instance == USART_MAVLINK) {
         wtrMavlink_UARTRxCpltCallback(huart, MAVLINK_COMM_0); // 进入mavlink回调
-        UD_RxCpltCallback(huart);
+
     }
     // DJI遥控器
     else if (huart->Instance == USART_DJI_REMOTE_CONTROLLER) {
         AS69_Decode(); // AS69解码
-        UD_RxCpltCallback(huart);
     }
 }
 
@@ -45,7 +44,7 @@ void wtrMavlink_MsgRxCpltCallback(mavlink_message_t *msg)
             mavlink_msg_chassis_to_upper_decode(msg, &ChassisData); // 底盘主控
             break;
         case MAVLINK_MSG_ID_JOYSTICK_AIR:
-            mavlink_msg_joystick_air_decode(msg,&msg_joystick_air);
+            mavlink_msg_joystick_air_decode(msg, &msg_joystick_air);
             break;
         // ......
         default:

@@ -9,10 +9,11 @@
  */
 #include "upper_operate_app.h"
 #include "user_config.h"
-#include "semphr.h"
+#include <semphr.h>
 #include "upper_communicate.h"
 #include "math.h"
 #include "upper_commen.h"
+#include "remote_control.h"
 
 // 暂时没用
 Button button =
@@ -29,28 +30,11 @@ Button button =
  */
 void StateManagemantTask(void const *argument)
 {
-    osDelay(20);
+    vTaskDelay(20);
+    PickupSwitchState(Ready, &Upper_state);
+    vTaskDelay(1000);
     for (;;) {
-
-        // SetServoRefPickupTrajectory(0, 0, 195, &Pickup_ref);
-        // SetPwmCcrMiddleTrajectory(1200,&Pickup_ref);
-        // SetPwmCcr(1950,1200,1300,&Pickup_ref);
-        // SetServoRefFire
-
-        // todo 检测到操作手按对应柱子的按钮(可以用信号量？)
-        // vPortEnterCritical();
-        // if(Raw_Data.left == 3)
-        // {
-        SetPwmCcrMiddle(1900, &Pickup_ref);
-        // SetServoRefPickupTrajectory(-60,0,-30,&Pickup_ref);
-        // vTaskDelay(100);
-        // SetServoRefFire(4000,-4000,&Fire_ref);
-        // vTaskDelay(5000);
-        // SetServoRefPush(70,&Fire_ref);
-        // vTaskDelay(1000);
-        // SetServoRefPush(0,&Fire_ref);
-        // }
-        // vPortExitCritical();
+        JoystickControl();
 
         vTaskDelay(10);
     }
@@ -79,9 +63,9 @@ void StateManagemantTaskStart()
 void UpperStateInit()
 {
     // 互斥锁
-    Upper_state.xMutex_upper       = xSemaphoreCreateMutex();
-    Pickup_ref.xMutex_servo_pickup = xSemaphoreCreateMutex();
-    Fire_ref.xMutex_servo_fire     = xSemaphoreCreateMutex();
+    Upper_state.xMutex_upper       = xSemaphoreCreateRecursiveMutex();
+    Pickup_ref.xMutex_servo_pickup = xSemaphoreCreateRecursiveMutex();
+    Fire_ref.xMutex_servo_fire     = xSemaphoreCreateRecursiveMutex();
 
     // 上层机构整体状态
     Upper_state.Pickup_state = Ready;
@@ -93,12 +77,51 @@ void UpperStateInit()
     Pickup_ref.position_servo_ref_arm   = 0;
     Pickup_ref.position_servo_ref_pitch = 0;
     Pickup_ref.position_servo_ref_yaw   = 0;
-    Pickup_ref.pwm_ccr_left             = 0;
-    Pickup_ref.pwm_ccr_middle           = CCR_Middle_Closed;
-    Pickup_ref.pwm_ccr_right            = 0;
+    Pickup_ref.pwm_ccr_left             = CCR_Left_Ready;
+    Pickup_ref.pwm_ccr_middle           = CCR_Middle_Ready;
+    Pickup_ref.pwm_ccr_right            = CCR_Right_Ready;
 
     // 射环组件的伺服值
     Fire_ref.position_servo_ref_push = 0;
     Fire_ref.speed_servo_ref_left    = 0;
     Fire_ref.speed_servo_ref_right   = 0;
+}
+
+void JoystickControl()
+{
+    if (ReadJoystickButtons(msg_joystick_air, Btn_LeftCrossLeft)) {
+        PickupSwitchRing(Fourth_Ring, &Upper_state);
+        FireSwitchNumber(First_Target, &Upper_state);
+        PickupSwitchState(Pickup, &Upper_state);
+    }
+    if (ReadJoystickButtons(msg_joystick_air, Btn_LeftCrossMid)) {
+        PickupSwitchRing(Fifth_Ring, &Upper_state);
+        FireSwitchNumber(First_Target, &Upper_state);
+        PickupSwitchState(Pickup, &Upper_state);
+    }
+    if (ReadJoystickButtons(msg_joystick_air, Btn_LeftCrossRight)) {
+        PickupSwitchRing(Sixth_Ring, &Upper_state);
+        FireSwitchNumber(First_Target, &Upper_state);
+        PickupSwitchState(Pickup, &Upper_state);
+    }
+    if (ReadJoystickButtons(msg_joystick_air, Btn_Btn0)) {
+        PickupSwitchRing(Seventh_Ring, &Upper_state);
+        FireSwitchNumber(First_Target, &Upper_state);
+        PickupSwitchState(Pickup, &Upper_state);
+    }
+    if (ReadJoystickButtons(msg_joystick_air, Btn_Btn1)) {
+        PickupSwitchRing(Eighth_Ring, &Upper_state);
+        FireSwitchNumber(First_Target, &Upper_state);
+        PickupSwitchState(Pickup, &Upper_state);
+    }
+    if (ReadJoystickButtons(msg_joystick_air, Btn_Btn2)) {
+        PickupSwitchRing(Ninth_Ring, &Upper_state);
+        FireSwitchNumber(First_Target, &Upper_state);
+        PickupSwitchState(Pickup, &Upper_state);
+    }
+    if (ReadJoystickButtons(msg_joystick_air, Btn_Btn3)) {
+        PickupSwitchRing(Tenth_Ring, &Upper_state);
+        FireSwitchNumber(First_Target, &Upper_state);
+        PickupSwitchState(Pickup, &Upper_state);
+    }
 }

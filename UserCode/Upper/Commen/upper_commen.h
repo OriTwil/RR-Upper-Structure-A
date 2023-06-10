@@ -21,8 +21,14 @@ typedef enum {
     Second_Ring,
     Third_Ring,
     Fourth_Ring,
-    Fifth_Ring
+    Fifth_Ring,
+    Sixth_Ring,
+    Seventh_Ring,
+    Eighth_Ring,
+    Ninth_Ring,
+    Tenth_Ring
 } PICKUP_RING;
+
 
 // 目标柱子
 typedef enum {

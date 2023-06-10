@@ -54,76 +54,110 @@
 #define Ready_Arm   0
 
 // 取环(5种)过程
-#define Overturn_Pitch_1    156
-#define Overturn_Pitch_2    156
-#define Overturn_Pitch_3    156
-#define Overturn_Pitch_4    156
-#define Overturn_Pitch_5    156
+#define Overturn_Pitch_1    78
+#define Overturn_Pitch_2    84
+#define Overturn_Pitch_3    92
+#define Overturn_Pitch_4    104
+#define Overturn_Pitch_5    110
+#define Overturn_Pitch_6    118
+#define Overturn_Pitch_7    127
+#define Overturn_Pitch_8    136
+#define Overturn_Pitch_9    145
+#define Overturn_Pitch_10   155
 
-#define Overture_Arm_1      -210
-#define Overture_Arm_2      -210
-#define Overture_Arm_3      -210
-#define Overture_Arm_4      -210
-#define Overture_Arm_5      -210
+#define Overture_Arm_1      -268
+#define Overture_Arm_2      -268
+#define Overture_Arm_3      -266
+#define Overture_Arm_4      -266
+#define Overture_Arm_5      -263
+#define Overture_Arm_6      -258
+#define Overture_Arm_7      -255
+#define Overture_Arm_8      -251
+#define Overture_Arm_9      -248
+#define Overture_Arm_10     -245
 
 #define Overture_Pitch_back 90
 #define Overturn_Arm_back   0
+#define Pickup_Yaw          0
+
+// 过度
+#define Overturn_Pitch_Transition 30
+#define Overturn_Yaw_Transition   720
+#define Overturn_Arm_Transition   -250
+#define CCR_Left_Transition       1200
+#define CCR_Right_Transition      1950
 
 // 三个舵机
-#define CCR_Middle_Closed  1700 // 夹紧
-#define CCR_Middle_Opened  2300 // 张开
+#define CCR_Middle_Ready    1500
+#define CCR_Middle_Closed   1750 //? 夹紧
+#define CCR_Middle_Opened   2350 // 张开
 
-#define CCR_Left_Ready     0
-#define CCR_Left_Pickup_1  0
-#define CCR_Left_Pickup_2  0
-#define CCR_Left_Pickup_3  0
-#define CCR_Left_Pickup_4  0
-#define CCR_Left_Pickup_5  0
+#define CCR_Left_Ready      1800
+#define CCR_Left_Pickup_1   1400
+#define CCR_Left_Pickup_2   1400
+#define CCR_Left_Pickup_3   1400
+#define CCR_Left_Pickup_4   1400
+#define CCR_Left_Pickup_5   1400
+#define CCR_Left_Pickup_6   1400
+#define CCR_Left_Pickup_7   1400
+#define CCR_Left_Pickup_8   1400
+#define CCR_Left_Pickup_9   1400
+#define CCR_Left_Pickup_10  1400
 
-#define CCR_Right_Ready    0
-#define CCR_Right_Pickup_1 0
-#define CCR_Right_Pickup_2 0
-#define CCR_Right_Pickup_3 0
-#define CCR_Right_Pickup_4 0
-#define CCR_Right_Pickup_5 0
+#define CCR_Right_Ready     1380
+#define CCR_Right_Pickup_1  1750
+#define CCR_Right_Pickup_2  1750
+#define CCR_Right_Pickup_3  1750
+#define CCR_Right_Pickup_4  1750
+#define CCR_Right_Pickup_5  1750
+#define CCR_Right_Pickup_6  1750
+#define CCR_Right_Pickup_7  1750
+#define CCR_Right_Pickup_8  1750
+#define CCR_Right_Pickup_9  1750
+#define CCR_Right_Pickup_10 1750
 
 // 射环
 #define Fire_Ready       0
-#define Fire_1_1         0 // 第一个点打第一个柱子
+#define Fire_1_1         1500 // 第一个点打第一个柱子
 #define Fire_1_2         0 // 第一个点打第二个柱子
 #define Fire_2_3         0 // 第二个点打第三个柱子
 #define Fire_2_4         0 // 第二个点打第四个柱子
 
-#define Fire_Pitch_1_1   0
+#define Fire_Pitch_1_1   140
 #define Fire_Pitch_1_2   0
 #define Fire_Pitch_2_3   0
-#define Fire_Pitch_2_4   0 //? 俯仰是否要定死
+#define Fire_Pitch_2_4   0
 
-#define Fire_Yaw_1_1     0
-#define Fire_Yaw_1_2     0
-#define Fire_Yaw_2_3     0
-#define Fire_Yaw_2_4     0
+#define Fire_Yaw_1_1     720
+#define Fire_Yaw_1_2     720
+#define Fire_Yaw_2_3     720
+#define Fire_Yaw_2_4     720
 
-#define Fire_Arm         -30
-#define Fire_Push_Extend 73
+#define Fire_Arm         -40
+#define Fire_Push_Extend 60
 #define Fire_Push_Back   0
 
-// 电机的最大角速度 角加速度
-#define MaxAngularVelocity_Pitch 10
-#define MaxAngularVelocity_Arm   10
-#define MaxAngularVelocity_Yaw   10
+#define Fire_Wheel_Ratio 0.875
 
-#define MotorAngularAcceleration 10
+// 电机的最大角速度 角加速度
+#define MaxAngularVelocity_Pitch 250
+#define MaxAngularVelocity_Arm   400
+#define MaxAngularVelocity_Yaw   2500
+#define MaxAngularVelocity_CCR 300
+
+#define MotorAngularAcceleration 200
 /**
  * @brief id
  *
  */
-#define Motor_id_Fire_Left  0
-#define Motor_id_Fire_Right 1
-#define Motor_id_Push       2
-#define Motor_id_Pitch      4
-#define Motor_id_Arm        5
-#define Motor_id_Yaw        7
+#define Motor_id_Fire_Left_Small  7
+#define Motor_id_Fire_Left_Large  1
+#define Motor_id_Fire_Right_Large 6
+#define Motor_id_Fire_Right_Small 3
+#define Motor_id_Push             2
+#define Motor_id_Pitch            4
+#define Motor_id_Arm              5
+#define Motor_id_Yaw              0
 
 /**
  * @brief 端口
