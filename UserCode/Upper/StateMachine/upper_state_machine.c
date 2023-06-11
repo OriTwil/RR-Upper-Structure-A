@@ -40,6 +40,10 @@ void StateMachineTask(void const *argument)
                 SetServoRefFire(Fire_Ready, -Fire_Ready, &Fire_ref);
                 SetAllPickupTrajectory(Hug_Pitch, Hug_Yaw, Hug_Arm, Hug_CCR_Left, Hug_CCR_Right, Hug_CCR_Middle, &Pickup_ref);
                 break;
+            case HugBack:
+                SetAllHugBackTrajectory(Ready_Pitch, Ready_Yaw, Ready_Arm, CCR_Left_Ready, CCR_Right_Ready, CCR_Middle_Ready, &Pickup_ref);
+                PickupSwitchState(Ready,&Upper_state);
+                break;
             case Pickup:
                 // 开始取环
                 SetServoRefPush(Fire_Push_Back, &Fire_ref);

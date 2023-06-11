@@ -252,8 +252,7 @@ void CcrUniform(int initialCcr, int maxCcrVelocity, int targetCcr, float current
 
     if (currentTime < totalTime) {
         *currentCcr = (int)(initialCcr + sign * maxCcrVelocity * currentTime);
-    }
-    else{
+    } else {
         *currentCcr = (int)targetCcr;
     }
 }
@@ -354,6 +353,65 @@ void SetAllPickupTrajectory(float ref_pitch,
         CcrUniform(initialCCRLeft, MaxAngularVelocity_CCR, ref_ccr_left, timeSec, &(current_pickup_ref->pwm_ccr_left));
         CcrUniform(initialCCRRight, MaxAngularVelocity_CCR, ref_ccr_right, timeSec, &(current_pickup_ref->pwm_ccr_right));
         CcrUniform(initialCCRMiddle, MaxAngularVelocity_CCR, ref_ccr_middle, timeSec, &(current_pickup_ref->pwm_ccr_middle));
+        xSemaphoreGiveRecursive(current_pickup_ref->xMutex_servo_pickup);
+
+        // 判断是否到达目标位置
+        differencePitch     = fabs(current_pickup_ref->position_servo_ref_pitch - ref_pitch);
+        differenceYaw       = fabs(current_pickup_ref->position_servo_ref_yaw - ref_yaw);
+        differenceArm       = fabs(current_pickup_ref->position_servo_ref_arm - ref_arm);
+        differenceCcrLeft   = fabs(current_pickup_ref->pwm_ccr_left - ref_ccr_left);
+        differenceCcrRight  = fabs(current_pickup_ref->pwm_ccr_right - ref_ccr_right);
+        differenceCcrMiddle = fabs(current_pickup_ref->pwm_ccr_middle - ref_ccr_middle);
+        if (differencePitch < 0.1 && differenceArm < 0.1 && differenceYaw < 0.1 && differenceCcrLeft < 2 && differenceCcrRight < 2 && differenceCcrMiddle < 2) {
+            isArrive = true;
+        }
+        vTaskDelay(2);
+    } while (!isArrive);
+}
+
+// 保证抱环收回时，不会碰到环
+void SetAllHugBackTrajectory(float ref_pitch,
+                             float ref_yaw,
+                             float ref_arm,
+                             int ref_ccr_left,
+                             int ref_ccr_right,
+                             int ref_ccr_middle,
+                             SERVO_REF_PICKUP *current_pickup_ref)
+{
+
+    float initialAnglePitch = current_pickup_ref->position_servo_ref_pitch;
+    float initialAngleArm   = current_pickup_ref->position_servo_ref_arm;
+    float initialAngleYaw   = current_pickup_ref->position_servo_ref_yaw; // 电机初始位置
+    int initialCCRLeft      = current_pickup_ref->pwm_ccr_left;
+    int initialCCRRight     = current_pickup_ref->pwm_ccr_right;
+    int initialCCRMiddle    = current_pickup_ref->pwm_ccr_middle;
+
+    bool isArrive           = false; // 标志是否达到目标位置
+    double differencePitch  = 0;
+    double differenceArm    = 0;
+    double differenceYaw    = 0; // 和目标之间的角度差
+    int differenceCcrLeft   = 0;
+    int differenceCcrRight  = 0;
+    int differenceCcrMiddle = 0;
+
+    TickType_t startTime = xTaskGetTickCount(); // 初始时间
+
+    do {
+        TickType_t endTime     = xTaskGetTickCount();
+        TickType_t elapsedTime = endTime - startTime;
+        float timeSec          = (elapsedTime / (1000.0)); // 获取当前时间/s
+
+        xSemaphoreTakeRecursive(current_pickup_ref->xMutex_servo_pickup, (TickType_t)10);
+        // 速度规划
+        VelocityPlanning(initialAnglePitch, MaxAngularVelocity_Pitch, MotorAngularAcceleration_Pitch, ref_pitch, timeSec, &(current_pickup_ref->position_servo_ref_pitch));
+        VelocityPlanning(initialAngleYaw, MaxAngularVelocity_Yaw, MotorAngularAcceleration_Yaw, ref_yaw, timeSec, &(current_pickup_ref->position_servo_ref_yaw));
+        VelocityPlanning(initialAngleArm, MaxAngularVelocity_Arm, MotorAngularAcceleration_Arm, ref_arm, timeSec, &(current_pickup_ref->position_servo_ref_arm));
+
+        if (timeSec > 0.4) {
+            CcrUniform(initialCCRLeft, MaxAngularVelocity_CCR, ref_ccr_left, (timeSec-0.4), &(current_pickup_ref->pwm_ccr_left));
+            CcrUniform(initialCCRRight, MaxAngularVelocity_CCR, ref_ccr_right, (timeSec-0.4), &(current_pickup_ref->pwm_ccr_right));
+            CcrUniform(initialCCRMiddle, MaxAngularVelocity_CCR, ref_ccr_middle, (timeSec-0.4), &(current_pickup_ref->pwm_ccr_middle));
+        }
         xSemaphoreGiveRecursive(current_pickup_ref->xMutex_servo_pickup);
 
         // 判断是否到达目标位置

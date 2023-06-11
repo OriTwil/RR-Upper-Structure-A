@@ -45,6 +45,15 @@ void SetAllPickupTrajectory(float ref_pitch,
                             int ref_ccr_right,
                             int ref_ccr_middle,
                             SERVO_REF_PICKUP *current_pickup_ref);
+
+void SetAllHugBackTrajectory(float ref_pitch,
+                             float ref_yaw,
+                             float ref_arm,
+                             int ref_ccr_left,
+                             int ref_ccr_right,
+                             int ref_ccr_middle,
+                             SERVO_REF_PICKUP *current_pickup_ref);
+                             
 extern SERVO_REF_PICKUP Pickup_ref;
 extern SERVO_REF_FIRE Fire_ref;
 

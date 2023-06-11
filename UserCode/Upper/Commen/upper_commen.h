@@ -12,6 +12,7 @@ typedef enum {
 typedef enum {
     Ready,
     Hug,
+    HugBack,
     Pickup,
     Fire
 } PICKUP_STATE;

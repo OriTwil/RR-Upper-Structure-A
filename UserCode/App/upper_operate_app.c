@@ -93,10 +93,7 @@ void JoystickControl()
         PickupSwitchState(Hug, &Upper_state);
     } else {
         if (ReadJoystickButtons(msg_joystick_air, Btn_RightCrossRight)) {
-            PickupSwitchState(10, &Upper_state);
-            SetServoRefPickupTrajectory(100, 0, -100, &Pickup_ref);
-            vTaskDelay(2);
-            PickupSwitchState(Ready, &Upper_state);
+            PickupSwitchState(HugBack, &Upper_state);
         }
         if (ReadJoystickButtons(msg_joystick_air, Btn_LeftCrossUp)) {
             PickupSwitchRing(Fourth_Ring, &Upper_state);
