@@ -89,39 +89,49 @@ void UpperStateInit()
 
 void JoystickControl()
 {
-    if (ReadJoystickButtons(msg_joystick_air, Btn_LeftCrossLeft)) {
-        PickupSwitchRing(Fourth_Ring, &Upper_state);
-        FireSwitchNumber(First_Target, &Upper_state);
-        PickupSwitchState(Pickup, &Upper_state);
-    }
-    if (ReadJoystickButtons(msg_joystick_air, Btn_LeftCrossMid)) {
-        PickupSwitchRing(Fifth_Ring, &Upper_state);
-        FireSwitchNumber(First_Target, &Upper_state);
-        PickupSwitchState(Pickup, &Upper_state);
-    }
-    if (ReadJoystickButtons(msg_joystick_air, Btn_LeftCrossRight)) {
-        PickupSwitchRing(Sixth_Ring, &Upper_state);
-        FireSwitchNumber(First_Target, &Upper_state);
-        PickupSwitchState(Pickup, &Upper_state);
-    }
-    if (ReadJoystickButtons(msg_joystick_air, Btn_Btn0)) {
-        PickupSwitchRing(Seventh_Ring, &Upper_state);
-        FireSwitchNumber(First_Target, &Upper_state);
-        PickupSwitchState(Pickup, &Upper_state);
-    }
-    if (ReadJoystickButtons(msg_joystick_air, Btn_Btn1)) {
-        PickupSwitchRing(Eighth_Ring, &Upper_state);
-        FireSwitchNumber(First_Target, &Upper_state);
-        PickupSwitchState(Pickup, &Upper_state);
-    }
-    if (ReadJoystickButtons(msg_joystick_air, Btn_Btn2)) {
-        PickupSwitchRing(Ninth_Ring, &Upper_state);
-        FireSwitchNumber(First_Target, &Upper_state);
-        PickupSwitchState(Pickup, &Upper_state);
-    }
-    if (ReadJoystickButtons(msg_joystick_air, Btn_Btn3)) {
-        PickupSwitchRing(Tenth_Ring, &Upper_state);
-        FireSwitchNumber(First_Target, &Upper_state);
-        PickupSwitchState(Pickup, &Upper_state);
+    if (ReadJoystickSwitchs(msg_joystick_air, Right_switch)) {
+        PickupSwitchState(Hug, &Upper_state);
+    } else {
+        if (ReadJoystickButtons(msg_joystick_air, Btn_RightCrossRight)) {
+            PickupSwitchState(10, &Upper_state);
+            SetServoRefPickupTrajectory(100, 0, -100, &Pickup_ref);
+            vTaskDelay(2);
+            PickupSwitchState(Ready, &Upper_state);
+        }
+        if (ReadJoystickButtons(msg_joystick_air, Btn_LeftCrossUp)) {
+            PickupSwitchRing(Fourth_Ring, &Upper_state);
+            FireSwitchNumber(First_Target, &Upper_state);
+            PickupSwitchState(Pickup, &Upper_state);
+        }
+        if (ReadJoystickButtons(msg_joystick_air, Btn_LeftCrossLeft)) {
+            PickupSwitchRing(Fifth_Ring, &Upper_state);
+            FireSwitchNumber(First_Target, &Upper_state);
+            PickupSwitchState(Pickup, &Upper_state);
+        }
+        if (ReadJoystickButtons(msg_joystick_air, Btn_LeftCrossMid)) {
+            PickupSwitchRing(Sixth_Ring, &Upper_state);
+            FireSwitchNumber(First_Target, &Upper_state);
+            PickupSwitchState(Pickup, &Upper_state);
+        }
+        if (ReadJoystickButtons(msg_joystick_air, Btn_LeftCrossRight)) {
+            PickupSwitchRing(Seventh_Ring, &Upper_state);
+            FireSwitchNumber(First_Target, &Upper_state);
+            PickupSwitchState(Pickup, &Upper_state);
+        }
+        if (ReadJoystickButtons(msg_joystick_air, Btn_Btn0)) {
+            PickupSwitchRing(Eighth_Ring, &Upper_state);
+            FireSwitchNumber(First_Target, &Upper_state);
+            PickupSwitchState(Pickup, &Upper_state);
+        }
+        if (ReadJoystickButtons(msg_joystick_air, Btn_Btn1)) {
+            PickupSwitchRing(Ninth_Ring, &Upper_state);
+            FireSwitchNumber(First_Target, &Upper_state);
+            PickupSwitchState(Pickup, &Upper_state);
+        }
+        if (ReadJoystickButtons(msg_joystick_air, Btn_LeftCrossDown)) {
+            PickupSwitchRing(Tenth_Ring, &Upper_state);
+            FireSwitchNumber(First_Target, &Upper_state);
+            PickupSwitchState(Pickup, &Upper_state);
+        }
     }
 }

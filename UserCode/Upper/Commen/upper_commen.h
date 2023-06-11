@@ -11,6 +11,7 @@ typedef enum {
 // 取环状态
 typedef enum {
     Ready,
+    Hug,
     Pickup,
     Fire
 } PICKUP_STATE;

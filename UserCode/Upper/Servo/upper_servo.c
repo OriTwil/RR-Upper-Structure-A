@@ -286,9 +286,9 @@ void SetServoRefPickupTrajectory(float ref_pitch, float ref_yaw, float ref_arm, 
 
         xSemaphoreTakeRecursive(current_pickup_ref->xMutex_servo_pickup, (TickType_t)10);
         // 速度规划
-        VelocityPlanning(initialAnglePitch, MaxAngularVelocity_Pitch, MotorAngularAcceleration, ref_pitch, timeSec, &(current_pickup_ref->position_servo_ref_pitch));
-        VelocityPlanning(initialAngleYaw, MaxAngularVelocity_Yaw, MotorAngularAcceleration, ref_yaw, timeSec, &(current_pickup_ref->position_servo_ref_yaw));
-        VelocityPlanning(initialAngleArm, MaxAngularVelocity_Arm, MotorAngularAcceleration, ref_arm, timeSec, &(current_pickup_ref->position_servo_ref_arm));
+        VelocityPlanning(initialAnglePitch, MaxAngularVelocity_Pitch, MotorAngularAcceleration_Pitch, ref_pitch, timeSec, &(current_pickup_ref->position_servo_ref_pitch));
+        VelocityPlanning(initialAngleYaw, MaxAngularVelocity_Yaw, MotorAngularAcceleration_Yaw, ref_yaw, timeSec, &(current_pickup_ref->position_servo_ref_yaw));
+        VelocityPlanning(initialAngleArm, MaxAngularVelocity_Arm, MotorAngularAcceleration_Arm, ref_arm, timeSec, &(current_pickup_ref->position_servo_ref_arm));
 
         xSemaphoreGiveRecursive(current_pickup_ref->xMutex_servo_pickup);
 
@@ -347,9 +347,9 @@ void SetAllPickupTrajectory(float ref_pitch,
 
         xSemaphoreTakeRecursive(current_pickup_ref->xMutex_servo_pickup, (TickType_t)10);
         // 速度规划
-        VelocityPlanning(initialAnglePitch, MaxAngularVelocity_Pitch, MotorAngularAcceleration, ref_pitch, timeSec, &(current_pickup_ref->position_servo_ref_pitch));
-        VelocityPlanning(initialAngleYaw, MaxAngularVelocity_Yaw, MotorAngularAcceleration, ref_yaw, timeSec, &(current_pickup_ref->position_servo_ref_yaw));
-        VelocityPlanning(initialAngleArm, MaxAngularVelocity_Arm, MotorAngularAcceleration, ref_arm, timeSec, &(current_pickup_ref->position_servo_ref_arm));
+        VelocityPlanning(initialAnglePitch, MaxAngularVelocity_Pitch, MotorAngularAcceleration_Pitch, ref_pitch, timeSec, &(current_pickup_ref->position_servo_ref_pitch));
+        VelocityPlanning(initialAngleYaw, MaxAngularVelocity_Yaw, MotorAngularAcceleration_Yaw, ref_yaw, timeSec, &(current_pickup_ref->position_servo_ref_yaw));
+        VelocityPlanning(initialAngleArm, MaxAngularVelocity_Arm, MotorAngularAcceleration_Arm, ref_arm, timeSec, &(current_pickup_ref->position_servo_ref_arm));
 
         CcrUniform(initialCCRLeft, MaxAngularVelocity_CCR, ref_ccr_left, timeSec, &(current_pickup_ref->pwm_ccr_left));
         CcrUniform(initialCCRRight, MaxAngularVelocity_CCR, ref_ccr_right, timeSec, &(current_pickup_ref->pwm_ccr_right));

@@ -35,6 +35,11 @@ void StateMachineTask(void const *argument)
                 SetPwmCcr(CCR_Left_Ready, CCR_Right_Ready, CCR_Middle_Ready, &Pickup_ref);
                 SetServoRefPickupTrajectory(Ready_Pitch, Ready_Yaw, Ready_Arm, &Pickup_ref);
                 break;
+            case Hug:
+                SetServoRefPush(Fire_Push_Back, &Fire_ref);
+                SetServoRefFire(Fire_Ready, -Fire_Ready, &Fire_ref);
+                SetAllPickupTrajectory(Hug_Pitch, Hug_Yaw, Hug_Arm, Hug_CCR_Left, Hug_CCR_Right, Hug_CCR_Middle, &Pickup_ref);
+                break;
             case Pickup:
                 // 开始取环
                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
@@ -44,8 +49,8 @@ void StateMachineTask(void const *argument)
                         switch (Upper_state.Pickup_ring) {
                             case First_Ring: // 最上层环
                                 // SetPwmCcr(CCR_Left_Pickup_1, CCR_Right_Pickup_1, CCR_Middle_Opened, &Pickup_ref);
-                                SetAllPickupTrajectory(Overturn_Pitch_1, Pickup_Yaw, Overture_Arm_1, CCR_Left_Pickup_1, CCR_Right_Pickup_1, CCR_Middle_Opened, &Pickup_ref);
                                 // SetAllPickupTrajectory(Overturn_Pitch_1,Pickup_Yaw,Overture_Arm_1,)
+                                SetAllPickupTrajectory(Overturn_Pitch_1, Pickup_Yaw, Overture_Arm_1, CCR_Left_Pickup_1, CCR_Right_Pickup_1, CCR_Middle_Opened, &Pickup_ref);
                                 vTaskDelay(2);
                                 PickupSwitchStep(Clamp, &Upper_state);
 
@@ -66,63 +71,57 @@ void StateMachineTask(void const *argument)
                             case Fourth_Ring: // 第四层环
                                 // SetServoRefPickupTrajectory(60, Pickup_Yaw, -150, &Pickup_ref);
                                 // SetPwmCcr(CCR_Left_Pickup_4, CCR_Right_Pickup_4, CCR_Middle_Opened, &Pickup_ref);
-                                SetAllPickupTrajectory(Overturn_Pitch_4, Pickup_Yaw, Overture_Arm_4, CCR_Left_Pickup_4, CCR_Right_Pickup_4, CCR_Middle_Opened, &Pickup_ref);
                                 // SetServoRefPickupTrajectory(Overturn_Pitch_4, Pickup_Yaw, Overture_Arm_4, &Pickup_ref);
+                                SetAllPickupTrajectory(Overturn_Pitch_4, Pickup_Yaw, Overture_Arm_4, CCR_Left_Pickup_4, CCR_Right_Pickup_4, CCR_Middle_Opened, &Pickup_ref);
                                 vTaskDelay(2);
                                 PickupSwitchStep(Clamp, &Upper_state);
 
                                 break;
                             case Fifth_Ring:
-                                // SetAllPickupTrajectory(Overturn_Pitch_5, Pickup_Yaw, Overture_Arm_5, CCR_Left_Pickup_5, CCR_Right_Pickup_5, CCR_Middle_Opened, &Pickup_ref);
-                                SetServoRefPickupTrajectory(60, Pickup_Yaw, -150, &Pickup_ref);
-                                SetPwmCcr(CCR_Left_Pickup_5, CCR_Right_Pickup_5, CCR_Middle_Opened, &Pickup_ref);
-                                // SetAllPickupTrajectory(Overturn_Pitch_4, Pickup_Yaw, Overture_Arm_4, CCR_Left_Pickup_4, CCR_Right_Pickup_4, CCR_Middle_Opened, &Pickup_ref);
-                                SetServoRefPickupTrajectory(Overturn_Pitch_5, Pickup_Yaw, Overture_Arm_5, &Pickup_ref);
+                                // SetServoRefPickupTrajectory(60, Pickup_Yaw, -150, &Pickup_ref);
+                                // SetPwmCcr(CCR_Left_Pickup_5, CCR_Right_Pickup_5, CCR_Middle_Opened, &Pickup_ref);
+                                // SetServoRefPickupTrajectory(Overturn_Pitch_5, Pickup_Yaw, Overture_Arm_5, &Pickup_ref);
+                                SetAllPickupTrajectory(Overturn_Pitch_5, Pickup_Yaw, Overture_Arm_5, CCR_Left_Pickup_5, CCR_Right_Pickup_5, CCR_Middle_Opened, &Pickup_ref);
                                 vTaskDelay(2);
                                 PickupSwitchStep(Clamp, &Upper_state);
                                 break;
                             case Sixth_Ring:
-                                SetServoRefPickupTrajectory(60, Pickup_Yaw, -150, &Pickup_ref);
-                                SetPwmCcr(CCR_Left_Pickup_6, CCR_Right_Pickup_6, CCR_Middle_Opened, &Pickup_ref);
-                                // SetAllPickupTrajectory(Overturn_Pitch_4, Pickup_Yaw, Overture_Arm_4, CCR_Left_Pickup_4, CCR_Right_Pickup_4, CCR_Middle_Opened, &Pickup_ref);
-                                SetServoRefPickupTrajectory(Overturn_Pitch_6, Pickup_Yaw, Overture_Arm_6, &Pickup_ref);
-                                // SetAllPickupTrajectory(Overturn_Pitch_6, Pickup_Yaw, Overture_Arm_6, CCR_Left_Pickup_6, CCR_Right_Pickup_6, CCR_Middle_Opened, &Pickup_ref);
+                                // SetServoRefPickupTrajectory(60, Pickup_Yaw, -150, &Pickup_ref);
+                                // SetPwmCcr(CCR_Left_Pickup_6, CCR_Right_Pickup_6, CCR_Middle_Opened, &Pickup_ref);
+                                // SetServoRefPickupTrajectory(Overturn_Pitch_6, Pickup_Yaw, Overture_Arm_6, &Pickup_ref);
+                                SetAllPickupTrajectory(Overturn_Pitch_6, Pickup_Yaw, Overture_Arm_6, CCR_Left_Pickup_6, CCR_Right_Pickup_6, CCR_Middle_Opened, &Pickup_ref);
                                 vTaskDelay(2);
                                 PickupSwitchStep(Clamp, &Upper_state);
                                 break;
                             case Seventh_Ring:
-                                SetServoRefPickupTrajectory(60, Pickup_Yaw, -150, &Pickup_ref);
-                                SetPwmCcr(CCR_Left_Pickup_7, CCR_Right_Pickup_7, CCR_Middle_Opened, &Pickup_ref);
-                                // SetAllPickupTrajectory(Overturn_Pitch_4, Pickup_Yaw, Overture_Arm_4, CCR_Left_Pickup_4, CCR_Right_Pickup_4, CCR_Middle_Opened, &Pickup_ref);
-                                SetServoRefPickupTrajectory(Overturn_Pitch_7, Pickup_Yaw, Overture_Arm_7, &Pickup_ref);
-                                // SetAllPickupTrajectory(Overturn_Pitch_7, Pickup_Yaw, Overture_Arm_7, CCR_Left_Pickup_7, CCR_Right_Pickup_7, CCR_Middle_Opened, &Pickup_ref);
+                                // SetServoRefPickupTrajectory(60, Pickup_Yaw, -150, &Pickup_ref);
+                                // SetPwmCcr(CCR_Left_Pickup_7, CCR_Right_Pickup_7, CCR_Middle_Opened, &Pickup_ref);
+                                // SetServoRefPickupTrajectory(Overturn_Pitch_7, Pickup_Yaw, Overture_Arm_7, &Pickup_ref);
+                                SetAllPickupTrajectory(Overturn_Pitch_7, Pickup_Yaw, Overture_Arm_7, CCR_Left_Pickup_7, CCR_Right_Pickup_7, CCR_Middle_Opened, &Pickup_ref);
                                 vTaskDelay(2);
                                 PickupSwitchStep(Clamp, &Upper_state);
                                 break;
                             case Eighth_Ring:
-                                SetServoRefPickupTrajectory(60, Pickup_Yaw, -150, &Pickup_ref);
-                                SetPwmCcr(CCR_Left_Pickup_8, CCR_Right_Pickup_8, CCR_Middle_Opened, &Pickup_ref);
-                                // SetAllPickupTrajectory(Overturn_Pitch_4, Pickup_Yaw, Overture_Arm_4, CCR_Left_Pickup_4, CCR_Right_Pickup_4, CCR_Middle_Opened, &Pickup_ref);
-                                SetServoRefPickupTrajectory(Overturn_Pitch_8, Pickup_Yaw, Overture_Arm_8, &Pickup_ref);
-                                // SetAllPickupTrajectory(Overturn_Pitch_8, Pickup_Yaw, Overture_Arm_8, CCR_Left_Pickup_8, CCR_Right_Pickup_8, CCR_Middle_Opened, &Pickup_ref);
+                                // SetServoRefPickupTrajectory(60, Pickup_Yaw, -150, &Pickup_ref);
+                                // SetPwmCcr(CCR_Left_Pickup_8, CCR_Right_Pickup_8, CCR_Middle_Opened, &Pickup_ref);
+                                // SetServoRefPickupTrajectory(Overturn_Pitch_8, Pickup_Yaw, Overture_Arm_8, &Pickup_ref);
+                                SetAllPickupTrajectory(Overturn_Pitch_8, Pickup_Yaw, Overture_Arm_8, CCR_Left_Pickup_8, CCR_Right_Pickup_8, CCR_Middle_Opened, &Pickup_ref);
                                 vTaskDelay(2);
                                 PickupSwitchStep(Clamp, &Upper_state);
                                 break;
                             case Ninth_Ring:
-                                SetServoRefPickupTrajectory(60, Pickup_Yaw, -150, &Pickup_ref);
-                                SetPwmCcr(CCR_Left_Pickup_9, CCR_Right_Pickup_9, CCR_Middle_Opened, &Pickup_ref);
-                                // SetAllPickupTrajectory(Overturn_Pitch_4, Pickup_Yaw, Overture_Arm_4, CCR_Left_Pickup_4, CCR_Right_Pickup_4, CCR_Middle_Opened, &Pickup_ref);
-                                SetServoRefPickupTrajectory(Overturn_Pitch_9, Pickup_Yaw, Overture_Arm_9, &Pickup_ref);
-                                // SetAllPickupTrajectory(Overturn_Pitch_9, Pickup_Yaw, Overture_Arm_9, CCR_Left_Pickup_9, CCR_Right_Pickup_9, CCR_Middle_Opened, &Pickup_ref);
+                                // SetServoRefPickupTrajectory(60, Pickup_Yaw, -150, &Pickup_ref);
+                                // SetPwmCcr(CCR_Left_Pickup_9, CCR_Right_Pickup_9, CCR_Middle_Opened, &Pickup_ref);
+                                // SetServoRefPickupTrajectory(Overturn_Pitch_9, Pickup_Yaw, Overture_Arm_9, &Pickup_ref);
+                                SetAllPickupTrajectory(Overturn_Pitch_9, Pickup_Yaw, Overture_Arm_9, CCR_Left_Pickup_9, CCR_Right_Pickup_9, CCR_Middle_Opened, &Pickup_ref);
                                 vTaskDelay(2);
                                 PickupSwitchStep(Clamp, &Upper_state);
                                 break;
                             case Tenth_Ring: // 第四层环
-                                SetServoRefPickupTrajectory(60, Pickup_Yaw, -150, &Pickup_ref);
-                                SetPwmCcr(CCR_Left_Pickup_10, CCR_Right_Pickup_10, CCR_Middle_Opened, &Pickup_ref);
-                                // SetAllPickupTrajectory(Overturn_Pitch_4, Pickup_Yaw, Overture_Arm_4, CCR_Left_Pickup_4, CCR_Right_Pickup_4, CCR_Middle_Opened, &Pickup_ref);
-                                SetServoRefPickupTrajectory(Overturn_Pitch_10, Pickup_Yaw, Overture_Arm_10, &Pickup_ref);
-                                // SetAllPickupTrajectory(Overturn_Pitch_10, Pickup_Yaw, Overture_Arm_10, CCR_Left_Pickup_10, CCR_Right_Pickup_10, CCR_Middle_Opened, &Pickup_ref);
+                                // SetServoRefPickupTrajectory(60, Pickup_Yaw, -150, &Pickup_ref);
+                                // SetPwmCcr(CCR_Left_Pickup_10, CCR_Right_Pickup_10, CCR_Middle_Opened, &Pickup_ref);
+                                // SetServoRefPickupTrajectory(Overturn_Pitch_10, Pickup_Yaw, Overture_Arm_10, &Pickup_ref);
+                                SetAllPickupTrajectory(Overturn_Pitch_10, Pickup_Yaw, Overture_Arm_10, CCR_Left_Pickup_10, CCR_Right_Pickup_10, CCR_Middle_Opened, &Pickup_ref);
                                 vTaskDelay(2);
                                 PickupSwitchStep(Clamp, &Upper_state);
 
@@ -146,7 +145,7 @@ void StateMachineTask(void const *argument)
                         vTaskDelay(20);
                         break;
                     case Release: // 松开爪子，自动切换到射环
-                        SetPwmCcrMiddle(CCR_Middle_Opened, &Pickup_ref);
+                        SetPwmCcrMiddle(Fire_CCR_Middle, &Pickup_ref);
                         vTaskDelay(100);
                         PickupSwitchStep(Overturn, &Upper_state);
                         PickupSwitchState(Fire, &Upper_state);
@@ -165,9 +164,9 @@ void StateMachineTask(void const *argument)
                         switch (Upper_state.Fire_number) // 几号柱子(预先将柱子编号)
                         {
                             case First_Target:
-                                SetServoRefPickupTrajectory(Fire_Pitch_1_1, Fire_Yaw_1_1, Fire_Arm, &Pickup_ref);
+                                SetAllPickupTrajectory(Fire_Pitch_1_1, Fire_Yaw_1_1, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
                                 SetServoRefFire(-Fire_1_1, Fire_1_1, &Fire_ref);
-                                vTaskDelay(600);
+                                vTaskDelay(1500);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
                                 vTaskDelay(2000);
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);

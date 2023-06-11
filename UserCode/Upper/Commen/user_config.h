@@ -48,33 +48,42 @@
  *
  */
 
-// 初始状态
+/********************初始状态*********************/
 #define Ready_Pitch 0
 #define Ready_Yaw   0
 #define Ready_Arm   0
 
-// 取环(5种)过程
+/*********************抱着环*********************/
+#define Hug_Pitch 160
+#define Hug_Yaw   0
+#define Hug_Arm   -217
+
+#define Hug_CCR_Left 2100
+#define Hug_CCR_Right 1100
+#define Hug_CCR_Middle 1800
+
+/***********************取环*********************/
 #define Overturn_Pitch_1    78
 #define Overturn_Pitch_2    84
 #define Overturn_Pitch_3    92
-#define Overturn_Pitch_4    104
+#define Overturn_Pitch_4    102
 #define Overturn_Pitch_5    110
-#define Overturn_Pitch_6    118
-#define Overturn_Pitch_7    127
+#define Overturn_Pitch_6    119
+#define Overturn_Pitch_7    128
 #define Overturn_Pitch_8    136
 #define Overturn_Pitch_9    145
-#define Overturn_Pitch_10   155
+#define Overturn_Pitch_10   156
 
 #define Overture_Arm_1      -268
 #define Overture_Arm_2      -268
 #define Overture_Arm_3      -266
 #define Overture_Arm_4      -266
-#define Overture_Arm_5      -263
-#define Overture_Arm_6      -258
-#define Overture_Arm_7      -255
-#define Overture_Arm_8      -251
-#define Overture_Arm_9      -248
-#define Overture_Arm_10     -245
+#define Overture_Arm_5      -262
+#define Overture_Arm_6      -256
+#define Overture_Arm_7      -256
+#define Overture_Arm_8      -252
+#define Overture_Arm_9      -246
+#define Overture_Arm_10     -242
 
 #define Overture_Pitch_back 90
 #define Overturn_Arm_back   0
@@ -87,43 +96,43 @@
 #define CCR_Left_Transition       1200
 #define CCR_Right_Transition      1950
 
-// 三个舵机
-#define CCR_Middle_Ready    1500
-#define CCR_Middle_Closed   1750 //? 夹紧
-#define CCR_Middle_Opened   2350 // 张开
+// 舵机
+#define CCR_Middle_Ready    2000
+#define CCR_Middle_Closed   1950 //? 夹紧
+#define CCR_Middle_Opened   1350 // 张开
 
-#define CCR_Left_Ready      1800
-#define CCR_Left_Pickup_1   1400
-#define CCR_Left_Pickup_2   1400
-#define CCR_Left_Pickup_3   1400
-#define CCR_Left_Pickup_4   1400
-#define CCR_Left_Pickup_5   1400
-#define CCR_Left_Pickup_6   1400
-#define CCR_Left_Pickup_7   1400
-#define CCR_Left_Pickup_8   1400
-#define CCR_Left_Pickup_9   1400
-#define CCR_Left_Pickup_10  1400
+#define CCR_Left_Ready      1720
+#define CCR_Left_Pickup_1   1380
+#define CCR_Left_Pickup_2   1380
+#define CCR_Left_Pickup_3   1380
+#define CCR_Left_Pickup_4   1380
+#define CCR_Left_Pickup_5   1380
+#define CCR_Left_Pickup_6   1360
+#define CCR_Left_Pickup_7   1360
+#define CCR_Left_Pickup_8   1350
+#define CCR_Left_Pickup_9   1350
+#define CCR_Left_Pickup_10  1350
 
-#define CCR_Right_Ready     1380
-#define CCR_Right_Pickup_1  1750
-#define CCR_Right_Pickup_2  1750
-#define CCR_Right_Pickup_3  1750
-#define CCR_Right_Pickup_4  1750
-#define CCR_Right_Pickup_5  1750
-#define CCR_Right_Pickup_6  1750
-#define CCR_Right_Pickup_7  1750
-#define CCR_Right_Pickup_8  1750
-#define CCR_Right_Pickup_9  1750
-#define CCR_Right_Pickup_10 1750
+#define CCR_Right_Ready     1460
+#define CCR_Right_Pickup_1  1820
+#define CCR_Right_Pickup_2  1820
+#define CCR_Right_Pickup_3  1820
+#define CCR_Right_Pickup_4  1820
+#define CCR_Right_Pickup_5  1820
+#define CCR_Right_Pickup_6  1850
+#define CCR_Right_Pickup_7  1850
+#define CCR_Right_Pickup_8  1860
+#define CCR_Right_Pickup_9  1860
+#define CCR_Right_Pickup_10 1860
 
-// 射环
+/*********************射环***********************/
 #define Fire_Ready       0
-#define Fire_1_1         1500 // 第一个点打第一个柱子
-#define Fire_1_2         0 // 第一个点打第二个柱子
-#define Fire_2_3         0 // 第二个点打第三个柱子
-#define Fire_2_4         0 // 第二个点打第四个柱子
+#define Fire_1_1         1725 // 第一个点打第一个柱子
+#define Fire_1_2         0    // 第一个点打第二个柱子
+#define Fire_2_3         0    // 第二个点打第三个柱子
+#define Fire_2_4         0    // 第二个点打第四个柱子
 
-#define Fire_Pitch_1_1   140
+#define Fire_Pitch_1_1   137
 #define Fire_Pitch_1_2   0
 #define Fire_Pitch_2_3   0
 #define Fire_Pitch_2_4   0
@@ -137,15 +146,21 @@
 #define Fire_Push_Extend 60
 #define Fire_Push_Back   0
 
+#define Fire_CCR_Left 1900
+#define Fire_CCR_Right 1300 
+#define Fire_CCR_Middle 1600
+
 #define Fire_Wheel_Ratio 0.875
 
-// 电机的最大角速度 角加速度
-#define MaxAngularVelocity_Pitch 250
-#define MaxAngularVelocity_Arm   400
-#define MaxAngularVelocity_Yaw   2500
-#define MaxAngularVelocity_CCR 300
+/**************电机的最大角速度 角加速度*************/
+#define MaxAngularVelocity_Pitch 500
+#define MaxAngularVelocity_Arm   300
+#define MaxAngularVelocity_Yaw   2000
+#define MaxAngularVelocity_CCR   350
 
-#define MotorAngularAcceleration 200
+#define MotorAngularAcceleration_Pitch 500
+#define MotorAngularAcceleration_Arm  300
+#define MotorAngularAcceleration_Yaw  500
 /**
  * @brief id
  *
