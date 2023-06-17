@@ -20,5 +20,10 @@ void PickupSwitchRing(PICKUP_RING target_pick_up_Ring, UPPER_STATE *current_uppe
 
 void FireSwitchNumber(FIRE_NUMBER target_fire_number, UPPER_STATE *current_upper_state);
 
+void PointSwitchNumber(CHASSIS_POINT target_point,CHASSIS_STATE *Chassis_State);
+
+CHASSIS_POINT ReadChassisPoint(CHASSIS_STATE *Chassis_State);
+
 extern UPPER_STATE Upper_state;
+extern CHASSIS_STATE Chassis_state;
 #endif

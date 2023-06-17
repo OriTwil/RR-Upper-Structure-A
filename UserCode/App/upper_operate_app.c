@@ -14,6 +14,7 @@
 #include "math.h"
 #include "upper_commen.h"
 #include "remote_control.h"
+#include "upper_state_machine.h"
 
 // 暂时没用
 Button button =
@@ -66,6 +67,7 @@ void UpperStateInit()
     Upper_state.xMutex_upper       = xSemaphoreCreateRecursiveMutex();
     Pickup_ref.xMutex_servo_pickup = xSemaphoreCreateRecursiveMutex();
     Fire_ref.xMutex_servo_fire     = xSemaphoreCreateRecursiveMutex();
+    Chassis_state.xMutex_point     = xSemaphoreCreateRecursiveMutex();
 
     // 上层机构整体状态
     Upper_state.Pickup_state = Ready;
@@ -97,38 +99,56 @@ void JoystickControl()
         }
         if (ReadJoystickButtons(msg_joystick_air, Btn_LeftCrossUp)) {
             PickupSwitchRing(Fourth_Ring, &Upper_state);
-            FireSwitchNumber(First_Target, &Upper_state);
+            // FireSwitchNumber(First_Target, &Upper_state);
             PickupSwitchState(Pickup, &Upper_state);
         }
         if (ReadJoystickButtons(msg_joystick_air, Btn_LeftCrossLeft)) {
             PickupSwitchRing(Fifth_Ring, &Upper_state);
-            FireSwitchNumber(First_Target, &Upper_state);
+            // FireSwitchNumber(First_Target, &Upper_state);
             PickupSwitchState(Pickup, &Upper_state);
         }
         if (ReadJoystickButtons(msg_joystick_air, Btn_LeftCrossMid)) {
             PickupSwitchRing(Sixth_Ring, &Upper_state);
-            FireSwitchNumber(First_Target, &Upper_state);
+            // FireSwitchNumber(First_Target, &Upper_state);
             PickupSwitchState(Pickup, &Upper_state);
         }
         if (ReadJoystickButtons(msg_joystick_air, Btn_LeftCrossRight)) {
             PickupSwitchRing(Seventh_Ring, &Upper_state);
-            FireSwitchNumber(First_Target, &Upper_state);
+            // FireSwitchNumber(First_Target, &Upper_state);
             PickupSwitchState(Pickup, &Upper_state);
         }
         if (ReadJoystickButtons(msg_joystick_air, Btn_Btn0)) {
             PickupSwitchRing(Eighth_Ring, &Upper_state);
-            FireSwitchNumber(First_Target, &Upper_state);
+            // FireSwitchNumber(First_Target, &Upper_state);
             PickupSwitchState(Pickup, &Upper_state);
         }
         if (ReadJoystickButtons(msg_joystick_air, Btn_Btn1)) {
             PickupSwitchRing(Ninth_Ring, &Upper_state);
-            FireSwitchNumber(First_Target, &Upper_state);
+            // FireSwitchNumber(First_Target, &Upper_state);
             PickupSwitchState(Pickup, &Upper_state);
         }
         if (ReadJoystickButtons(msg_joystick_air, Btn_LeftCrossDown)) {
             PickupSwitchRing(Tenth_Ring, &Upper_state);
-            FireSwitchNumber(First_Target, &Upper_state);
+            // FireSwitchNumber(First_Target, &Upper_state);
             PickupSwitchState(Pickup, &Upper_state);
         }
+    }
+
+    if (ReadJoystickButtons(msg_joystick_air, Btn_JoystickL)) {
+        PointSwitchNumber(First_Point, &Chassis_state);
+    }
+
+    if (ReadJoystickButtons(msg_joystick_air, Btn_JoystickR)) {
+        PointSwitchNumber(Second_Point, &Chassis_state);
+    }
+
+    if (ReadJoystickButtons(msg_joystick_air, Btn_KnobL)) {
+        PointSwitchNumber(Third_Point, &Chassis_state);
+        FireSwitchNumber(First_Target,&Upper_state);
+    }
+
+    if (ReadJoystickButtons(msg_joystick_air, Btn_KnobR)) {
+        PointSwitchNumber(Fourth_Point, &Chassis_state);
+        FireSwitchNumber(Third_Target,&Upper_state);
     }
 }

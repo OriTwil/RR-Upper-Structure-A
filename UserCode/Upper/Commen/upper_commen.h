@@ -31,6 +31,18 @@ typedef enum {
     Tenth_Ring
 } PICKUP_RING;
 
+typedef enum {
+    First_Point,
+    Second_Point,
+    Third_Point,
+    Fourth_Point,
+    Fifth_Point,
+    Sixth_Point,
+    Seventh_Point,
+    Eighth_Point,
+    Ninth_Point,
+    Tenth_Point
+} CHASSIS_POINT;
 
 // 目标柱子
 typedef enum {
@@ -72,6 +84,11 @@ typedef __IO struct
     float position_servo_ref_push;
     SemaphoreHandle_t xMutex_servo_fire;
 } SERVO_REF_FIRE;
+
+typedef __IO struct {
+    CHASSIS_POINT Chassis_point;
+    SemaphoreHandle_t xMutex_point;
+}CHASSIS_STATE;
 
 // 按键
 typedef __IO struct

@@ -91,7 +91,7 @@
 
 // 过度
 #define Overturn_Pitch_Transition 30
-#define Overturn_Yaw_Transition   720
+#define Overturn_Yaw_Transition   0
 #define Overturn_Arm_Transition   -250
 #define CCR_Left_Transition       1200
 #define CCR_Right_Transition      1950
@@ -129,18 +129,18 @@
 #define Fire_Ready       0
 #define Fire_1_1         1725 // 第一个点打第一个柱子
 #define Fire_1_2         0    // 第一个点打第二个柱子
-#define Fire_2_3         0    // 第二个点打第三个柱子
+#define Fire_2_3         1850    // 第二个点打第三个柱子
 #define Fire_2_4         0    // 第二个点打第四个柱子
 
 #define Fire_Pitch_1_1   137
 #define Fire_Pitch_1_2   0
-#define Fire_Pitch_2_3   0
+#define Fire_Pitch_2_3   150
 #define Fire_Pitch_2_4   0
 
-#define Fire_Yaw_1_1     720
-#define Fire_Yaw_1_2     720
-#define Fire_Yaw_2_3     720
-#define Fire_Yaw_2_4     720
+#define Fire_Yaw_1_1     0
+#define Fire_Yaw_1_2     0
+#define Fire_Yaw_2_3     0
+#define Fire_Yaw_2_4     0
 
 #define Fire_Arm         -40
 #define Fire_Push_Extend 60
@@ -153,14 +153,14 @@
 #define Fire_Wheel_Ratio 0.875
 
 /**************电机的最大角速度 角加速度*************/
-#define MaxAngularVelocity_Pitch 500
-#define MaxAngularVelocity_Arm   300
-#define MaxAngularVelocity_Yaw   2000
-#define MaxAngularVelocity_CCR   350
+#define MaxAngularVelocity_Pitch 600
+#define MaxAngularVelocity_Arm   350
+#define MaxAngularVelocity_Yaw   2500
+#define MaxAngularVelocity_CCR   360
 
 #define MotorAngularAcceleration_Pitch 500
 #define MotorAngularAcceleration_Arm  300
-#define MotorAngularAcceleration_Yaw  500
+#define MotorAngularAcceleration_Yaw  1000
 /**
  * @brief id
  *
