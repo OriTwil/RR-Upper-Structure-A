@@ -74,7 +74,7 @@ void ServoTask(void const *argument)
                              hDJI[6].speedPID.output,
                              hDJI[7].speedPID.output);
 
-        vTaskDelayUntil(&PreviousWakeTime, 2);
+        vTaskDelayUntil(&PreviousWakeTime, 4);
     }
 }
 
@@ -96,7 +96,7 @@ void ServoTestTask(void const *argument)
 
 void ServoTaskStart()
 {
-    osThreadDef(servo, ServoTask, osPriorityAboveNormal, 0, 512);
+    osThreadDef(servo, ServoTask, osPriorityBelowNormal, 0, 1024);
     osThreadCreate(osThread(servo), NULL);
 
     // osThreadDef(servo_test, ServoTestTask, osPriorityBelowNormal, 0, 512);

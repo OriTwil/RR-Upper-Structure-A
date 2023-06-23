@@ -39,7 +39,7 @@ void CommunicateTask(void const *argument)
  */
 void CommunicateTaskStart()
 {
-    osThreadDef(communicate, CommunicateTask, osPriorityNormal, 0, 512);
+    osThreadDef(communicate, CommunicateTask, osPriorityNormal, 0, 1024);
     osThreadCreate(osThread(communicate), NULL);
 }
 

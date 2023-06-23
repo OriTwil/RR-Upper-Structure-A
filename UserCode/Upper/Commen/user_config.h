@@ -127,20 +127,44 @@
 
 /*********************射环***********************/
 #define Fire_Ready       0
-#define Fire_1_1         1725 // 第一个点打第一个柱子
-#define Fire_1_2         0    // 第一个点打第二个柱子
-#define Fire_2_3         1850    // 第二个点打第三个柱子
-#define Fire_2_4         0    // 第二个点打第四个柱子
+#define Fire_3_1         1750 
+#define Fire_3_2         0    
+#define Fire_3_3         1600   
+#define Fire_4_1         0 
+#define Fire_4_2         1750 
+#define Fire_4_3         0    
+#define Fire_5_1         1600   
+#define Fire_5_2         0 
+#define Fire_5_3         1750 
+#define Fire_6_1         0    
+#define Fire_6_2         1600   
+#define Fire_6_3         0 
 
-#define Fire_Pitch_1_1   137
-#define Fire_Pitch_1_2   0
-#define Fire_Pitch_2_3   150
-#define Fire_Pitch_2_4   0
+#define Fire_Pitch_3_1   125
+#define Fire_Pitch_3_2   0
+#define Fire_Pitch_3_3   115
+#define Fire_Pitch_4_1   0
+#define Fire_Pitch_4_2   125
+#define Fire_Pitch_4_3   0
+#define Fire_Pitch_5_1   115
+#define Fire_Pitch_5_2   0
+#define Fire_Pitch_5_3   125
+#define Fire_Pitch_6_1   0
+#define Fire_Pitch_6_2   115
+#define Fire_Pitch_6_3   0
 
-#define Fire_Yaw_1_1     0
-#define Fire_Yaw_1_2     0
-#define Fire_Yaw_2_3     0
-#define Fire_Yaw_2_4     0
+#define Fire_Yaw_3_1     0
+#define Fire_Yaw_3_2     0
+#define Fire_Yaw_3_3     0
+#define Fire_Yaw_4_1     0
+#define Fire_Yaw_4_2     0
+#define Fire_Yaw_4_3     0
+#define Fire_Yaw_5_1     0
+#define Fire_Yaw_5_2     0
+#define Fire_Yaw_5_3     0
+#define Fire_Yaw_6_1     0
+#define Fire_Yaw_6_2     0
+#define Fire_Yaw_6_3     0
 
 #define Fire_Arm         -40
 #define Fire_Push_Extend 60
@@ -153,10 +177,10 @@
 #define Fire_Wheel_Ratio 0.875
 
 /**************电机的最大角速度 角加速度*************/
-#define MaxAngularVelocity_Pitch 600
-#define MaxAngularVelocity_Arm   350
+#define MaxAngularVelocity_Pitch 500
+#define MaxAngularVelocity_Arm   300
 #define MaxAngularVelocity_Yaw   2500
-#define MaxAngularVelocity_CCR   360
+#define MaxAngularVelocity_CCR   380
 
 #define MotorAngularAcceleration_Pitch 500
 #define MotorAngularAcceleration_Arm  300

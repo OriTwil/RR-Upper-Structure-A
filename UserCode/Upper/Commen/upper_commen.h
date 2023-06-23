@@ -14,6 +14,7 @@ typedef enum {
     Hug,
     HugBack,
     Pickup,
+    FireReady,
     Fire
 } PICKUP_STATE;
 
@@ -96,5 +97,8 @@ typedef __IO struct
     uint32_t last_tick;
     uint32_t button_min_time;
 } Button;
+
+
+
 
 #endif
