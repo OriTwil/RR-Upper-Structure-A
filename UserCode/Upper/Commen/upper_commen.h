@@ -33,6 +33,7 @@ typedef enum {
 } PICKUP_RING;
 
 typedef enum {
+    Zero_Point,
     First_Point,
     Second_Point,
     Third_Point,
@@ -51,7 +52,10 @@ typedef enum {
     Second_Target,
     Third_Target,
     Fourth_Target,
-    Fifth_Target
+    Fifth_Target,
+    Sixth_Target,
+    Seventh_Target,
+    Eighth_Target
 } FIRE_NUMBER;
 
 // 上层机构整体
@@ -97,6 +101,13 @@ typedef __IO struct
     uint32_t last_tick;
     uint32_t button_min_time;
 } Button;
+
+typedef __IO struct
+{
+    /* data */
+    float pitch_micro_adjustment;
+    float fire_micro_adjustment;
+}ADJUSTMENT;
 
 
 

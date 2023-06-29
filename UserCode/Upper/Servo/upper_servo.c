@@ -11,6 +11,7 @@
 #include "upper_servo.h"
 #include "user_config.h"
 #include "upper_commen.h"
+#include "remote_control.h"
 
 // 取环组件的伺服值
 SERVO_REF_PICKUP Pickup_ref =
@@ -31,6 +32,7 @@ SERVO_REF_FIRE Fire_ref =
         .speed_servo_ref_right   = 0,
 };
 
+ADJUSTMENT Adjustment; 
 /**
  * @description: 伺服线程，六个电机和两个舵机
  * @author: szf
@@ -41,6 +43,8 @@ void ServoTask(void const *argument)
     uint32_t PreviousWakeTime = xTaskGetTickCount();
     vTaskDelay(20);
     for (;;) {
+        FireMicroAdjustment(&Fire_ref);
+        
         // 射环两个电机、推环电机伺服
         xSemaphoreTakeRecursive(Fire_ref.xMutex_servo_fire, (TickType_t)10);
         speedServo(Fire_ref.speed_servo_ref_left * Fire_Wheel_Ratio, &hDJI[Motor_id_Fire_Left_Large]);
@@ -74,7 +78,7 @@ void ServoTask(void const *argument)
                              hDJI[6].speedPID.output,
                              hDJI[7].speedPID.output);
 
-        vTaskDelayUntil(&PreviousWakeTime, 4);
+        vTaskDelayUntil(&PreviousWakeTime, 2);
     }
 }
 
@@ -426,4 +430,14 @@ void SetAllHugBackTrajectory(float ref_pitch,
         }
         vTaskDelay(2);
     } while (!isArrive);
+}
+
+void FireMicroAdjustment(SERVO_REF_FIRE *current_fire_ref)
+{
+    int16_t knob_right_temp = ReadJoystickKnobsRight(msg_joystick_air);
+
+    xSemaphoreTake(current_fire_ref->xMutex_servo_fire,portMAX_DELAY);
+    current_fire_ref->speed_servo_ref_right = current_fire_ref->speed_servo_ref_right + knob_right_temp;
+    current_fire_ref->speed_servo_ref_left = current_fire_ref->speed_servo_ref_left - knob_right_temp;
+    xSemaphoreGive(current_fire_ref->xMutex_servo_fire);
 }

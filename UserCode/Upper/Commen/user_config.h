@@ -54,43 +54,43 @@
 #define Ready_Arm   0
 
 /*********************抱着环*********************/
-#define Hug_Pitch 160
-#define Hug_Yaw   0
-#define Hug_Arm   -217
+#define Hug_Pitch      795
+#define Hug_Yaw        0
+#define Hug_Arm        -230
 
-#define Hug_CCR_Left 2100
-#define Hug_CCR_Right 1100
-#define Hug_CCR_Middle 1800
+#define Hug_CCR_Left   2100
+#define Hug_CCR_Right  1100
+#define Hug_CCR_Middle 1700
 
 /***********************取环*********************/
 #define Overturn_Pitch_1    78
 #define Overturn_Pitch_2    84
 #define Overturn_Pitch_3    92
-#define Overturn_Pitch_4    102
-#define Overturn_Pitch_5    110
-#define Overturn_Pitch_6    119
-#define Overturn_Pitch_7    128
-#define Overturn_Pitch_8    136
-#define Overturn_Pitch_9    145
-#define Overturn_Pitch_10   156
+#define Overturn_Pitch_4    530
+#define Overturn_Pitch_5    575
+#define Overturn_Pitch_6    620
+#define Overturn_Pitch_7    668
+#define Overturn_Pitch_8    718
+#define Overturn_Pitch_9    765
+#define Overturn_Pitch_10   813
 
 #define Overture_Arm_1      -268
 #define Overture_Arm_2      -268
 #define Overture_Arm_3      -266
-#define Overture_Arm_4      -266
-#define Overture_Arm_5      -262
-#define Overture_Arm_6      -256
-#define Overture_Arm_7      -256
-#define Overture_Arm_8      -252
-#define Overture_Arm_9      -246
-#define Overture_Arm_10     -242
+#define Overture_Arm_4      -255
+#define Overture_Arm_5      -255
+#define Overture_Arm_6      -251
+#define Overture_Arm_7      -248
+#define Overture_Arm_8      -243
+#define Overture_Arm_9      -239
+#define Overture_Arm_10     -235
 
-#define Overture_Pitch_back 90
+#define Overture_Pitch_back 600
 #define Overturn_Arm_back   0
 #define Pickup_Yaw          0
 
 // 过度
-#define Overturn_Pitch_Transition 30
+#define Overturn_Pitch_Transition 150
 #define Overturn_Yaw_Transition   0
 #define Overturn_Arm_Transition   -250
 #define CCR_Left_Transition       1200
@@ -105,86 +105,156 @@
 #define CCR_Left_Pickup_1   1380
 #define CCR_Left_Pickup_2   1380
 #define CCR_Left_Pickup_3   1380
-#define CCR_Left_Pickup_4   1380
-#define CCR_Left_Pickup_5   1380
-#define CCR_Left_Pickup_6   1360
+#define CCR_Left_Pickup_4   1340
+#define CCR_Left_Pickup_5   1340
+#define CCR_Left_Pickup_6   1340
 #define CCR_Left_Pickup_7   1360
-#define CCR_Left_Pickup_8   1350
-#define CCR_Left_Pickup_9   1350
-#define CCR_Left_Pickup_10  1350
+#define CCR_Left_Pickup_8   1340
+#define CCR_Left_Pickup_9   1340
+#define CCR_Left_Pickup_10  1320
 
 #define CCR_Right_Ready     1460
 #define CCR_Right_Pickup_1  1820
 #define CCR_Right_Pickup_2  1820
 #define CCR_Right_Pickup_3  1820
-#define CCR_Right_Pickup_4  1820
-#define CCR_Right_Pickup_5  1820
-#define CCR_Right_Pickup_6  1850
-#define CCR_Right_Pickup_7  1850
-#define CCR_Right_Pickup_8  1860
-#define CCR_Right_Pickup_9  1860
-#define CCR_Right_Pickup_10 1860
+#define CCR_Right_Pickup_4  1860
+#define CCR_Right_Pickup_5  1860
+#define CCR_Right_Pickup_6  1860
+#define CCR_Right_Pickup_7  1840
+#define CCR_Right_Pickup_8  1870
+#define CCR_Right_Pickup_9  1870
+#define CCR_Right_Pickup_10 1890
 
 /*********************射环***********************/
+//射速
 #define Fire_Ready       0
-#define Fire_3_1         1750 
-#define Fire_3_2         0    
-#define Fire_3_3         1600   
-#define Fire_4_1         0 
-#define Fire_4_2         1750 
-#define Fire_4_3         0    
-#define Fire_5_1         1600   
-#define Fire_5_2         0 
-#define Fire_5_3         1750 
-#define Fire_6_1         0    
-#define Fire_6_2         1600   
-#define Fire_6_3         0 
+#define Fire_3_1         1750
+#define Fire_3_2         0
+#define Fire_3_3         1600
 
+#define Fire_4_1         0
+#define Fire_4_2         1750
+#define Fire_4_3         0
+
+#define Fire_5_1         2250
+#define Fire_5_2         2250
+#define Fire_5_3         2120
+#define Fire_5_4         1700
+#define Fire_5_5         1700
+#define Fire_5_6         2020
+#define Fire_5_7         1300
+#define Fire_5_8         2020
+
+#define Fire_6_1         0
+#define Fire_6_2         1600
+#define Fire_6_3         0
+#define Fire_6_4         0
+#define Fire_6_5         1600
+#define Fire_6_6         0
+#define Fire_6_7         0
+#define Fire_6_8         1600
+
+#define Fire_7_1         0
+#define Fire_7_2         1600
+#define Fire_7_3         0
+#define Fire_7_4         0
+#define Fire_7_5         1600
+#define Fire_7_6         0
+#define Fire_7_7         0
+#define Fire_7_8         1600
+
+// pitch
 #define Fire_Pitch_3_1   125
 #define Fire_Pitch_3_2   0
 #define Fire_Pitch_3_3   115
+
 #define Fire_Pitch_4_1   0
 #define Fire_Pitch_4_2   125
 #define Fire_Pitch_4_3   0
-#define Fire_Pitch_5_1   115
-#define Fire_Pitch_5_2   0
-#define Fire_Pitch_5_3   125
+
+#define Fire_Pitch_5_1   600
+#define Fire_Pitch_5_2   600
+#define Fire_Pitch_5_3   815
+#define Fire_Pitch_5_4   640
+#define Fire_Pitch_5_5   640
+#define Fire_Pitch_5_6   570
+#define Fire_Pitch_5_7   670
+#define Fire_Pitch_5_8   570
+
 #define Fire_Pitch_6_1   0
 #define Fire_Pitch_6_2   115
 #define Fire_Pitch_6_3   0
+#define Fire_Pitch_6_4   0
+#define Fire_Pitch_6_5   115
+#define Fire_Pitch_6_6   0
+#define Fire_Pitch_6_7   0
+#define Fire_Pitch_6_8   115
 
+#define Fire_Pitch_7_1   0
+#define Fire_Pitch_7_2   115
+#define Fire_Pitch_7_3   0
+#define Fire_Pitch_7_4   0
+#define Fire_Pitch_7_5   115
+#define Fire_Pitch_7_6   0
+#define Fire_Pitch_7_7   0
+#define Fire_Pitch_7_8   115
+
+//Yaw
 #define Fire_Yaw_3_1     0
 #define Fire_Yaw_3_2     0
 #define Fire_Yaw_3_3     0
+
 #define Fire_Yaw_4_1     0
 #define Fire_Yaw_4_2     0
 #define Fire_Yaw_4_3     0
+
 #define Fire_Yaw_5_1     0
 #define Fire_Yaw_5_2     0
 #define Fire_Yaw_5_3     0
+#define Fire_Yaw_5_4     0
+#define Fire_Yaw_5_5     0
+#define Fire_Yaw_5_6     0
+#define Fire_Yaw_5_7     0
+#define Fire_Yaw_5_8     0
+
 #define Fire_Yaw_6_1     0
 #define Fire_Yaw_6_2     0
 #define Fire_Yaw_6_3     0
+#define Fire_Yaw_6_4     0
+#define Fire_Yaw_6_5     0
+#define Fire_Yaw_6_6     0
+#define Fire_Yaw_6_7     0
+#define Fire_Yaw_6_8     0
 
-#define Fire_Arm         -40
+#define Fire_Yaw_7_1     0
+#define Fire_Yaw_7_2     0
+#define Fire_Yaw_7_3     0
+#define Fire_Yaw_7_4     0
+#define Fire_Yaw_7_5     0
+#define Fire_Yaw_7_6     0
+#define Fire_Yaw_7_7     0
+#define Fire_Yaw_7_8     0
+
+#define Fire_Arm         -75
 #define Fire_Push_Extend 60
 #define Fire_Push_Back   0
 
-#define Fire_CCR_Left 1900
-#define Fire_CCR_Right 1300 
-#define Fire_CCR_Middle 1600
+#define Fire_CCR_Left    1900
+#define Fire_CCR_Right   1300
+#define Fire_CCR_Middle  1600
 
 #define Fire_Wheel_Ratio 0.875
 
 /**************电机的最大角速度 角加速度*************/
-#define MaxAngularVelocity_Pitch 500
-#define MaxAngularVelocity_Arm   300
-#define MaxAngularVelocity_Yaw   2500
-#define MaxAngularVelocity_CCR   380
+#define MaxAngularVelocity_Pitch       2000
+#define MaxAngularVelocity_Arm         300
+#define MaxAngularVelocity_Yaw         2500
+#define MaxAngularVelocity_CCR         380
 
-#define MotorAngularAcceleration_Pitch 500
-#define MotorAngularAcceleration_Arm  300
-#define MotorAngularAcceleration_Yaw  1000
+#define MotorAngularAcceleration_Pitch 2500
+#define MotorAngularAcceleration_Arm   300
+#define MotorAngularAcceleration_Yaw   1000
+
 /**
  * @brief id
  *

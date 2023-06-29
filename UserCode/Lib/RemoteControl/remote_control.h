@@ -36,8 +36,8 @@ float ReadJoystickLeft_x(mavlink_joystick_air_t msg_joystick_air_);
 float ReadJoystickLeft_y(mavlink_joystick_air_t msg_joystick_air_);
 float ReadJoystickRight_x(mavlink_joystick_air_t msg_joystick_air_);
 float ReadJoystickRight_y(mavlink_joystick_air_t msg_joystick_air_);
-int16_t ReadJoystickKnobsLeft_x(mavlink_joystick_air_t msg_joystick_air_);
-int16_t ReadJoystickKnobsLeft_y(mavlink_joystick_air_t msg_joystick_air_);
+int16_t ReadJoystickKnobsLeft(mavlink_joystick_air_t msg_joystick_air_);
+int16_t ReadJoystickKnobsRight(mavlink_joystick_air_t msg_joystick_air_);
 bool ReadJoystickSwitchs(mavlink_joystick_air_t msg_joystick_air_, SWITCHS index);
 
 extern mavlink_joystick_air_t msg_joystick_air;
