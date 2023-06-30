@@ -23,7 +23,7 @@ void StartDefaultTask(void const *argument)
 
     // 开启线程
     // CommunicateTaskStart();                 // 通信线程
-    // ServoTaskStart();                       // 伺服线程
+    ServoTaskStart();                       // 伺服线程
     StateMachineTaskStart(); // 状态机线程
     StateManagemantTaskStart();             // 状态切换线程
 
