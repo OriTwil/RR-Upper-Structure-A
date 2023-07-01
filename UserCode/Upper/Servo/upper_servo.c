@@ -30,6 +30,7 @@ SERVO_REF_FIRE Fire_ref =
         .position_servo_ref_push = 0,
         .speed_servo_ref_left    = 0,
         .speed_servo_ref_right   = 0,
+        .micro_adjust_ref = 0,
 };
 
 ADJUSTMENT Adjustment; 
@@ -47,10 +48,10 @@ void ServoTask(void const *argument)
         
         // 射环两个电机、推环电机伺服
         xSemaphoreTakeRecursive(Fire_ref.xMutex_servo_fire, (TickType_t)10);
-        speedServo(Fire_ref.speed_servo_ref_left * Fire_Wheel_Ratio, &hDJI[Motor_id_Fire_Left_Large]);
-        speedServo(Fire_ref.speed_servo_ref_left, &hDJI[Motor_id_Fire_Left_Small]);
-        speedServo(Fire_ref.speed_servo_ref_right * Fire_Wheel_Ratio, &hDJI[Motor_id_Fire_Right_Large]);
-        speedServo(Fire_ref.speed_servo_ref_right, &hDJI[Motor_id_Fire_Right_Small]);
+        speedServo((Fire_ref.speed_servo_ref_left - Fire_ref.micro_adjust_ref) * Fire_Wheel_Ratio, &hDJI[Motor_id_Fire_Left_Large]);
+        speedServo(Fire_ref.speed_servo_ref_left - Fire_ref.micro_adjust_ref, &hDJI[Motor_id_Fire_Left_Small]);
+        speedServo((Fire_ref.speed_servo_ref_right + Fire_ref.micro_adjust_ref) * Fire_Wheel_Ratio, &hDJI[Motor_id_Fire_Right_Large]);
+        speedServo(Fire_ref.speed_servo_ref_right + Fire_ref.micro_adjust_ref, &hDJI[Motor_id_Fire_Right_Small]);
         positionServo(Fire_ref.position_servo_ref_push, &hDJI[Motor_id_Push]);
         xSemaphoreGiveRecursive(Fire_ref.xMutex_servo_fire);
 
@@ -434,10 +435,8 @@ void SetAllHugBackTrajectory(float ref_pitch,
 
 void FireMicroAdjustment(SERVO_REF_FIRE *current_fire_ref)
 {
-    int16_t knob_right_temp = ReadJoystickKnobsRight(msg_joystick_air);
 
     xSemaphoreTake(current_fire_ref->xMutex_servo_fire,portMAX_DELAY);
-    current_fire_ref->speed_servo_ref_right = current_fire_ref->speed_servo_ref_right + knob_right_temp;
-    current_fire_ref->speed_servo_ref_left = current_fire_ref->speed_servo_ref_left - knob_right_temp;
+    current_fire_ref->micro_adjust_ref = (float)ReadJoystickKnobsRight(msg_joystick_air);
     xSemaphoreGive(current_fire_ref->xMutex_servo_fire);
 }

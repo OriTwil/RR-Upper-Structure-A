@@ -33,7 +33,7 @@ void PWMTestTask(void const *argument)
     {
         // __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_1,1000); // 600张开1650夹紧
         // __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_2,550);  // 550取环 1070放环
-        __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_3,1900); // 1600取环 1070放环
+        __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_3,1950); // 1600取环 1070放环
         // HAL_Delay(2000);
         // __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_3,2200); // 1600取环 1070放环
         // HAL_Delay(2000);

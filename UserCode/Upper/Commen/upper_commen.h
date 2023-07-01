@@ -87,6 +87,7 @@ typedef __IO struct
     float speed_servo_ref_left;
     float speed_servo_ref_right;
     float position_servo_ref_push;
+    float micro_adjust_ref;
     SemaphoreHandle_t xMutex_servo_fire;
 } SERVO_REF_FIRE;
 

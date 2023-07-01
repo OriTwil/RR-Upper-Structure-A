@@ -54,13 +54,13 @@
 #define Ready_Arm   0
 
 /*********************抱着环*********************/
-#define Hug_Pitch      810
+#define Hug_Pitch      830
 #define Hug_Yaw        0
 #define Hug_Arm        -228
 
 #define Hug_CCR_Left   2120
 #define Hug_CCR_Right  1080
-#define Hug_CCR_Middle 1750
+#define Hug_CCR_Middle 1740
 
 /***********************取环*********************/
 #define Overturn_Pitch_1    78
