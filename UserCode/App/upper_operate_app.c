@@ -98,25 +98,23 @@ struct
 } BUTTON_JOYSTICK_R = {
     .button_min_time = 600,
     .id              = 0,
-    .last_tick       = 0
-};
+    .last_tick       = 0};
 
 void JoystickControl()
 {
-    // 抱环
+    vPortEnterCritical();
+    mavlink_joystick_air_t msg_joystick_air_temp = msg_joystick_air;
+    vPortExitCritical();
 
-    if (ReadJoystickButtons(msg_joystick_air, Btn_JoystickR)) {
+    // 抱环
+    if (ReadJoystickButtons(msg_joystick_air_temp, Btn_JoystickR)) {
         /* code */
-        if(BUTTON_JOYSTICK_R.last_tick + BUTTON_JOYSTICK_R.button_min_time < xTaskGetTickCount())
-        {
+        if (BUTTON_JOYSTICK_R.last_tick + BUTTON_JOYSTICK_R.button_min_time < xTaskGetTickCount()) {
             BUTTON_JOYSTICK_R.last_tick = xTaskGetTickCount();
-            if(BUTTON_JOYSTICK_R.id == 0)
-            {
+            if (BUTTON_JOYSTICK_R.id == 0) {
                 BUTTON_JOYSTICK_R.id = 1;
                 PickupSwitchState(Hug, &Upper_state);
-            }
-            else 
-            {
+            } else {
                 BUTTON_JOYSTICK_R.id = 0;
                 PickupSwitchState(HugBack, &Upper_state);
             }
@@ -124,74 +122,77 @@ void JoystickControl()
     }
 
     // 射环
-    if (ReadJoystickButtons(msg_joystick_air, Btn_JoystickL) && READY_TO_FIRE) {
+    if (ReadJoystickButtons(msg_joystick_air_temp, Btn_JoystickL) && READY_TO_FIRE) {
         PickupSwitchState(Pickup, &Upper_state);
     }
 
     // 底盘位置
-    if (ReadJoystickButtons(msg_joystick_air, Btn_Btn4)) {
+    if (ReadJoystickButtons(msg_joystick_air_temp, Btn_Btn4)) {
         PointSwitchNumber(First_Point, &Chassis_state);
     }
 
-    if (ReadJoystickButtons(msg_joystick_air, Btn_Btn5)) {
+    if (ReadJoystickButtons(msg_joystick_air_temp, Btn_Btn5)) {
         PointSwitchNumber(Second_Point, &Chassis_state);
     }
 
-    if (ReadJoystickButtons(msg_joystick_air, Btn_RightCrossUp)) {
+    if (ReadJoystickButtons(msg_joystick_air_temp, Btn_RightCrossUp)) {
         PointSwitchNumber(Third_Point, &Chassis_state);
         // FireSwitchNumber(First_Target, &Upper_state);
     }
 
-    if (ReadJoystickButtons(msg_joystick_air, Btn_RightCrossLeft)) {
+    if (ReadJoystickButtons(msg_joystick_air_temp, Btn_RightCrossLeft)) {
         PointSwitchNumber(Fourth_Point, &Chassis_state);
         // FireSwitchNumber(Third_Target, &Upper_state);
     }
 
-    if (ReadJoystickButtons(msg_joystick_air, Btn_RightCrossMid)) {
+    if (ReadJoystickButtons(msg_joystick_air_temp, Btn_RightCrossMid)) {
         PointSwitchNumber(Fifth_Point, &Chassis_state);
         // FireSwitchNumber(Third_Target, &Upper_state);
     }
 
-    if (ReadJoystickButtons(msg_joystick_air, Btn_RightCrossRight)) {
+    if (ReadJoystickButtons(msg_joystick_air_temp, Btn_RightCrossRight)) {
         PointSwitchNumber(Sixth_Point, &Chassis_state);
         // FireSwitchNumber(Third_Target, &Upper_state);
     }
 
-    if (ReadJoystickButtons(msg_joystick_air, Btn_RightCrossDown)) {
+    if (ReadJoystickButtons(msg_joystick_air_temp, Btn_RightCrossDown)) {
         PointSwitchNumber(Seventh_Point, &Chassis_state);
         // FireSwitchNumber(Third_Target, &Upper_state);
     }
 
     // 目标柱子
-    if (ReadJoystickButtons(msg_joystick_air, Btn_LeftCrossUp)) {
+    if (ReadJoystickButtons(msg_joystick_air_temp, Btn_LeftCrossUp)) {
         FireSwitchNumber(First_Target, &Upper_state);
     }
 
-    if (ReadJoystickButtons(msg_joystick_air, Btn_LeftCrossRight)) {
+    if (ReadJoystickButtons(msg_joystick_air_temp, Btn_LeftCrossRight)) {
         FireSwitchNumber(Second_Target, &Upper_state);
     }
 
-    if (ReadJoystickButtons(msg_joystick_air, Btn_LeftCrossMid)) {
+    if (ReadJoystickButtons(msg_joystick_air_temp, Btn_LeftCrossMid)) {
         FireSwitchNumber(Third_Target, &Upper_state);
     }
 
-    if (ReadJoystickButtons(msg_joystick_air, Btn_LeftCrossLeft)) {
+    if (ReadJoystickButtons(msg_joystick_air_temp, Btn_LeftCrossLeft)) {
         FireSwitchNumber(Fourth_Target, &Upper_state);
     }
 
-    if (ReadJoystickButtons(msg_joystick_air, Btn_LeftCrossDown)) {
+    if (ReadJoystickButtons(msg_joystick_air_temp, Btn_LeftCrossDown)) {
         FireSwitchNumber(Fifth_Target, &Upper_state);
     }
 
-    if (ReadJoystickButtons(msg_joystick_air, Btn_Btn0)) {
+    if (ReadJoystickButtons(msg_joystick_air_temp, Btn_Btn0)) {
         FireSwitchNumber(Sixth_Target, &Upper_state);
     }
 
-    if (ReadJoystickButtons(msg_joystick_air, Btn_Btn1)) {
+    if (ReadJoystickButtons(msg_joystick_air_temp, Btn_Btn1)) {
         FireSwitchNumber(Seventh_Target, &Upper_state);
     }
 
-    if (ReadJoystickButtons(msg_joystick_air, Btn_Btn2)) {
+    if (ReadJoystickButtons(msg_joystick_air_temp, Btn_Btn2)) {
         FireSwitchNumber(Eighth_Target, &Upper_state);
     }
+
+    // 微调
+    FireMicroAdjustment(&Fire_ref);
 }

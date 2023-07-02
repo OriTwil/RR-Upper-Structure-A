@@ -136,14 +136,14 @@
 #define Fire_4_2         1750
 #define Fire_4_3         0
 
-#define Fire_5_1         2250
-#define Fire_5_2         2250
+#define Fire_5_1         2310
+#define Fire_5_2         2290
 #define Fire_5_3         2120
 #define Fire_5_4         1700
 #define Fire_5_5         1700
-#define Fire_5_6         2020
+#define Fire_5_6         2080
 #define Fire_5_7         1300
-#define Fire_5_8         2020
+#define Fire_5_8         2080
 
 #define Fire_6_1         0
 #define Fire_6_2         1600
@@ -172,14 +172,14 @@
 #define Fire_Pitch_4_2   125
 #define Fire_Pitch_4_3   0
 
-#define Fire_Pitch_5_1   615
-#define Fire_Pitch_5_2   615
-#define Fire_Pitch_5_3   830
-#define Fire_Pitch_5_4   655
-#define Fire_Pitch_5_5   655
-#define Fire_Pitch_5_6   585
-#define Fire_Pitch_5_7   685
-#define Fire_Pitch_5_8   585
+#define Fire_Pitch_5_1   600
+#define Fire_Pitch_5_2   600
+#define Fire_Pitch_5_3   815
+#define Fire_Pitch_5_4   640
+#define Fire_Pitch_5_5   640
+#define Fire_Pitch_5_6   570
+#define Fire_Pitch_5_7   690
+#define Fire_Pitch_5_8   570
 
 #define Fire_Pitch_6_1   0
 #define Fire_Pitch_6_2   115

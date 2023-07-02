@@ -7,11 +7,11 @@ mavlink_joystick_air_t msg_joystick_air;
 
 bool ReadJoystickButtons(mavlink_joystick_air_t msg_joystick_air_, KEYS index)
 {
-    vPortEnterCritical();
-    mavlink_joystick_air_t msg_joystick_air_temp = msg_joystick_air_;
-    vPortExitCritical();
+    // vPortEnterCritical();
+    // mavlink_joystick_air_t msg_joystick_air_temp = msg_joystick_air_;
+    // vPortExitCritical();
 
-    return ((msg_joystick_air_temp.buttons >> (index - 1)) & 1);
+    return ((msg_joystick_air_.buttons >> (index - 1)) & 1);
 }
 
 float ReadJoystickLeft_x(mavlink_joystick_air_t msg_joystick_air_)
@@ -61,7 +61,7 @@ int16_t ReadJoystickKnobsRight(mavlink_joystick_air_t msg_joystick_air_)
     mavlink_joystick_air_t msg_joystick_air_temp = msg_joystick_air_;
     vPortExitCritical();
 
-    return msg_joystick_air_temp.knobs[1];
+    return msg_joystick_air_.knobs[1];
 }
 
 bool ReadJoystickSwitchs(mavlink_joystick_air_t msg_joystick_air_, SWITCHS index)

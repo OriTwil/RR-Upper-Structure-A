@@ -30,10 +30,10 @@ SERVO_REF_FIRE Fire_ref =
         .position_servo_ref_push = 0,
         .speed_servo_ref_left    = 0,
         .speed_servo_ref_right   = 0,
-        .micro_adjust_ref = 0,
+        .micro_adjust_ref        = 0,
 };
 
-ADJUSTMENT Adjustment; 
+ADJUSTMENT Adjustment;
 /**
  * @description: 伺服线程，六个电机和两个舵机
  * @author: szf
@@ -44,8 +44,7 @@ void ServoTask(void const *argument)
     uint32_t PreviousWakeTime = xTaskGetTickCount();
     vTaskDelay(20);
     for (;;) {
-        FireMicroAdjustment(&Fire_ref);
-        
+
         // 射环两个电机、推环电机伺服
         xSemaphoreTakeRecursive(Fire_ref.xMutex_servo_fire, (TickType_t)10);
         speedServo((Fire_ref.speed_servo_ref_left - Fire_ref.micro_adjust_ref) * Fire_Wheel_Ratio, &hDJI[Motor_id_Fire_Left_Large]);
@@ -413,9 +412,9 @@ void SetAllHugBackTrajectory(float ref_pitch,
         VelocityPlanning(initialAngleArm, MaxAngularVelocity_Arm, MotorAngularAcceleration_Arm, ref_arm, timeSec, &(current_pickup_ref->position_servo_ref_arm));
 
         if (timeSec > 0.4) {
-            CcrUniform(initialCCRLeft, MaxAngularVelocity_CCR, ref_ccr_left, (timeSec-0.4), &(current_pickup_ref->pwm_ccr_left));
-            CcrUniform(initialCCRRight, MaxAngularVelocity_CCR, ref_ccr_right, (timeSec-0.4), &(current_pickup_ref->pwm_ccr_right));
-            CcrUniform(initialCCRMiddle, MaxAngularVelocity_CCR, ref_ccr_middle, (timeSec-0.4), &(current_pickup_ref->pwm_ccr_middle));
+            CcrUniform(initialCCRLeft, MaxAngularVelocity_CCR, ref_ccr_left, (timeSec - 0.4), &(current_pickup_ref->pwm_ccr_left));
+            CcrUniform(initialCCRRight, MaxAngularVelocity_CCR, ref_ccr_right, (timeSec - 0.4), &(current_pickup_ref->pwm_ccr_right));
+            CcrUniform(initialCCRMiddle, MaxAngularVelocity_CCR, ref_ccr_middle, (timeSec - 0.4), &(current_pickup_ref->pwm_ccr_middle));
         }
         xSemaphoreGiveRecursive(current_pickup_ref->xMutex_servo_pickup);
 
@@ -436,7 +435,7 @@ void SetAllHugBackTrajectory(float ref_pitch,
 void FireMicroAdjustment(SERVO_REF_FIRE *current_fire_ref)
 {
 
-    xSemaphoreTake(current_fire_ref->xMutex_servo_fire,portMAX_DELAY);
+    xSemaphoreTake(current_fire_ref->xMutex_servo_fire, portMAX_DELAY);
     current_fire_ref->micro_adjust_ref = (float)ReadJoystickKnobsRight(msg_joystick_air);
     xSemaphoreGive(current_fire_ref->xMutex_servo_fire);
 }
