@@ -46,7 +46,7 @@ void ServoTask(void const *argument)
     for (;;) {
 
         // 射环两个电机、推环电机伺服
-        xSemaphoreTakeRecursive(Fire_ref.xMutex_servo_fire, (TickType_t)10);
+        xSemaphoreTakeRecursive(Fire_ref.xMutex_servo_fire, portMAX_DELAY);
         speedServo((Fire_ref.speed_servo_ref_left - Fire_ref.micro_adjust_ref) * Fire_Wheel_Ratio, &hDJI[Motor_id_Fire_Left_Large]);
         speedServo(Fire_ref.speed_servo_ref_left - Fire_ref.micro_adjust_ref, &hDJI[Motor_id_Fire_Left_Small]);
         speedServo((Fire_ref.speed_servo_ref_right + Fire_ref.micro_adjust_ref) * Fire_Wheel_Ratio, &hDJI[Motor_id_Fire_Right_Large]);
@@ -55,7 +55,7 @@ void ServoTask(void const *argument)
         xSemaphoreGiveRecursive(Fire_ref.xMutex_servo_fire);
 
         // Pitch、Arm、Yaw轴电机的伺服
-        xSemaphoreTakeRecursive(Pickup_ref.xMutex_servo_pickup, (TickType_t)10);
+        xSemaphoreTakeRecursive(Pickup_ref.xMutex_servo_pickup, portMAX_DELAY);
         positionServo(Pickup_ref.position_servo_ref_pitch, &hDJI[Motor_id_Pitch]);
         positionServo(Pickup_ref.position_servo_ref_arm, &hDJI[Motor_id_Arm]);
         positionServo(Pickup_ref.position_servo_ref_yaw, &hDJI[Motor_id_Yaw]);
@@ -137,7 +137,7 @@ void PWMInit()
  */
 void SetServoRefPickup(float ref_pitch, float ref_yaw, float ref_arm, SERVO_REF_PICKUP *current_pickup_ref)
 {
-    xSemaphoreTakeRecursive(current_pickup_ref->xMutex_servo_pickup, (TickType_t)10);
+    xSemaphoreTakeRecursive(current_pickup_ref->xMutex_servo_pickup, portMAX_DELAY);
     current_pickup_ref->position_servo_ref_pitch = ref_pitch;
     current_pickup_ref->position_servo_ref_yaw   = ref_yaw;
     current_pickup_ref->position_servo_ref_arm   = ref_arm;
@@ -150,7 +150,7 @@ void SetServoRefPickup(float ref_pitch, float ref_yaw, float ref_arm, SERVO_REF_
  */
 void SetPwmCcr(int pwm_ccr_left, int pwm_ccr_right, int pwm_ccr_middle, SERVO_REF_PICKUP *current_pickup_ref)
 {
-    xSemaphoreTakeRecursive(current_pickup_ref->xMutex_servo_pickup, (TickType_t)10);
+    xSemaphoreTakeRecursive(current_pickup_ref->xMutex_servo_pickup, portMAX_DELAY);
     current_pickup_ref->pwm_ccr_left   = pwm_ccr_left;
     current_pickup_ref->pwm_ccr_right  = pwm_ccr_right;
     current_pickup_ref->pwm_ccr_middle = pwm_ccr_middle;
@@ -163,7 +163,7 @@ void SetPwmCcr(int pwm_ccr_left, int pwm_ccr_right, int pwm_ccr_middle, SERVO_RE
  */
 void SetPwmCcrMiddle(int pwm_ccr_middle, SERVO_REF_PICKUP *current_pickup_ref)
 {
-    xSemaphoreTakeRecursive(current_pickup_ref->xMutex_servo_pickup, (TickType_t)10);
+    xSemaphoreTakeRecursive(current_pickup_ref->xMutex_servo_pickup, portMAX_DELAY);
     current_pickup_ref->pwm_ccr_middle = pwm_ccr_middle;
     xSemaphoreGiveRecursive(current_pickup_ref->xMutex_servo_pickup);
 }
@@ -174,7 +174,7 @@ void SetPwmCcrMiddle(int pwm_ccr_middle, SERVO_REF_PICKUP *current_pickup_ref)
  */
 void SetServoRefFire(float ref_left, float ref_right, SERVO_REF_FIRE *current_fire_ref)
 {
-    xSemaphoreTakeRecursive(current_fire_ref->xMutex_servo_fire, (TickType_t)10);
+    xSemaphoreTakeRecursive(current_fire_ref->xMutex_servo_fire, portMAX_DELAY);
     current_fire_ref->speed_servo_ref_left  = ref_left;
     current_fire_ref->speed_servo_ref_right = ref_right;
     xSemaphoreGiveRecursive(current_fire_ref->xMutex_servo_fire);
@@ -186,7 +186,7 @@ void SetServoRefFire(float ref_left, float ref_right, SERVO_REF_FIRE *current_fi
  */
 void SetServoRefPush(float ref_push, SERVO_REF_FIRE *current_fire_ref)
 {
-    xSemaphoreTakeRecursive(current_fire_ref->xMutex_servo_fire, (TickType_t)10);
+    xSemaphoreTakeRecursive(current_fire_ref->xMutex_servo_fire, portMAX_DELAY);
     current_fire_ref->position_servo_ref_push = ref_push;
     xSemaphoreGiveRecursive(current_fire_ref->xMutex_servo_fire);
 }
@@ -287,7 +287,7 @@ void SetServoRefPickupTrajectory(float ref_pitch, float ref_yaw, float ref_arm, 
         TickType_t elapsedTime = endTime - startTime;
         float timeSec          = (elapsedTime / (1000.0)); // 获取当前时间/s
 
-        xSemaphoreTakeRecursive(current_pickup_ref->xMutex_servo_pickup, (TickType_t)10);
+        xSemaphoreTakeRecursive(current_pickup_ref->xMutex_servo_pickup, portMAX_DELAY);
         // 速度规划
         VelocityPlanning(initialAnglePitch, MaxAngularVelocity_Pitch, MotorAngularAcceleration_Pitch, ref_pitch, timeSec, &(current_pickup_ref->position_servo_ref_pitch));
         VelocityPlanning(initialAngleYaw, MaxAngularVelocity_Yaw, MotorAngularAcceleration_Yaw, ref_yaw, timeSec, &(current_pickup_ref->position_servo_ref_yaw));
@@ -348,7 +348,7 @@ void SetAllPickupTrajectory(float ref_pitch,
         TickType_t elapsedTime = endTime - startTime;
         float timeSec          = (elapsedTime / (1000.0)); // 获取当前时间/s
 
-        xSemaphoreTakeRecursive(current_pickup_ref->xMutex_servo_pickup, (TickType_t)10);
+        xSemaphoreTakeRecursive(current_pickup_ref->xMutex_servo_pickup, portMAX_DELAY);
         // 速度规划
         VelocityPlanning(initialAnglePitch, MaxAngularVelocity_Pitch, MotorAngularAcceleration_Pitch, ref_pitch, timeSec, &(current_pickup_ref->position_servo_ref_pitch));
         VelocityPlanning(initialAngleYaw, MaxAngularVelocity_Yaw, MotorAngularAcceleration_Yaw, ref_yaw, timeSec, &(current_pickup_ref->position_servo_ref_yaw));
@@ -405,7 +405,7 @@ void SetAllHugBackTrajectory(float ref_pitch,
         TickType_t elapsedTime = endTime - startTime;
         float timeSec          = (elapsedTime / (1000.0)); // 获取当前时间/s
 
-        xSemaphoreTakeRecursive(current_pickup_ref->xMutex_servo_pickup, (TickType_t)10);
+        xSemaphoreTakeRecursive(current_pickup_ref->xMutex_servo_pickup, portMAX_DELAY);
         // 速度规划
         VelocityPlanning(initialAnglePitch, MaxAngularVelocity_Pitch, MotorAngularAcceleration_Pitch, ref_pitch, timeSec, &(current_pickup_ref->position_servo_ref_pitch));
         VelocityPlanning(initialAngleYaw, MaxAngularVelocity_Yaw, MotorAngularAcceleration_Yaw, ref_yaw, timeSec, &(current_pickup_ref->position_servo_ref_yaw));

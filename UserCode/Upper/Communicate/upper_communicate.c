@@ -44,7 +44,8 @@ void CommunicateTaskStart()
 }
 
 // 通信初始化
-void CommunicateInit()
+void 
+CommunicateInit()
 {
     wtrMavlink_BindChannel(&huart_Mavlink, MAVLINK_COMM_0); // 接收板间通信MAVLINK
     wtrMavlink_StartReceiveIT(MAVLINK_COMM_0);

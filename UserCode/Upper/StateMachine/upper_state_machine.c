@@ -40,9 +40,17 @@ void StateMachineTask(void const *argument)
                 SetAllPickupTrajectory(Hug_Pitch, Hug_Yaw, Hug_Arm, Hug_CCR_Left, Hug_CCR_Right, Hug_CCR_Middle, &Pickup_ref);
                 break;
             case HugBack:
-                SetAllHugBackTrajectory(Ready_Pitch, Ready_Yaw, Ready_Arm, CCR_Left_Ready, CCR_Right_Ready, CCR_Middle_Ready, &Pickup_ref);
-                PickupSwitchState(Ready, &Upper_state);
+                SetAllHugBackTrajectory(Fire_Ready_Pitch, Fire_Ready_Yaw, Fire_Ready_Arm, Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
+                PickupSwitchState(FireReady, &Upper_state);
                 break;
+
+            case FireReady:
+                SetServoRefPush(Fire_Push_Back, &Fire_ref);
+                SetServoRefFire(Fire_Ready, -Fire_Ready, &Fire_ref);
+                SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
+                SetServoRefPickupTrajectory(Fire_Ready_Pitch, Fire_Ready_Yaw, Fire_Ready_Arm, &Pickup_ref);
+                break;
+
             case Pickup:
                 // 开始取环
                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
@@ -150,6 +158,7 @@ void StateMachineTask(void const *argument)
                         PickupSwitchStep(Overturn_back, &Upper_state);
                         break;
                     case Overturn_back: // 机械臂收回
+                        SetServoRefFire(Fire_Accelerate, -Fire_Accelerate, &Fire_ref);
                         SetAllPickupTrajectory(Overture_Pitch_back, Overturn_Yaw_Transition, Overturn_Arm_back, CCR_Left_Ready, CCR_Right_Ready, CCR_Middle_Closed, &Pickup_ref);
                         PickupSwitchStep(Release, &Upper_state);
                         vTaskDelay(20);
@@ -167,7 +176,7 @@ void StateMachineTask(void const *argument)
                 break;
             case Fire:
                 // 射环
-                SetServoRefFire(Fire_Ready, -Fire_Ready, &Fire_ref);
+                // SetServoRefFire(Fire_Accelerate, -Fire_Accelerate, &Fire_ref);
                 switch (ReadChassisPoint(&Chassis_state)) // 点位号(预先将点位编号)
                 {
                     case Fifth_Point:                    // todo 确定战术
@@ -176,90 +185,90 @@ void StateMachineTask(void const *argument)
                             case First_Target:
                                 SetServoRefFire(-Fire_5_1, Fire_5_1, &Fire_ref);
                                 SetAllPickupTrajectory(Fire_Pitch_5_1, Fire_Yaw_5_1, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
-                                vTaskDelay(800);
+                                vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(1500);
+                                vTaskDelay(900);
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
-                                SetPwmCcr(CCR_Left_Ready, CCR_Right_Ready, CCR_Middle_Ready, &Pickup_ref);
+                                SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
-                                PickupSwitchState(Ready, &Upper_state);
+                                PickupSwitchState(FireReady, &Upper_state);
                                 break;
                             case Second_Target:
                                 SetServoRefFire(-Fire_5_2, Fire_5_2, &Fire_ref);
                                 SetAllPickupTrajectory(Fire_Pitch_5_2, Fire_Yaw_5_2, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
-                                vTaskDelay(800);
+                                vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(1500);
+                                vTaskDelay(900);
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
-                                SetPwmCcr(CCR_Left_Ready, CCR_Right_Ready, CCR_Middle_Ready, &Pickup_ref);
+                                SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
-                                PickupSwitchState(Ready, &Upper_state);
+                                PickupSwitchState(FireReady, &Upper_state);
                                 break;
                             case Third_Target:
                                 SetServoRefFire(-Fire_5_3, Fire_5_3, &Fire_ref);
                                 SetAllPickupTrajectory(Fire_Pitch_5_3, Fire_Yaw_5_3, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
-                                vTaskDelay(800);
+                                vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(1500);
+                                vTaskDelay(900);
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
-                                SetPwmCcr(CCR_Left_Ready, CCR_Right_Ready, CCR_Middle_Ready, &Pickup_ref);
+                                SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
-                                PickupSwitchState(Ready, &Upper_state);
+                                PickupSwitchState(FireReady, &Upper_state);
                                 break;
                             case Fourth_Target:
                                 SetServoRefFire(-Fire_5_4, Fire_5_4, &Fire_ref);
                                 SetAllPickupTrajectory(Fire_Pitch_5_4, Fire_Yaw_5_4, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
-                                vTaskDelay(800);
+                                vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(1500);
+                                vTaskDelay(900);
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
-                                SetPwmCcr(CCR_Left_Ready, CCR_Right_Ready, CCR_Middle_Ready, &Pickup_ref);
+                                SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
-                                PickupSwitchState(Ready, &Upper_state);
+                                PickupSwitchState(FireReady, &Upper_state);
                                 break;
                             case Fifth_Target:
                                 SetServoRefFire(-Fire_5_5, Fire_5_5, &Fire_ref);
                                 SetAllPickupTrajectory(Fire_Pitch_5_5, Fire_Yaw_5_5, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
-                                vTaskDelay(800);
+                                vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(1500);
+                                vTaskDelay(900);
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
-                                SetPwmCcr(CCR_Left_Ready, CCR_Right_Ready, CCR_Middle_Ready, &Pickup_ref);
+                                SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
-                                PickupSwitchState(Ready, &Upper_state);
+                                PickupSwitchState(FireReady, &Upper_state);
                                 break;
                             case Sixth_Target:
                                 SetServoRefFire(-Fire_5_6, Fire_5_6, &Fire_ref);
                                 SetAllPickupTrajectory(Fire_Pitch_5_6, Fire_Yaw_5_6, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
-                                vTaskDelay(800);
+                                vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(1500);
+                                vTaskDelay(900);
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
-                                SetPwmCcr(CCR_Left_Ready, CCR_Right_Ready, CCR_Middle_Ready, &Pickup_ref);
+                                SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
-                                PickupSwitchState(Ready, &Upper_state);
+                                PickupSwitchState(FireReady, &Upper_state);
                                 break;
                             case Seventh_Target:
                                 SetServoRefFire(-Fire_5_7, Fire_5_7, &Fire_ref);
                                 SetAllPickupTrajectory(Fire_Pitch_5_7, Fire_Yaw_5_7, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
-                                vTaskDelay(800);
+                                vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(1500);
+                                vTaskDelay(900);
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
-                                SetPwmCcr(CCR_Left_Ready, CCR_Right_Ready, CCR_Middle_Ready, &Pickup_ref);
+                                SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
-                                PickupSwitchState(Ready, &Upper_state);
+                                PickupSwitchState(FireReady, &Upper_state);
                                 break;
                             case Eighth_Target:
                                 SetServoRefFire(-Fire_5_8, Fire_5_8, &Fire_ref);
                                 SetAllPickupTrajectory(Fire_Pitch_5_8, Fire_Yaw_5_8, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
-                                vTaskDelay(800);
+                                vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(1500);
+                                vTaskDelay(900);
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
-                                SetPwmCcr(CCR_Left_Ready, CCR_Right_Ready, CCR_Middle_Ready, &Pickup_ref);
+                                SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
-                                PickupSwitchState(Ready, &Upper_state);
+                                PickupSwitchState(FireReady, &Upper_state);
                                 break;
                             default:
                                 break;
@@ -270,35 +279,35 @@ void StateMachineTask(void const *argument)
                             case First_Target:
                                 SetServoRefFire(-Fire_6_1, Fire_6_1, &Fire_ref);
                                 SetAllPickupTrajectory(Fire_Pitch_6_1, Fire_Yaw_6_1, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
-                                vTaskDelay(800);
+                                vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(1500);
+                                vTaskDelay(900);
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
-                                SetPwmCcr(CCR_Left_Ready, CCR_Right_Ready, CCR_Middle_Ready, &Pickup_ref);
+                                SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
-                                PickupSwitchState(Ready, &Upper_state);
+                                PickupSwitchState(FireReady, &Upper_state);
                                 break;
                             case Fourth_Target:
                                 SetServoRefFire(-Fire_6_4, Fire_6_4, &Fire_ref);
                                 SetAllPickupTrajectory(Fire_Pitch_6_4, Fire_Yaw_6_4, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
-                                vTaskDelay(800);
+                                vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(1500);
+                                vTaskDelay(900);
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
-                                SetPwmCcr(CCR_Left_Ready, CCR_Right_Ready, CCR_Middle_Ready, &Pickup_ref);
+                                SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
-                                PickupSwitchState(Ready, &Upper_state);
+                                PickupSwitchState(FireReady, &Upper_state);
                                 break;
                             case Sixth_Target:
                                 SetServoRefFire(-Fire_6_6, Fire_6_6, &Fire_ref);
                                 SetAllPickupTrajectory(Fire_Pitch_6_6, Fire_Yaw_6_6, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
-                                vTaskDelay(800);
+                                vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(1500);
+                                vTaskDelay(900);
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
-                                SetPwmCcr(CCR_Left_Ready, CCR_Right_Ready, CCR_Middle_Ready, &Pickup_ref);
+                                SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
-                                PickupSwitchState(Ready, &Upper_state);
+                                PickupSwitchState(FireReady, &Upper_state);
                                 break;
                             default:
                                 break;
@@ -309,35 +318,35 @@ void StateMachineTask(void const *argument)
                             case Second_Target:
                                 SetServoRefFire(-Fire_7_2, Fire_7_2, &Fire_ref);
                                 SetAllPickupTrajectory(Fire_Pitch_7_2, Fire_Yaw_7_2, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
-                                vTaskDelay(800);
+                                vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(1500);
+                                vTaskDelay(900);
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
-                                SetPwmCcr(CCR_Left_Ready, CCR_Right_Ready, CCR_Middle_Ready, &Pickup_ref);
+                                SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
-                                PickupSwitchState(Ready, &Upper_state);
+                                PickupSwitchState(FireReady, &Upper_state);
                                 break;
                             case Fifth_Target:
                                 SetServoRefFire(-Fire_7_5, Fire_7_5, &Fire_ref);
                                 SetAllPickupTrajectory(Fire_Pitch_7_5, Fire_Yaw_7_5, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
-                                vTaskDelay(800);
+                                vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(1500);
+                                vTaskDelay(900);
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
-                                SetPwmCcr(CCR_Left_Ready, CCR_Right_Ready, CCR_Middle_Ready, &Pickup_ref);
+                                SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
-                                PickupSwitchState(Ready, &Upper_state);
+                                PickupSwitchState(FireReady, &Upper_state);
                                 break;
                             case Eighth_Target:
                                 SetServoRefFire(-Fire_7_8, Fire_7_8, &Fire_ref);
                                 SetAllPickupTrajectory(Fire_Pitch_7_8, Fire_Yaw_7_8, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
-                                vTaskDelay(800);
+                                vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(1500);
+                                vTaskDelay(900);
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
-                                SetPwmCcr(CCR_Left_Ready, CCR_Right_Ready, CCR_Middle_Ready, &Pickup_ref);
+                                SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
-                                PickupSwitchState(Ready, &Upper_state);
+                                PickupSwitchState(FireReady, &Upper_state);
                                 break;
                             default:
                                 break;
@@ -382,7 +391,7 @@ void StateMachineTaskStart()
  */
 void PickupSwitchState(PICKUP_STATE target_pick_up_state, UPPER_STATE *current_upper_state)
 {
-    xSemaphoreTakeRecursive(current_upper_state->xMutex_upper, (TickType_t)10);
+    xSemaphoreTakeRecursive(current_upper_state->xMutex_upper, portMAX_DELAY);
     current_upper_state->Pickup_state = target_pick_up_state;
     xSemaphoreGiveRecursive(current_upper_state->xMutex_upper);
 }
@@ -393,7 +402,7 @@ void PickupSwitchState(PICKUP_STATE target_pick_up_state, UPPER_STATE *current_u
  */
 void PickupSwitchStep(PICKUP_STEP target_pick_up_step, UPPER_STATE *current_upper_state)
 {
-    xSemaphoreTakeRecursive(current_upper_state->xMutex_upper, (TickType_t)10);
+    xSemaphoreTakeRecursive(current_upper_state->xMutex_upper, portMAX_DELAY);
     current_upper_state->Pickup_step = target_pick_up_step;
     xSemaphoreGiveRecursive(current_upper_state->xMutex_upper);
 }
@@ -404,7 +413,7 @@ void PickupSwitchStep(PICKUP_STEP target_pick_up_step, UPPER_STATE *current_uppe
  */
 void PickupSwitchRing(PICKUP_RING target_pick_up_Ring, UPPER_STATE *current_upper_state)
 {
-    xSemaphoreTakeRecursive(current_upper_state->xMutex_upper, (TickType_t)10);
+    xSemaphoreTakeRecursive(current_upper_state->xMutex_upper, portMAX_DELAY);
     current_upper_state->Pickup_ring = target_pick_up_Ring;
     xSemaphoreGiveRecursive(current_upper_state->xMutex_upper);
 }
@@ -415,14 +424,14 @@ void PickupSwitchRing(PICKUP_RING target_pick_up_Ring, UPPER_STATE *current_uppe
  */
 void FireSwitchNumber(FIRE_NUMBER target_fire_number, UPPER_STATE *current_upper_state)
 {
-    xSemaphoreTakeRecursive(current_upper_state->xMutex_upper, (TickType_t)10);
+    xSemaphoreTakeRecursive(current_upper_state->xMutex_upper, portMAX_DELAY);
     current_upper_state->Fire_number = target_fire_number;
     xSemaphoreGiveRecursive(current_upper_state->xMutex_upper);
 }
 
 void PointSwitchNumber(CHASSIS_POINT target_point, CHASSIS_STATE *Chassis_State)
 {
-    xSemaphoreTakeRecursive(Chassis_State->xMutex_point, (TickType_t)10);
+    xSemaphoreTakeRecursive(Chassis_State->xMutex_point, portMAX_DELAY);
     Chassis_State->Chassis_point = target_point;
     xSemaphoreGiveRecursive(Chassis_State->xMutex_point);
 }

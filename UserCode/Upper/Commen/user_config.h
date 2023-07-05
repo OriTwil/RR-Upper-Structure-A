@@ -54,38 +54,38 @@
 #define Ready_Arm   0
 
 /*********************抱着环*********************/
-#define Hug_Pitch      830
+#define Hug_Pitch      540
 #define Hug_Yaw        0
-#define Hug_Arm        -228
+#define Hug_Arm        -230
 
-#define Hug_CCR_Left   2120
-#define Hug_CCR_Right  1080
+#define Hug_CCR_Left   2100
+#define Hug_CCR_Right  1100
 #define Hug_CCR_Middle 1740
 
 /***********************取环*********************/
 #define Overturn_Pitch_1    78
 #define Overturn_Pitch_2    84
 #define Overturn_Pitch_3    92
-#define Overturn_Pitch_4    565
-#define Overturn_Pitch_5    610
-#define Overturn_Pitch_6    655
-#define Overturn_Pitch_7    700
-#define Overturn_Pitch_8    745
-#define Overturn_Pitch_9    790
-#define Overturn_Pitch_10   843
+#define Overturn_Pitch_4    265
+#define Overturn_Pitch_5    310
+#define Overturn_Pitch_6    356
+#define Overturn_Pitch_7    405
+#define Overturn_Pitch_8    450
+#define Overturn_Pitch_9    498
+#define Overturn_Pitch_10   545
 
-#define Overture_Arm_1      -268
-#define Overture_Arm_2      -268
-#define Overture_Arm_3      -266
-#define Overture_Arm_4      -260
-#define Overture_Arm_5      -257
-#define Overture_Arm_6      -254
-#define Overture_Arm_7      -251
-#define Overture_Arm_8      -248
-#define Overture_Arm_9      -245
-#define Overture_Arm_10     -242
+#define Overture_Arm_1      -267
+#define Overture_Arm_2      -264
+#define Overture_Arm_3      -261
+#define Overture_Arm_4      -267
+#define Overture_Arm_5      -264
+#define Overture_Arm_6      -261
+#define Overture_Arm_7      -258
+#define Overture_Arm_8      -255
+#define Overture_Arm_9      -252
+#define Overture_Arm_10     -249
 
-#define Overture_Pitch_back 450
+#define Overture_Pitch_back 150
 #define Overturn_Arm_back   0
 #define Pickup_Yaw          0
 
@@ -125,9 +125,19 @@
 #define CCR_Right_Pickup_9  1860
 #define CCR_Right_Pickup_10 1860
 
+/*********************射环准备状态***********************/
+#define Fire_Ready_Pitch 300
+#define Fire_Ready_Yaw 0
+#define Fire_Ready_Arm -75
+
+#define Fire_Ready_CCR_Left 1900
+#define Fire_Ready_CCR_Right 1300
+#define Fire_Ready_CCR_Middle 1600
+
 /*********************射环***********************/
 //射速
 #define Fire_Ready       0
+#define Fire_Accelerate 1500
 #define Fire_3_1         1750
 #define Fire_3_2         0
 #define Fire_3_3         1600
@@ -136,14 +146,14 @@
 #define Fire_4_2         1750
 #define Fire_4_3         0
 
-#define Fire_5_1         2310
-#define Fire_5_2         2290
-#define Fire_5_3         2120
-#define Fire_5_4         1700
-#define Fire_5_5         1700
-#define Fire_5_6         2080
+#define Fire_5_1         2336
+#define Fire_5_2         2336
+#define Fire_5_3         2176
+#define Fire_5_4         1756
+#define Fire_5_5         1756
+#define Fire_5_6         2100
 #define Fire_5_7         1300
-#define Fire_5_8         2080
+#define Fire_5_8         2100
 
 #define Fire_6_1         0
 #define Fire_6_2         1600
@@ -172,14 +182,14 @@
 #define Fire_Pitch_4_2   125
 #define Fire_Pitch_4_3   0
 
-#define Fire_Pitch_5_1   600
-#define Fire_Pitch_5_2   600
-#define Fire_Pitch_5_3   815
-#define Fire_Pitch_5_4   640
-#define Fire_Pitch_5_5   640
-#define Fire_Pitch_5_6   570
-#define Fire_Pitch_5_7   690
-#define Fire_Pitch_5_8   570
+#define Fire_Pitch_5_1   300
+#define Fire_Pitch_5_2   300
+#define Fire_Pitch_5_3   515
+#define Fire_Pitch_5_4   350
+#define Fire_Pitch_5_5   350
+#define Fire_Pitch_5_6   270
+#define Fire_Pitch_5_7   390
+#define Fire_Pitch_5_8   270
 
 #define Fire_Pitch_6_1   0
 #define Fire_Pitch_6_2   115
@@ -246,13 +256,13 @@
 #define Fire_Wheel_Ratio 0.875
 
 /**************电机的最大角速度 角加速度*************/
-#define MaxAngularVelocity_Pitch       2500
-#define MaxAngularVelocity_Arm         300
+#define MaxAngularVelocity_Pitch       4000
+#define MaxAngularVelocity_Arm         600
 #define MaxAngularVelocity_Yaw         2500
-#define MaxAngularVelocity_CCR         330
+#define MaxAngularVelocity_CCR         500
 
-#define MotorAngularAcceleration_Pitch 3000
-#define MotorAngularAcceleration_Arm   300
+#define MotorAngularAcceleration_Pitch 3500
+#define MotorAngularAcceleration_Arm   450
 #define MotorAngularAcceleration_Yaw   1000
 
 /**
