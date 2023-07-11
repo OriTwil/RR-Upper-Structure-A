@@ -1,6 +1,6 @@
 # RR-Upper-Structure-A
 2023 ROBOCON RR Upper Structure ported to F427 MCU
-
+<image src="https://github.com/OriTwil/RR-Upper-Structure-A/blob/main/image/RR%20image.jpg" width="500" height="400">
 ## "Rabbit Robot"
 <image src="https://github.com/OriTwil/RR-Upper-Structure-A/blob/main/image/xmind-rr.png" width="1000">
 <image src="https://github.com/OriTwil/RR-Upper-Structure-A/blob/main/image/mavlink-rr.png" width="1000">
@@ -71,8 +71,10 @@
 ## Tips
 - Double-click the workspace to enter the working area.
 - For porting, only copy the UserCode folder.
-- The RR project uses two mainboards, and this project focuses on the upper structure.
-  
+- The RR project uses two mainboards, and this project focuses on the upper structure.[`RR Chassis`](https://github.com/OriTwil/RR-Chassis)
+- Explanation of the keyword `volatile(__IO)`：[Article Link](https://blog.csdn.net/yangzhen92/article/details/46686625)
+- [`Mavlink`Official Website](https://mavlink.io/zh/)
+- [`FreeRTOS`Official Website](https://www.freertos.org/zh-cn-cmn-s/FreeRTOS-quick-start-guide.html)
 ## Result
 - 5.16 Motor speed planning
   <image src="https://github.com/OriTwil/RR-Upper-Structure-A/blob/main/image/speed-planning.jpg" width="1000">
