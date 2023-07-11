@@ -38,14 +38,27 @@ void StateMachineTask(void const *argument)
                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
                 SetServoRefFire(Fire_Ready, -Fire_Ready, &Fire_ref);
                 SetAllPickupTrajectory(Hug_Pitch, Hug_Yaw, Hug_Arm, Hug_CCR_Left, Hug_CCR_Right, Hug_CCR_Middle, &Pickup_ref);
+
                 break;
+            case HugTransition:
+                SetServoRefPush(Fire_Push_Back, &Fire_ref);
+                SetServoRefFire(Fire_Ready, -Fire_Ready, &Fire_ref);
+                // SetServoRefPitchTrajectory(Overturn_Pitch_Transition, &Pickup_ref);
+                SetAllPickupTrajectory(Overturn_Pitch_Transition, Hug_Yaw, Overturn_Arm_Transition, Hug_CCR_Left, Hug_CCR_Right, Hug_CCR_Middle, &Pickup_ref);
+                PickupSwitchState(Hug, &Upper_state);
+                break;
+
             case HugBack:
-                SetAllHugBackTrajectory(Fire_Ready_Pitch, Fire_Ready_Yaw, Fire_Ready_Arm, Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
+                SetAllPickupTrajectory(Hug_Pitch, Hug_Yaw, -210, Hug_CCR_Left, Hug_CCR_Right, Hug_CCR_Middle, &Pickup_ref);
+                SetAllPickupTrajectory(Overturn_Pitch_Transition, Hug_Yaw, Overturn_Arm_Transition, Hug_CCR_Left, Hug_CCR_Right, Hug_CCR_Middle, &Pickup_ref);
+                SetServoRefPitchTrajectory(Overturn_Pitch_Transition, &Pickup_ref);
+                SetAllHugBackTrajectory(Overturn_Pitch_Transition, Fire_Ready_Yaw, Fire_Ready_Arm, Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
+                SetServoRefPitchTrajectory(Fire_Ready_Pitch, &Pickup_ref);
                 PickupSwitchState(FireReady, &Upper_state);
                 break;
 
             case FireReady:
-                SetServoRefPush(Fire_Push_Back, &Fire_ref);
+                // SetServoRefPush(Fire_Push_Back, &Fire_ref);
                 SetServoRefFire(Fire_Ready, -Fire_Ready, &Fire_ref);
                 SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                 SetServoRefPickupTrajectory(Fire_Ready_Pitch, Fire_Ready_Yaw, Fire_Ready_Arm, &Pickup_ref);
@@ -61,23 +74,28 @@ void StateMachineTask(void const *argument)
                             case First_Ring: // 最上层环
                                 // SetPwmCcr(CCR_Left_Pickup_1, CCR_Right_Pickup_1, CCR_Middle_Opened, &Pickup_ref);
                                 // SetAllPickupTrajectory(Overturn_Pitch_1,Pickup_Yaw,Overture_Arm_1,)
-                                SetAllPickupTrajectory(Overturn_Pitch_1, Pickup_Yaw, Overture_Arm_1, CCR_Left_Pickup_1, CCR_Right_Pickup_1, CCR_Middle_Opened, &Pickup_ref);
+                                SetServoRefPitchTrajectory(Overturn_Pitch_Transition, &Pickup_ref);
+                                SetAllPickupTrajectory(Overturn_Pitch_Transition, Pickup_Yaw, Overture_Arm_1, CCR_Left_Pickup_1, CCR_Right_Pickup_1, CCR_Middle_Opened, &Pickup_ref);
                                 vTaskDelay(2);
+                                SetServoRefPitchTrajectory(Overturn_Pitch_1, &Pickup_ref);
                                 PickupSwitchRing(Second_Ring, &Upper_state);
                                 PickupSwitchStep(Clamp, &Upper_state);
 
                                 break;
                             case Second_Ring: // 第二层环
-
-                                SetAllPickupTrajectory(Overturn_Pitch_2, Pickup_Yaw, Overture_Arm_2, CCR_Left_Pickup_2, CCR_Right_Pickup_2, CCR_Middle_Opened, &Pickup_ref);
+                                SetServoRefPitchTrajectory(Overturn_Pitch_Transition, &Pickup_ref);
+                                SetAllPickupTrajectory(Overturn_Pitch_Transition, Pickup_Yaw, Overture_Arm_2, CCR_Left_Pickup_2, CCR_Right_Pickup_2, CCR_Middle_Opened, &Pickup_ref);
                                 vTaskDelay(2);
+                                SetServoRefPitchTrajectory(Overturn_Pitch_2, &Pickup_ref);
                                 PickupSwitchRing(Third_Ring, &Upper_state);
                                 PickupSwitchStep(Clamp, &Upper_state);
 
                                 break;
                             case Third_Ring: // 第三层环
-                                SetAllPickupTrajectory(Overturn_Pitch_3, Pickup_Yaw, Overture_Arm_3, CCR_Left_Pickup_3, CCR_Right_Pickup_3, CCR_Middle_Opened, &Pickup_ref);
+                                SetServoRefPitchTrajectory(Overturn_Pitch_Transition, &Pickup_ref);
+                                SetAllPickupTrajectory(Overturn_Pitch_Transition, Pickup_Yaw, Overture_Arm_3, CCR_Left_Pickup_3, CCR_Right_Pickup_3, CCR_Middle_Opened, &Pickup_ref);
                                 vTaskDelay(2);
+                                SetServoRefPitchTrajectory(Overturn_Pitch_3, &Pickup_ref);
                                 PickupSwitchRing(Fourth_Ring, &Upper_state);
                                 PickupSwitchStep(Clamp, &Upper_state);
 
@@ -86,8 +104,10 @@ void StateMachineTask(void const *argument)
                                 // SetServoRefPickupTrajectory(60, Pickup_Yaw, -150, &Pickup_ref);
                                 // SetPwmCcr(CCR_Left_Pickup_4, CCR_Right_Pickup_4, CCR_Middle_Opened, &Pickup_ref);
                                 // SetServoRefPickupTrajectory(Overturn_Pitch_4, Pickup_Yaw, Overture_Arm_4, &Pickup_ref);
-                                SetAllPickupTrajectory(Overturn_Pitch_4, Pickup_Yaw, Overture_Arm_4, CCR_Left_Pickup_4, CCR_Right_Pickup_4, CCR_Middle_Opened, &Pickup_ref);
+                                SetServoRefPitchTrajectory(Overturn_Pitch_Transition, &Pickup_ref);
+                                SetAllPickupTrajectory(Overturn_Pitch_Transition, Pickup_Yaw, Overture_Arm_4, CCR_Left_Pickup_4, CCR_Right_Pickup_4, CCR_Middle_Opened, &Pickup_ref);
                                 vTaskDelay(2);
+                                SetServoRefPitchTrajectory(Overturn_Pitch_4, &Pickup_ref);
                                 PickupSwitchRing(Fifth_Ring, &Upper_state);
                                 PickupSwitchStep(Clamp, &Upper_state);
 
@@ -96,8 +116,10 @@ void StateMachineTask(void const *argument)
                                 // SetServoRefPickupTrajectory(60, Pickup_Yaw, -150, &Pickup_ref);
                                 // SetPwmCcr(CCR_Left_Pickup_5, CCR_Right_Pickup_5, CCR_Middle_Opened, &Pickup_ref);
                                 // SetServoRefPickupTrajectory(Overturn_Pitch_5, Pickup_Yaw, Overture_Arm_5, &Pickup_ref);
-                                SetAllPickupTrajectory(Overturn_Pitch_5, Pickup_Yaw, Overture_Arm_5, CCR_Left_Pickup_5, CCR_Right_Pickup_5, CCR_Middle_Opened, &Pickup_ref);
+                                SetServoRefPitchTrajectory(Overturn_Pitch_Transition, &Pickup_ref);
+                                SetAllPickupTrajectory(Overturn_Pitch_Transition, Pickup_Yaw, Overture_Arm_5, CCR_Left_Pickup_5, CCR_Right_Pickup_5, CCR_Middle_Opened, &Pickup_ref);
                                 vTaskDelay(2);
+                                SetServoRefPitchTrajectory(Overturn_Pitch_5, &Pickup_ref);
                                 PickupSwitchRing(Sixth_Ring, &Upper_state);
                                 PickupSwitchStep(Clamp, &Upper_state);
                                 break;
@@ -105,8 +127,10 @@ void StateMachineTask(void const *argument)
                                 // SetServoRefPickupTrajectory(60, Pickup_Yaw, -150, &Pickup_ref);
                                 // SetPwmCcr(CCR_Left_Pickup_6, CCR_Right_Pickup_6, CCR_Middle_Opened, &Pickup_ref);
                                 // SetServoRefPickupTrajectory(Overturn_Pitch_6, Pickup_Yaw, Overture_Arm_6, &Pickup_ref);
-                                SetAllPickupTrajectory(Overturn_Pitch_6, Pickup_Yaw, Overture_Arm_6, CCR_Left_Pickup_6, CCR_Right_Pickup_6, CCR_Middle_Opened, &Pickup_ref);
+                                SetServoRefPitchTrajectory(Overturn_Pitch_Transition, &Pickup_ref);
+                                SetAllPickupTrajectory(Overturn_Pitch_Transition, Pickup_Yaw, Overture_Arm_6, CCR_Left_Pickup_6, CCR_Right_Pickup_6, CCR_Middle_Opened, &Pickup_ref);
                                 vTaskDelay(2);
+                                SetServoRefPitchTrajectory(Overturn_Pitch_6, &Pickup_ref);
                                 PickupSwitchRing(Seventh_Ring, &Upper_state);
                                 PickupSwitchStep(Clamp, &Upper_state);
                                 break;
@@ -114,8 +138,10 @@ void StateMachineTask(void const *argument)
                                 // SetServoRefPickupTrajectory(60, Pickup_Yaw, -150, &Pickup_ref);
                                 // SetPwmCcr(CCR_Left_Pickup_7, CCR_Right_Pickup_7, CCR_Middle_Opened, &Pickup_ref);
                                 // SetServoRefPickupTrajectory(Overturn_Pitch_7, Pickup_Yaw, Overture_Arm_7, &Pickup_ref);
-                                SetAllPickupTrajectory(Overturn_Pitch_7, Pickup_Yaw, Overture_Arm_7, CCR_Left_Pickup_7, CCR_Right_Pickup_7, CCR_Middle_Opened, &Pickup_ref);
+                                SetServoRefPitchTrajectory(Overturn_Pitch_Transition, &Pickup_ref);
+                                SetAllPickupTrajectory(Overturn_Pitch_Transition, Pickup_Yaw, Overture_Arm_7, CCR_Left_Pickup_7, CCR_Right_Pickup_7, CCR_Middle_Opened, &Pickup_ref);
                                 vTaskDelay(2);
+                                SetServoRefPitchTrajectory(Overturn_Pitch_7, &Pickup_ref);
                                 PickupSwitchRing(Eighth_Ring, &Upper_state);
                                 PickupSwitchStep(Clamp, &Upper_state);
                                 break;
@@ -123,8 +149,10 @@ void StateMachineTask(void const *argument)
                                 // SetServoRefPickupTrajectory(60, Pickup_Yaw, -150, &Pickup_ref);
                                 // SetPwmCcr(CCR_Left_Pickup_8, CCR_Right_Pickup_8, CCR_Middle_Opened, &Pickup_ref);
                                 // SetServoRefPickupTrajectory(Overturn_Pitch_8, Pickup_Yaw, Overture_Arm_8, &Pickup_ref);
-                                SetAllPickupTrajectory(Overturn_Pitch_8, Pickup_Yaw, Overture_Arm_8, CCR_Left_Pickup_8, CCR_Right_Pickup_8, CCR_Middle_Opened, &Pickup_ref);
+                                SetServoRefPitchTrajectory(Overturn_Pitch_Transition, &Pickup_ref);
+                                SetAllPickupTrajectory(Overturn_Pitch_Transition, Pickup_Yaw, Overture_Arm_8, CCR_Left_Pickup_8, CCR_Right_Pickup_8, CCR_Middle_Opened, &Pickup_ref);
                                 vTaskDelay(2);
+                                SetServoRefPitchTrajectory(Overturn_Pitch_8, &Pickup_ref);
                                 PickupSwitchRing(Ninth_Ring, &Upper_state);
                                 PickupSwitchStep(Clamp, &Upper_state);
                                 break;
@@ -132,8 +160,10 @@ void StateMachineTask(void const *argument)
                                 // SetServoRefPickupTrajectory(60, Pickup_Yaw, -150, &Pickup_ref);
                                 // SetPwmCcr(CCR_Left_Pickup_9, CCR_Right_Pickup_9, CCR_Middle_Opened, &Pickup_ref);
                                 // SetServoRefPickupTrajectory(Overturn_Pitch_9, Pickup_Yaw, Overture_Arm_9, &Pickup_ref);
-                                SetAllPickupTrajectory(Overturn_Pitch_9, Pickup_Yaw, Overture_Arm_9, CCR_Left_Pickup_9, CCR_Right_Pickup_9, CCR_Middle_Opened, &Pickup_ref);
+                                SetServoRefPitchTrajectory(Overturn_Pitch_Transition, &Pickup_ref);
+                                SetAllPickupTrajectory(Overturn_Pitch_Transition, Pickup_Yaw, Overture_Arm_9, CCR_Left_Pickup_9, CCR_Right_Pickup_9, CCR_Middle_Opened, &Pickup_ref);
                                 vTaskDelay(2);
+                                SetServoRefPitchTrajectory(Overturn_Pitch_9, &Pickup_ref);
                                 PickupSwitchRing(Tenth_Ring, &Upper_state);
                                 PickupSwitchStep(Clamp, &Upper_state);
                                 break;
@@ -141,8 +171,10 @@ void StateMachineTask(void const *argument)
                                 // SetServoRefPickupTrajectory(60, Pickup_Yaw, -150, &Pickup_ref);
                                 // SetPwmCcr(CCR_Left_Pickup_10, CCR_Right_Pickup_10, CCR_Middle_Opened, &Pickup_ref);
                                 // SetServoRefPickupTrajectory(Overturn_Pitch_10, Pickup_Yaw, Overture_Arm_10, &Pickup_ref);
-                                SetAllPickupTrajectory(Overturn_Pitch_10, Pickup_Yaw, Overture_Arm_10, CCR_Left_Pickup_10, CCR_Right_Pickup_10, CCR_Middle_Opened, &Pickup_ref);
+                                SetServoRefPitchTrajectory(Overturn_Pitch_Transition, &Pickup_ref);
+                                SetAllPickupTrajectory(Overturn_Pitch_Transition, Pickup_Yaw, Overture_Arm_10, CCR_Left_Pickup_10, CCR_Right_Pickup_10, CCR_Middle_Opened, &Pickup_ref);
                                 vTaskDelay(2);
+                                SetServoRefPitchTrajectory(Overturn_Pitch_10, &Pickup_ref);
                                 PickupSwitchRing(Fourth_Ring, &Upper_state);
                                 PickupSwitchStep(Clamp, &Upper_state);
 
@@ -159,7 +191,8 @@ void StateMachineTask(void const *argument)
                         break;
                     case Overturn_back: // 机械臂收回
                         SetServoRefFire(Fire_Accelerate, -Fire_Accelerate, &Fire_ref);
-                        SetAllPickupTrajectory(Overture_Pitch_back, Overturn_Yaw_Transition, Overturn_Arm_back, CCR_Left_Ready, CCR_Right_Ready, CCR_Middle_Closed, &Pickup_ref);
+                        SetServoRefPitchTrajectory(Overturn_Pitch_Transition, &Pickup_ref);
+                        SetAllPickupTrajectory(Overturn_Pitch_Transition, Overturn_Yaw_Transition, Overturn_Arm_back, CCR_Left_Ready, CCR_Right_Ready, CCR_Middle_Closed, &Pickup_ref);
                         PickupSwitchStep(Release, &Upper_state);
                         vTaskDelay(20);
                         break;
@@ -187,7 +220,10 @@ void StateMachineTask(void const *argument)
                                 SetAllPickupTrajectory(Fire_Pitch_5_1, Fire_Yaw_5_1, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(900);
+                                // vTaskDelay(900);
+                                while (fabs(hDJI[Motor_id_Push].posPID.fdb - Fire_Push_Extend) > 1) {
+                                    vTaskDelay(2);
+                                }
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
                                 SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
@@ -198,7 +234,10 @@ void StateMachineTask(void const *argument)
                                 SetAllPickupTrajectory(Fire_Pitch_5_2, Fire_Yaw_5_2, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(900);
+                                // vTaskDelay(900);
+                                while (fabs(hDJI[Motor_id_Push].posPID.fdb - Fire_Push_Extend) > 1) {
+                                    vTaskDelay(2);
+                                }
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
                                 SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
@@ -209,7 +248,10 @@ void StateMachineTask(void const *argument)
                                 SetAllPickupTrajectory(Fire_Pitch_5_3, Fire_Yaw_5_3, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(900);
+                                // vTaskDelay(900);
+                                while (fabs(hDJI[Motor_id_Push].posPID.fdb - Fire_Push_Extend) > 1) {
+                                    vTaskDelay(2);
+                                }
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
                                 SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
@@ -220,7 +262,10 @@ void StateMachineTask(void const *argument)
                                 SetAllPickupTrajectory(Fire_Pitch_5_4, Fire_Yaw_5_4, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(900);
+                                // vTaskDelay(900);
+                                while (fabs(hDJI[Motor_id_Push].posPID.fdb - Fire_Push_Extend) > 1) {
+                                    vTaskDelay(2);
+                                }
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
                                 SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
@@ -231,7 +276,10 @@ void StateMachineTask(void const *argument)
                                 SetAllPickupTrajectory(Fire_Pitch_5_5, Fire_Yaw_5_5, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(900);
+                                // vTaskDelay(900);
+                                while (fabs(hDJI[Motor_id_Push].posPID.fdb - Fire_Push_Extend) > 1) {
+                                    vTaskDelay(2);
+                                }
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
                                 SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
@@ -242,7 +290,10 @@ void StateMachineTask(void const *argument)
                                 SetAllPickupTrajectory(Fire_Pitch_5_6, Fire_Yaw_5_6, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(900);
+                                // vTaskDelay(900);
+                                while (fabs(hDJI[Motor_id_Push].posPID.fdb - Fire_Push_Extend) > 1) {
+                                    vTaskDelay(2);
+                                }
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
                                 SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
@@ -253,7 +304,10 @@ void StateMachineTask(void const *argument)
                                 SetAllPickupTrajectory(Fire_Pitch_5_7, Fire_Yaw_5_7, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(900);
+                                // vTaskDelay(900);
+                                while (fabs(hDJI[Motor_id_Push].posPID.fdb - Fire_Push_Extend) > 1) {
+                                    vTaskDelay(2);
+                                }
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
                                 SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
@@ -264,7 +318,10 @@ void StateMachineTask(void const *argument)
                                 SetAllPickupTrajectory(Fire_Pitch_5_8, Fire_Yaw_5_8, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(900);
+                                // vTaskDelay(900);
+                                while (fabs(hDJI[Motor_id_Push].posPID.fdb - Fire_Push_Extend) > 1) {
+                                    vTaskDelay(2);
+                                }
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
                                 SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
@@ -281,7 +338,10 @@ void StateMachineTask(void const *argument)
                                 SetAllPickupTrajectory(Fire_Pitch_6_1, Fire_Yaw_6_1, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(900);
+                                // vTaskDelay(900);
+                                while (fabs(hDJI[Motor_id_Push].posPID.fdb - Fire_Push_Extend) > 1) {
+                                    vTaskDelay(2);
+                                }
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
                                 SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
@@ -292,7 +352,10 @@ void StateMachineTask(void const *argument)
                                 SetAllPickupTrajectory(Fire_Pitch_6_4, Fire_Yaw_6_4, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(900);
+                                // vTaskDelay(900);
+                                while (fabs(hDJI[Motor_id_Push].posPID.fdb - Fire_Push_Extend) > 1) {
+                                    vTaskDelay(2);
+                                }
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
                                 SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
@@ -303,7 +366,10 @@ void StateMachineTask(void const *argument)
                                 SetAllPickupTrajectory(Fire_Pitch_6_6, Fire_Yaw_6_6, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(900);
+                                // vTaskDelay(900);
+                                while (fabs(hDJI[Motor_id_Push].posPID.fdb - Fire_Push_Extend) > 1) {
+                                    vTaskDelay(2);
+                                }
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
                                 SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
@@ -320,7 +386,10 @@ void StateMachineTask(void const *argument)
                                 SetAllPickupTrajectory(Fire_Pitch_7_2, Fire_Yaw_7_2, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(900);
+                                // vTaskDelay(900);
+                                while (fabs(hDJI[Motor_id_Push].posPID.fdb - Fire_Push_Extend) > 1) {
+                                    vTaskDelay(2);
+                                }
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
                                 SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
@@ -331,7 +400,10 @@ void StateMachineTask(void const *argument)
                                 SetAllPickupTrajectory(Fire_Pitch_7_5, Fire_Yaw_7_5, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(900);
+                                // vTaskDelay(900);
+                                while (fabs(hDJI[Motor_id_Push].posPID.fdb - Fire_Push_Extend) > 1) {
+                                    vTaskDelay(2);
+                                }
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
                                 SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);
@@ -342,7 +414,10 @@ void StateMachineTask(void const *argument)
                                 SetAllPickupTrajectory(Fire_Pitch_7_8, Fire_Yaw_7_8, Fire_Arm, Fire_CCR_Left, Fire_CCR_Right, Fire_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(10);
                                 SetServoRefPush(Fire_Push_Extend, &Fire_ref);
-                                vTaskDelay(900);
+                                // vTaskDelay(900);
+                                while (fabs(hDJI[Motor_id_Push].posPID.fdb - Fire_Push_Extend) > 1) {
+                                    vTaskDelay(2);
+                                }
                                 SetServoRefPush(Fire_Push_Back, &Fire_ref);
                                 SetPwmCcr(Fire_Ready_CCR_Left, Fire_Ready_CCR_Right, Fire_Ready_CCR_Middle, &Pickup_ref);
                                 vTaskDelay(200);

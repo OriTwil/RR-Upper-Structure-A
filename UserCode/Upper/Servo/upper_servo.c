@@ -439,3 +439,32 @@ void FireMicroAdjustment(SERVO_REF_FIRE *current_fire_ref)
     current_fire_ref->micro_adjust_ref = (float)ReadJoystickKnobsRight(msg_joystick_air);
     xSemaphoreGive(current_fire_ref->xMutex_servo_fire);
 }
+
+void SetServoRefPitchTrajectory(float ref_pitch, SERVO_REF_PICKUP *current_pickup_ref)
+{
+
+    float initialAnglePitch = current_pickup_ref->position_servo_ref_pitch;
+
+    bool isArrive          = false; // 标志是否达到目标位置
+    double differencePitch = 0;
+    TickType_t startTime   = xTaskGetTickCount(); // 初始时间
+
+    do {
+        TickType_t endTime     = xTaskGetTickCount();
+        TickType_t elapsedTime = endTime - startTime;
+        float timeSec          = (elapsedTime / (1000.0)); // 获取当前时间/s
+
+        xSemaphoreTakeRecursive(current_pickup_ref->xMutex_servo_pickup, portMAX_DELAY);
+        // 速度规划
+        VelocityPlanning(initialAnglePitch, MaxAngularVelocity_Pitch, MotorAngularAcceleration_Pitch, ref_pitch, timeSec, &(current_pickup_ref->position_servo_ref_pitch));
+
+        xSemaphoreGiveRecursive(current_pickup_ref->xMutex_servo_pickup);
+
+        // 判断是否到达目标位置
+        differencePitch = fabs(current_pickup_ref->position_servo_ref_pitch - ref_pitch);
+        if (differencePitch < 0.1) {
+            isArrive = true;
+        }
+        vTaskDelay(2);
+    } while (!isArrive);
+}

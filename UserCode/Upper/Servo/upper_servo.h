@@ -56,6 +56,8 @@ void SetAllHugBackTrajectory(float ref_pitch,
                              
 void FireMicroAdjustment(SERVO_REF_FIRE *current_fire_ref);
 
+void SetServoRefPitchTrajectory(float ref_pitch, SERVO_REF_PICKUP *current_pickup_ref);
+
 extern SERVO_REF_PICKUP Pickup_ref;
 extern SERVO_REF_FIRE Fire_ref;
 

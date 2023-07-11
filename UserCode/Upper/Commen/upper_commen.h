@@ -12,6 +12,7 @@ typedef enum {
 typedef enum {
     Ready,
     Hug,
+    HugTransition,
     HugBack,
     Pickup,
     FireReady,

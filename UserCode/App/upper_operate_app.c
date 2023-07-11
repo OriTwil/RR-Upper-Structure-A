@@ -16,7 +16,7 @@
 #include "remote_control.h"
 #include "upper_state_machine.h"
 
-#define READY_TO_FIRE ((ReadChassisPoint(&Chassis_state) == Seventh_Point) || (ReadChassisPoint(&Chassis_state) == Fifth_Point) || (ReadChassisPoint(&Chassis_state) == Sixth_Point)) && (ReadUpperState(&Upper_state) != Hug)
+#define READY_TO_FIRE ((ReadChassisPoint(&Chassis_state) == Seventh_Point) || (ReadChassisPoint(&Chassis_state) == Fifth_Point) || (ReadChassisPoint(&Chassis_state) == Sixth_Point)) && (ReadUpperState(&Upper_state) != Hug) && (ReadUpperState(&Upper_state) != Fire)
 // 暂时没用
 Button button =
     {
@@ -100,6 +100,16 @@ struct
     .id              = 0,
     .last_tick       = 0};
 
+struct
+{
+    int id;
+    uint32_t last_tick;
+    uint32_t button_min_time;
+} BUTTON_KNOB_R = {
+    .button_min_time = 600,
+    .id              = 0,
+    .last_tick       = 0};
+
 void JoystickControl()
 {
     vPortEnterCritical();
@@ -113,12 +123,31 @@ void JoystickControl()
             BUTTON_JOYSTICK_R.last_tick = xTaskGetTickCount();
             if (BUTTON_JOYSTICK_R.id == 0) {
                 BUTTON_JOYSTICK_R.id = 1;
-                PickupSwitchState(Hug, &Upper_state);
+                PickupSwitchState(HugTransition, &Upper_state);
             } else {
                 BUTTON_JOYSTICK_R.id = 0;
                 PickupSwitchState(HugBack, &Upper_state);
             }
         }
+    }
+
+    if (ReadJoystickButtons(msg_joystick_air_temp, Btn_KnobR)) {
+        /* code */
+        if (BUTTON_KNOB_R.last_tick + BUTTON_KNOB_R.button_min_time < xTaskGetTickCount()) {
+            BUTTON_KNOB_R.last_tick = xTaskGetTickCount();
+            if (BUTTON_KNOB_R.id == 0) {
+                BUTTON_KNOB_R.id = 1;
+                SetServoRefPush(Fire_Push_Extend, &Fire_ref);
+            } else {
+                BUTTON_KNOB_R.id = 0;
+                SetServoRefPush(Fire_Push_Back, &Fire_ref);
+            }
+        }
+    }
+    
+    if (ReadJoystickButtons(msg_joystick_air_temp, Btn_KnobL))
+    {
+        PickupSwitchState(Ready, &Upper_state);
     }
 
     // 射环
@@ -133,15 +162,18 @@ void JoystickControl()
 
     if (ReadJoystickButtons(msg_joystick_air_temp, Btn_Btn5)) {
         PointSwitchNumber(Second_Point, &Chassis_state);
+        PickupSwitchRing(Fifth_Ring,&Upper_state);
     }
 
     if (ReadJoystickButtons(msg_joystick_air_temp, Btn_RightCrossUp)) {
         PointSwitchNumber(Third_Point, &Chassis_state);
+        PickupSwitchRing(Fourth_Ring,&Upper_state);
         // FireSwitchNumber(First_Target, &Upper_state);
     }
 
     if (ReadJoystickButtons(msg_joystick_air_temp, Btn_RightCrossLeft)) {
         PointSwitchNumber(Fourth_Point, &Chassis_state);
+        PickupSwitchRing(Fourth_Ring,&Upper_state);
         // FireSwitchNumber(Third_Target, &Upper_state);
     }
 

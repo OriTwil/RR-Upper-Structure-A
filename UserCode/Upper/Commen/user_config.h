@@ -54,9 +54,9 @@
 #define Ready_Arm   0
 
 /*********************抱着环*********************/
-#define Hug_Pitch      540
+#define Hug_Pitch      543
 #define Hug_Yaw        0
-#define Hug_Arm        -230
+#define Hug_Arm        -227
 
 #define Hug_CCR_Left   2100
 #define Hug_CCR_Right  1100
@@ -69,30 +69,30 @@
 #define Overturn_Pitch_4    265
 #define Overturn_Pitch_5    310
 #define Overturn_Pitch_6    356
-#define Overturn_Pitch_7    405
+#define Overturn_Pitch_7    403
 #define Overturn_Pitch_8    450
 #define Overturn_Pitch_9    498
 #define Overturn_Pitch_10   545
 
-#define Overture_Arm_1      -267
-#define Overture_Arm_2      -264
-#define Overture_Arm_3      -261
-#define Overture_Arm_4      -267
-#define Overture_Arm_5      -264
-#define Overture_Arm_6      -261
-#define Overture_Arm_7      -258
-#define Overture_Arm_8      -255
-#define Overture_Arm_9      -252
-#define Overture_Arm_10     -249
+#define Overture_Arm_1      -263
+#define Overture_Arm_2      -260
+#define Overture_Arm_3      -257
+#define Overture_Arm_4      -261
+#define Overture_Arm_5      -259
+#define Overture_Arm_6      -255
+#define Overture_Arm_7      -252
+#define Overture_Arm_8      -249
+#define Overture_Arm_9      -246
+#define Overture_Arm_10     -243
 
 #define Overture_Pitch_back 150
 #define Overturn_Arm_back   0
 #define Pickup_Yaw          0
 
 // 过度
-#define Overturn_Pitch_Transition 150
+#define Overturn_Pitch_Transition -420
 #define Overturn_Yaw_Transition   0
-#define Overturn_Arm_Transition   -250
+#define Overturn_Arm_Transition   -155
 #define CCR_Left_Transition       1200
 #define CCR_Right_Transition      1950
 
@@ -246,7 +246,7 @@
 #define Fire_Yaw_7_8     0
 
 #define Fire_Arm         -75
-#define Fire_Push_Extend 60
+#define Fire_Push_Extend 65
 #define Fire_Push_Back   0
 
 #define Fire_CCR_Left    1900
@@ -256,13 +256,13 @@
 #define Fire_Wheel_Ratio 0.875
 
 /**************电机的最大角速度 角加速度*************/
-#define MaxAngularVelocity_Pitch       4000
+#define MaxAngularVelocity_Pitch       6000
 #define MaxAngularVelocity_Arm         600
 #define MaxAngularVelocity_Yaw         2500
-#define MaxAngularVelocity_CCR         500
+#define MaxAngularVelocity_CCR         550
 
-#define MotorAngularAcceleration_Pitch 3500
-#define MotorAngularAcceleration_Arm   450
+#define MotorAngularAcceleration_Pitch 4500
+#define MotorAngularAcceleration_Arm   600
 #define MotorAngularAcceleration_Yaw   1000
 
 /**
