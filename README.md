@@ -1,94 +1,86 @@
 # RR-Upper-Structure-A
 2023 ROBOCON RR Upper Structure ported to F427 MCU
+
 ## "Rabbit Robot"
 <image src="https://github.com/OriTwil/RR-Upper-Structure-A/blob/main/image/xmind-rr.png" width="1000">
 <image src="https://github.com/OriTwil/RR-Upper-Structure-A/blob/main/image/mavlink-rr.png" width="1000">
+
+## File Structure
+#### _MCU A_
+
+- `Main` ：usermain
+- `State Machine` (State Machine)
+  - Manual Mode: Control chassis movement with joystick
+  - Auto Mode: Plan target waypoints for chassis through the upper computer and execute them sequentially
+  - Locked Mode: Lock the chassis in the current position using feedback control
+- `Servo`  (Servo)
+  - Chassis computation and closed-loop control
+- `Perception Module`
+  - Perception Mode: Receive sensor information at a certain frequency and update data
+  - Calibration Mode: Update sensor data based on calibration schemes, and restore to auto mode after completion
+- `Communication Module`
+  - Send and receive MAVLINK messages with the upper computer, Mainboard B, and remote controller at a certain frequency
+- `State Management`
+  - Switch states based on combinations of remote controller buttons
+
+#### _MCU B_
+- `Main`：usermain
+- `Servo System`
+  - Servo control at a certain frequency
+- `State Machine`
+  - Ready Mode: Initial state, waiting for commands
+  - Pickup Mode: Complete picking up rings on different levels
+    - Overturn: Flip the ring
+    - Clamp: Hold the ring
+    - Overturn_back: Flip back to the original position
+    - Release: Release the ring
+  - Fire Mode: Shoot rings from different points to different pillars, then enter Ready mode
+    - Shooting Point 1
+      - Target Pillar 1
+      - Target Pillar 2
+      - ...
+    - Shooting Point 2
+      - ...
+    - Shooting Point 3
+    - Shooting Point 4
+- `Communication Module`
+  - Receive MAVLINK messages from Mainboard A and send MAVLINK messages to Mainboard A at a certain frequency
+- `State Management`
+  - Switch states based on combinations of remote controller buttons
+
+#### MAVLINK Communication Protocol
+
+- Mainboard A to Upper Computer
+  - Channel 0
+    - id = 9: Upper computer to Mainboard A
+    - id = 10: Mainboard A to Upper computer
+- Mainboard A to Mainboard B
+  - Channel 1
+    - id = 11: Mainboard A to Mainboard B
+    - id = 12: Mainboard B to Mainboard A
+- Mainboard A to Remote Controller
+  - Channel 2
+    - Depending on the remote controller configuration
   
 ## Version History
 - 2023.4.29 Create the project and complete the basic framework.
 - 2.23.4.30 Basically complete the task
-- 5.14 完成框架
-- 5.17 基本完成，还需要设计遥控器方面内容
+- 5.14: Framework completed.
+- 5.17: Basic functionality completed, additional design required for the remote controller.
 
 ## Tips
-- 双击workspace进入工作区
-- 移植只需要复制UserCode文件夹
-- RR使用两块主板，这个工程是上层机构
+- Double-click the workspace to enter the working area.
+- For porting, only copy the UserCode folder.
+- The RR project uses two mainboards, and this project focuses on the upper structure.
   
 ## Result
-- 5.16 电机速度规划
+- 5.16 Motor speed planning
   <image src="https://github.com/OriTwil/RR-Upper-Structure-A/blob/main/image/speed-planning.jpg" width="1000">
 
-## 主板A
+## Contributors
 
-- 主函数：usermain
-- 状态机 (State Machine)
-  - 手动模式：通过摇杆控制底盘移动
-  - 自动模式：通过上位机规划底盘的目标点位，并依次执行
-  - 锁死模式：使用反馈控制将底盘锁死在当前位置
-- 伺服系统 (Servo)
-  - 底盘解算与闭环控制
-- 感知模块 (Perception)
-  - 感知模式：以一定频率接收传感器信息并更新数据
-  - 校正模式：根据校正方案更新传感器数据，完成后恢复自动模式
-- 通信模块 (Communication)
-  - 以一定频率向上位机、主板B和遥控器发送MAVLINK消息，并接收它们的MAVLINK消息
-- 状态管理 (State Management)
-  - 根据遥控器按键组合进行状态切换
+Thanks to the following contributors for their support and contributions to this project.
 
-## 主板B
-- 主函数：usermain
-- 伺服系统 (Servo)
-  - 以一定频率进行伺服控制
-- 状态机 (State Machine)
-  - Ready模式：初始状态，等待命令
-  - Pickup模式：完成不同层环的拾取任务
-    - Overturn：翻转环
-      - 第一个环
-      - 第二个环
-      - ...
-    - Clamp：夹持环
-    - Overturn_back：翻转回位
-    - Release：释放环
-  - Fire模式：完成不同点到不同柱子的射环任务，射环后进入Ready模式
-    - 射环点1
-      - 目标柱子1
-      - 目标柱子2
-      - ...
-    - 射环点2
-      - 目标柱子1
-      - 目标柱子2
-      - ...
-    - 射环点3
-    - 射环点4
-- 通信模块 (Communication)
-  - 接收主板A的MAVLINK消息，并以一定频率向主板A发送MAVLINK消息
-- 状态管理 (State Management)
-  - 根据遥控器按键组合进行状态切换
-
-## MAVLINK通信协议
-
-- 主控A到上位机
-  - 通道0
-    - id = 9：上位机到主板A
-    - id = 10：主板A到上位机
-- 主控A到主控B
-  - 通道1
-    - id = 11：主板A到主板B
-    - id = 12：主板B到主板A
-- 主控A到遥控器
-  - 通道2
-    - 根据遥控器设定
-
-## 贡献者
-
-感谢以下贡献者对本项目的支持和贡献。
-
-- 贡献者1
-- 贡献者2
-- ...
-
-## 许可证
-
-本项目使用 [MIT许可证](LICENSE) 进行授权。详情请参阅许可证文件。
+- WTR senior students @MirTITH
+- WTR Master Xing @xingweiyang0
 
