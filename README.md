@@ -1,32 +1,33 @@
 # RR-Upper-Structure-A
 2023 ROBOCON RR Upper Structure ported to F427 MCU
+
 ## "Rabbit Robot"
 <image src="https://github.com/OriTwil/RR-Upper-Structure-A/blob/main/image/xmind-rr.png" width="1000">
 <image src="https://github.com/OriTwil/RR-Upper-Structure-A/blob/main/image/mavlink-rr.png" width="1000">
 
 ## File Structure
-#### MCU A
+#### _MCU A_
 
-- Main ：usermain
-- State Machine (State Machine)
+- `Main` ：usermain
+- `State Machine` (State Machine)
   - Manual Mode: Control chassis movement with joystick
   - Auto Mode: Plan target waypoints for chassis through the upper computer and execute them sequentially
   - Locked Mode: Lock the chassis in the current position using feedback control
-- Servo  (Servo)
+- `Servo`  (Servo)
   - Chassis computation and closed-loop control
-- Perception Module
+- `Perception Module`
   - Perception Mode: Receive sensor information at a certain frequency and update data
   - Calibration Mode: Update sensor data based on calibration schemes, and restore to auto mode after completion
-- Communication Module
+- `Communication Module`
   - Send and receive MAVLINK messages with the upper computer, Mainboard B, and remote controller at a certain frequency
-- State Management
+- `State Management`
   - Switch states based on combinations of remote controller buttons
 
-#### MCU B
-- Main：usermain
-- Servo System
+#### _MCU B_
+- `Main`：usermain
+- `Servo System`
   - Servo control at a certain frequency
-- State Machine
+- `State Machine`
   - Ready Mode: Initial state, waiting for commands
   - Pickup Mode: Complete picking up rings on different levels
     - Overturn: Flip the ring
@@ -42,9 +43,9 @@
       - ...
     - Shooting Point 3
     - Shooting Point 4
-- Communication Module
+- `Communication Module`
   - Receive MAVLINK messages from Mainboard A and send MAVLINK messages to Mainboard A at a certain frequency
-- State Management
+- `State Management`
   - Switch states based on combinations of remote controller buttons
 
 #### MAVLINK Communication Protocol
